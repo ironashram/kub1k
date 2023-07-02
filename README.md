@@ -23,4 +23,3 @@ helm upgrade --install vault-operator banzaicloud-stable/vault-operator -n vault
 
 kubectl apply -f https://raw.githubusercontent.com/bank-vaults/vault-operator/main/deploy/default/rbac.yaml
 kubectl apply -f https://raw.githubusercontent.com/bank-vaults/vault-operator/main/deploy/examples/cr.yaml
-# k3s-ygg
