@@ -1,0 +1,18 @@
+size: 1
+
+image:
+  vault: vault:1.6.2
+  bankVaults: ghcr.io/banzaicloud/bank-vaults:1.15.3
+
+service:
+  name: vault
+  type: ClusterIP
+  port: 8200
+
+#serviceAccount:
+
+nodeAffinity: {}
+
+podAntiAffinity: {}
+
+logLevel: error

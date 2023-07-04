@@ -1,4 +1,4 @@
-variable "ssh_key_file" {
+﻿variable "ssh_key_file" {
   default = "~/.ssh/id_m1k_2021"
 }
 
@@ -33,4 +33,8 @@ variable "workers" {
     name = "yggworker02"
     ip   = "10.0.0.243"
   }]
+}
+
+variable "argocd_hostname" {
+  default = "argocd.lab.m1k.cloud"
 }

@@ -1,2 +1,5 @@
 ﻿.vscode
-*terraform*
+.terraform
+kubeconfig
+terraform.tfstate*
+terraform.tfplan

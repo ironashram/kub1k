@@ -1,0 +1,45 @@
+apiVersion: vault.banzaicloud.com/v1alpha1
+kind: Vault
+metadata:
+  name: {{ template "vault.name" . }}
+  labels:
+    {{- include "vault.labels" . | nindent 4 }}
+spec:
+  size: {{ .Values.size }}
+  image: {{ .Values.image.vault }}
+  bankVaultsImage: {{ .Values.image.bankVaults}}
+  serviceAccount: vault
+  resources:
+    {{- toYaml .Values.resources | nindent 4 }}
+  podAntiAffinity:
+    {{- toYaml .Values.podAntiAffinity | nindent 4 }}
+  affinity:
+    {{- toYaml .Values.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.tolerations | nindent 4 }}
+  volumeClaimTemplates:
+    {{- toYaml .Values.volumeClaimTemplates | nindent 4 }}
+  volumeMounts:
+    {{- toYaml .Values.volumeMounts | nindent 4 }}
+  unsealConfig:
+    {{- toYaml .Values.unsealConfig | nindent 4 }}
+  envsConfig:
+    {{- toYaml .Values.envsConfig | nindent 4 }}
+  config:
+    {{- toYaml .Values.config | nindent 4 }}
+  credentialsConfig:
+    {{- toYaml .Values.credentialsConfig | nindent 4 }}
+  vaultEnvsConfig:
+    - name: VAULT_LOG_LEVEL
+      value: {{ .Values.logLevel }}
+  externalConfig:
+    policies:
+      {{- toYaml .Values.externalConfig.policies | nindent 6 }}
+    secrets:
+      {{- toYaml .Values.externalConfig.secrets | nindent 6 }}
+    auth:
+      {{- toYaml .Values.externalConfig.auth | nindent 6 }}
+    audit:
+      {{- toYaml .Values.externalConfig.audit | nindent 6 }}
+  ingress:
+    {{- toYaml .Values.ingress | nindent 4 }}

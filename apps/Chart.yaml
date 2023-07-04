@@ -1,0 +1,4 @@
+apiVersion: v3
+description: A Helm chart to create ArgoCD Applications
+name: apps
+version: 0.1.0

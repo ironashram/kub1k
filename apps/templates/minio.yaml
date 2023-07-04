@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: minio
+    repoURL: https://charts.min.io
+    targetRevision: 4.0.2
+    helm:
+      values: |
+        buckets:
+          - name: terraform-backend
+            policy: public
+            purge: false
+            versioning: false
+        consoleIngress:
+          enabled: true
+          hosts:
+          - minio.console.{{ include "domain" . }}
+          tls:
+          - secretName: minio-tls
+            hosts:
+            - minio.console.{{ include "domain" . }}
+        drivesPerNode: 1
+        existingSecret: minio-root
+        ingress:
+          enabled: true
+          hosts:
+          - minio.{{ include "domain" . }}
+          tls:
+          - secretName: minio-tls
+            hosts:
+            - minio.{{ include "domain" . }}
+        metrics:
+          serviceMonitor:
+            enabled: true
+        persistence:
+          annotations:
+            argocd.argoproj.io/sync-wave: "-1"
+          enabled: true
+          storageClass: direct-csi-min-io
+          accessMode: ReadWriteOnce
+          size: 50Gi
+        podDisruptionBudget:
+          enabled: true
+        pools: 1
+        replicas: 3
+        users:
+        # General admin user
+        - accessKey: admin
+          existingSecret: minio-users
+          existingSecretKey: adminPassword
+          policy: consoleAdmin
+  destination:
+    name: in-cluster
+    namespace: minio

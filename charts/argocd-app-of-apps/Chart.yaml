@@ -1,0 +1,4 @@
+apiVersion: v3
+description: A Helm chart to create ArgoCD Applications using the app of apps pattern
+name: argocd-app-of-apps
+version: 0.1.0
