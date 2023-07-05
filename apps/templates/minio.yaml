@@ -14,7 +14,7 @@ spec:
   source:
     chart: minio
     repoURL: https://charts.min.io
-    targetRevision: 4.0.2
+    targetRevision: 5.0.11
     helm:
       values: |
         buckets:

@@ -14,7 +14,7 @@ spec:
   source:
     chart: vault-operator
     repoURL: https://kubernetes-charts.banzaicloud.com
-    targetRevision: 1.15.2
+    targetRevision: 1.20.0
     helm:
       values: |
         monitoring:
