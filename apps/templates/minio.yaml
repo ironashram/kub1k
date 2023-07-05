@@ -38,7 +38,7 @@ spec:
           enabled: true
           storageClass: directpv-min-io
           accessMode: ReadWriteOnce
-          size: 50Gi
+          size: 40Gi
         podDisruptionBudget:
           enabled: true
         pools: 1
