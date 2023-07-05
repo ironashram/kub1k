@@ -8,9 +8,8 @@ controller:
   ingressClassResource:
     name: nginx
     enabled: true
-    default: true
+    default: false
     controllerValue: "k8s.io/ingress-nginx"
-    parameters: {}
 EOF
 }
 
