@@ -19,7 +19,7 @@ spec:
       values: |
         monitoring:
           serviceMonitor:
-            enabled: true
+            enabled: false
   destination:
     name: in-cluster
     namespace: vault
