@@ -25,27 +25,13 @@ spec:
         consoleIngress:
           enabled: true
           hosts:
-          - minio.console.{{ include "domain" . }}
-          tls:
-          - secretName: minio-tls
-            hosts:
-            - minio.console.{{ include "domain" . }}
+          - minio.console.lab.m1k.cloud
         drivesPerNode: 1
-        existingSecret: minio-root
         ingress:
           enabled: true
           hosts:
-          - minio.{{ include "domain" . }}
-          tls:
-          - secretName: minio-tls
-            hosts:
-            - minio.{{ include "domain" . }}
-        metrics:
-          serviceMonitor:
-            enabled: true
+          - minio.lab.m1k.cloud
         persistence:
-          annotations:
-            argocd.argoproj.io/sync-wave: "-1"
           enabled: true
           storageClass: direct-csi-min-io
           accessMode: ReadWriteOnce
@@ -55,10 +41,7 @@ spec:
         pools: 1
         replicas: 3
         users:
-        # General admin user
         - accessKey: admin
-          existingSecret: minio-users
-          existingSecretKey: adminPassword
           policy: consoleAdmin
   destination:
     name: in-cluster
