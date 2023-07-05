@@ -36,6 +36,11 @@ spec:
             ingressClassName: nginx
             hosts:
             - prometheus.lab.m1k.cloud
+        prometheusOperator:
+          admissionWebhooks:
+            patch:
+              enabled:
+                false
   destination:
     name: in-cluster
     namespace: monitoring
