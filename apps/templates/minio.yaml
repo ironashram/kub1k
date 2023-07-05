@@ -17,6 +17,9 @@ spec:
     targetRevision: 5.0.11
     helm:
       values: |
+        resources:
+          requests:
+            memory: 1Gi
         buckets:
           - name: terraform-backend
             policy: public
@@ -35,7 +38,7 @@ spec:
           enabled: true
           storageClass: directpv-min-io
           accessMode: ReadWriteOnce
-          size: 40Gi
+          size: 50Gi
         podDisruptionBudget:
           enabled: true
         pools: 1
