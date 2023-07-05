@@ -33,7 +33,7 @@ spec:
           - minio.lab.m1k.cloud
         persistence:
           enabled: true
-          storageClass: direct-csi-min-io
+          storageClass: directpv-min-io
           accessMode: ReadWriteOnce
           size: 50Gi
         podDisruptionBudget:
