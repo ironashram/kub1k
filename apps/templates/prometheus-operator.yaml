@@ -18,9 +18,24 @@ spec:
     targetRevision: 47.3.0
     helm:
       values: |
-        ingress:
-          enabled: true
-          ingressClassName: nginx
+        alertmanager:
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+            - alertmanager.lab.m1k.cloud
+        grafana:
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+            - grafana.lab.m1k.cloud
+        prometheus:
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+            - prometheus.lab.m1k.cloud
   destination:
     name: in-cluster
     namespace: monitoring
