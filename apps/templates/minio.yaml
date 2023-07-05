@@ -47,6 +47,7 @@ spec:
         replicas: 3
         users:
         - accessKey: admin
+          secretKey: "&\BmF4k#k9pU+[;6"
           policy: consoleAdmin
   destination:
     name: in-cluster
