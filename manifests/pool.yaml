@@ -1,8 +1,0 @@
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: routable-pool
-  namespace: metallb
-spec:
-  addresses:
-  - 10.0.0.230-10.0.0.235

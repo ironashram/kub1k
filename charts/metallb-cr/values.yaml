@@ -1,0 +1,6 @@
+namespace: "metallb-system"
+L2Advertisement:
+  name: "l2lb"
+IPAddressPool:
+  name: "routable-pool"
+  addresses: "10.0.0.230-10.0.0.235"

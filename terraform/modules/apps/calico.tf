@@ -20,7 +20,7 @@ EOF
   Calico
 *********/
 
-resource "helm_release" "tigera-operator" {
+resource "helm_release" "tigera_operator" {
   name = "tigera-operator"
 
   repository = "https://docs.projectcalico.org/charts"
@@ -30,7 +30,7 @@ resource "helm_release" "tigera-operator" {
 
   create_namespace = true
 
-  max_history = 10
+  max_history = 0
 
   values = [data.template_file.calico_values.rendered]
 }

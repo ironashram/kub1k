@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb-cr
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://github.com/ironashram/k3s-ygg
+    path: charts/metallb-cr
+    targetRevision: HEAD
+    helm:
+      values: |
+        environment: {{ .Values.environment }}
+  destination:
+    name: in-cluster
+    namespace: metallb-system

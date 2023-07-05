@@ -33,6 +33,7 @@ server:
     url: http://${var.argocd_hostname}
     timeout.reconciliation: 600s
   ingress:
+    ingressClassName: nginx
     enabled: true
     hosts:
     - ${var.argocd_hostname}
@@ -44,7 +45,7 @@ EOF
   ArgoCD
 *********/
 resource "helm_release" "argocd" {
-  depends_on = [helm_release.tigera-operator]
+  depends_on = [helm_release.tigera_operator]
   name       = "argocd"
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
@@ -52,6 +53,8 @@ resource "helm_release" "argocd" {
   version    = "5.37.0"
 
   create_namespace = true
+
+  max_history = 0
 
   values = [data.template_file.argocd_values.rendered]
 }
