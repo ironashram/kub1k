@@ -2,7 +2,7 @@ size: 1
 
 image:
   vault: vault:1.13.3
-  bankVaults: ghcr.io/banzaicloud/bank-vaults:1.20.0
+  bankVaults: ghcr.io/banzaicloud/bank-vaults:1.19.0
 
 service:
   name: vault
