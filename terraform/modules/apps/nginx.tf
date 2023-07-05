@@ -5,6 +5,11 @@
 data "template_file" "nginx_values" {
   template = <<EOF
 controller:
+  config:
+    entries:
+      force-ssl-redirect: "false"
+      ssl-redirect: "false"
+      hsts: "false"
   ingressClassResource:
     name: nginx
     enabled: true

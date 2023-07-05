@@ -10,7 +10,11 @@ global:
   image:
     tag: "v2.7.6"
 redis-ha:
-  enabled: true
+  enabled: false
+dex:
+  enabled: false
+notifications:
+  enabled: false
 configs:
   repositories:
     k3s-ygg:
@@ -19,6 +23,8 @@ configs:
       type: git
       password: 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
       username: sysdadmin@m1k.cloud
+  params:
+    server.insecure: true
 controller:
   enableStatefulSet: true
   metrics:
