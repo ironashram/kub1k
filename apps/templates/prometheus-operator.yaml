@@ -39,8 +39,9 @@ spec:
             hosts:
             - prometheus.lab.m1k.cloud
             tls:
-            - hosts:
-              - prometheus.lab.m1k.cloud
+             - secretName: prometheus-cert
+               hosts:
+               - prometheus.lab.m1k.cloud
         prometheusOperator:
           admissionWebhooks:
             patch:
