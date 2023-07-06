@@ -38,3 +38,7 @@ variable "workers" {
 variable "argocd_hostname" {
   default = "argocd.lab.m1k.cloud"
 }
+
+variable "vault_token" {
+  description = "Token for Vault Auth"
+}

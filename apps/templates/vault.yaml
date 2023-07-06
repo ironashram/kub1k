@@ -1,0 +1,97 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    path: charts/vault
+    repoURL: https://github.com/ironashram/k3s-ygg
+    targetRevision: HEAD
+    helm:
+      values: |
+        ingress:
+          annotations:
+            nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+          spec:
+            rules:
+              - host: vault.lab.m1k.cloud
+                http:
+                  paths:
+                    - path: /
+                      pathType: Prefix
+                      backend:
+                        service:
+                          name: vault
+                          port:
+                            number: 8200
+            ingressClassName: nginx
+            tls:
+              - secretName: vault-tls
+                hosts:
+                  - vault.lab.m1k.cloud
+        config:
+          storage:
+            raft:
+              path: "/vault/raft"
+          listener:
+            tcp:
+              address: "0.0.0.0:8200"
+              tls_cert_file: /vault/tls/server.crt
+              tls_key_file: /vault/tls/server.key
+              telemetry:
+                unauthenticated_metrics_access: "true"
+          # disable_mlock: "true"
+          api_addr: https://vault:8200
+          cluster_addr: "https://${.Env.POD_NAME}:8201"
+          ui: "true"
+          default_lease_ttl: 87600h
+          max_lease_ttl: 87600h
+          telemetry:
+            prometheus_retention_time: "24h"
+            disable_hostname: true
+          serviceMonitorEnabled: "true"
+        monitoring:
+          serviceMonitor:
+            enabled: false
+        podAntiAffinity: kubernetes.io/hostname
+        resources:
+          bankVaults:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          vault:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        size: 1
+        volumeClaimTemplates:
+        - metadata:
+            name: vault-raft
+          spec:
+            storageClassName: directpv-min-io
+            accessModes:
+              - ReadWriteOnce
+            volumeMode: Filesystem
+            resources:
+              requests:
+                storage: 1Gi
+        volumeMounts:
+        - name: vault-raft
+          mountPath: /vault/raft
+  destination:
+    name: in-cluster
+    namespace: vault
