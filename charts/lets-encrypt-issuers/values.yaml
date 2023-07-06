@@ -1,5 +1,5 @@
 letsencrypt:
   email: "sysdadmin@m1k.cloud"
   existingSecret:
-    name: "cloudflare-api-token"
+    name: "cloudflare-api-key"
     key: "api-key"
