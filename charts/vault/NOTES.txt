@@ -1,7 +1,0 @@
-1. Writing secrets to the active node
-  Configure port forwarding between the local machine and the active Vault node
-  $ kubectl -n {{ .Release.Namespace }} get vault {{ template "vault.name" . }} -o jsonpath='{.status.vaultStatus.active}' | xargs -0 -I {} kubectl -n {{ .Release.Namespace }} port-forward {} 8200
-  $ export VAULT_ADDR='https://localhost:8200'
-  $ export VAULT_SKIP_VERIFY="true"
-  $ export VAULT_TOKEN=<root-token>
-  Use your favourite method to write secrets.
