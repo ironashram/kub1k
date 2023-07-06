@@ -3,7 +3,7 @@
   token   = var.vault_token
 }
 
-data "vault_kv_secret_v2" "cloudflare_api_key" {
+data "vault_kv_secret_v2" "github_token" {
   mount = "kv"
-  name  = "ygg/cloudflare-api-key"
+  name  = "ygg/github_token"
 }
