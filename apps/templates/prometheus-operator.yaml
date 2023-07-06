@@ -32,10 +32,15 @@ spec:
             - grafana.lab.m1k.cloud
         prometheus:
           ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-staging
             enabled: true
             ingressClassName: nginx
             hosts:
             - prometheus.lab.m1k.cloud
+            tls:
+              hosts:
+              - prometheus.lab.m1k.cloud
         prometheusOperator:
           admissionWebhooks:
             patch:
