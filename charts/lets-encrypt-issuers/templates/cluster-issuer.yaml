@@ -5,14 +5,15 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: sysdadmin@m1k.cloud
+    email: {{ .Values.letsencrypt.email }}
     privateKeySecretRef:
       name: letsencrypt-staging
-    - dns01:
-        cloudflare:
-          apiTokenSecretRef:
-            name: cloudflare-api-token
-            key: api-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: {{ .Values.letsencrypt.existingSecret.name }}
+              key: {{ .Values.letsencrypt.existingSecret.key }}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -21,11 +22,12 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: sysdadmin@m1k.cloud
+    email: {{ .Values.letsencrypt.email }}
     privateKeySecretRef:
       name: letsencrypt-prod
-    - dns01:
-        cloudflare:
-          apiTokenSecretRef:
-            name: cloudflare-api-token
-            key: api-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: {{ .Values.letsencrypt.existingSecret.name }}
+              key: {{ .Values.letsencrypt.existingSecret.key }}
