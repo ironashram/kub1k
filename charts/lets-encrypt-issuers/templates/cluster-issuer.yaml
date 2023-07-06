@@ -11,6 +11,7 @@ spec:
     solvers:
       - dns01:
           cloudflare:
+            email: m1k.cloud@outlook.com
             apiTokenSecretRef:
               name: {{ .Values.letsencrypt.existingSecret.name }}
               key: {{ .Values.letsencrypt.existingSecret.key }}
@@ -28,6 +29,7 @@ spec:
     solvers:
       - dns01:
           cloudflare:
+            email: m1k.cloud@outlook.com
             apiTokenSecretRef:
               name: {{ .Values.letsencrypt.existingSecret.name }}
               key: {{ .Values.letsencrypt.existingSecret.key }}
