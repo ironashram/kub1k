@@ -59,7 +59,8 @@ spec:
         replicas: 3
         users:
         - accessKey: admin
-          secretKey: minioadmin
+          existingSecret: minio-admin
+          existingSecretKey: password
           policy: consoleAdmin
   destination:
     name: in-cluster
