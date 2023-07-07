@@ -8,7 +8,7 @@ applicationSet:
   enabled: false
 global:
   image:
-    tag: "v2.7.6"
+    tag: "v2.7.7"
 redis-ha:
   enabled: false
 dex:
@@ -62,7 +62,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = "argocd"
-  version    = "5.37.0"
+  version    = "5.37.1"
 
   create_namespace = true
 

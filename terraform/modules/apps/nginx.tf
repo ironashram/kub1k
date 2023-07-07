@@ -5,11 +5,6 @@
 data "template_file" "nginx_values" {
   template = <<EOF
 controller:
-  config:
-    entries:
-      force-ssl-redirect: "true"
-      ssl-redirect: "true"
-      hsts: "true"
   ingressClassResource:
     name: nginx
     enabled: true
@@ -24,12 +19,12 @@ EOF
 
 resource "helm_release" "nginx_ingress" {
   depends_on = [helm_release.tigera_operator]
-  name       = "nginx-ingress"
+  name       = "ingress-nginx"
 
-  repository = "https://helm.nginx.com/stable"
-  chart      = "nginx-ingress"
-  version    = "0.18.0"
-  namespace  = "nginx-ingress"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  version    = "4.7.1"
+  namespace  = "ingress-nginx"
 
   create_namespace = true
 
