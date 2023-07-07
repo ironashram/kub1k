@@ -42,3 +42,11 @@ variable "argocd_hostname" {
 variable "vault_token" {
   description = "Token for Vault Auth"
 }
+
+variable "git_repo" {
+  default = "https://github.com/ironashram/k3s-ygg"
+}
+
+variable "git_repo_name" {
+  default = "k3s-ygg"
+}

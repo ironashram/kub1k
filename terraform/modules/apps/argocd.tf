@@ -18,13 +18,13 @@ notifications:
 configs:
   repositories:
     k3s-ygg:
-      url: https://github.com/ironashram/k3s-ygg
-      name: k3s-ygg
+      url: ${var.git_repo}
+      name: ${var.git_repo_name}k3s-ygg
       type: git
       password: ${var.git_token}
       username: ${var.git_user}
   params:
-    server.insecure: true
+    server.insecure: false
 controller:
   enableStatefulSet: true
   metrics:
@@ -39,11 +39,17 @@ server:
     url: http://${var.argocd_hostname}
     timeout.reconciliation: 600s
   ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     ingressClassName: nginx
     enabled: true
     hosts:
     - ${var.argocd_hostname}
-    https: false
+    https: true
+    tls:
+     - secretName: argocd-cert
+       hosts:
+       - ${var.argocd_hostname}
 EOF
 }
 

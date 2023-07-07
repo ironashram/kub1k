@@ -26,16 +26,28 @@ spec:
             purge: false
             versioning: false
         consoleIngress:
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
           ingressClassName: nginx
           enabled: true
           hosts:
           - minio.console.lab.m1k.cloud
+          tls:
+           - secretName: minio-console-cert
+             hosts:
+             - minio.console.lab.m1k.cloud
         drivesPerNode: 1
         ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
           ingressClassName: nginx
           enabled: true
           hosts:
           - minio.lab.m1k.cloud
+          tls:
+           - secretName: minio-cert
+             hosts:
+             - minio.lab.m1k.cloud
         persistence:
           enabled: true
           storageClass: directpv-min-io

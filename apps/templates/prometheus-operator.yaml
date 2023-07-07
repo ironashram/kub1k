@@ -20,20 +20,32 @@ spec:
       values: |
         alertmanager:
           ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             ingressClassName: nginx
             hosts:
             - alertmanager.lab.m1k.cloud
+            tls:
+             - secretName: alertmanager-cert
+               hosts:
+               - alertmanager.lab.m1k.cloud
         grafana:
           ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             ingressClassName: nginx
             hosts:
             - grafana.lab.m1k.cloud
+            tls:
+             - secretName: grafana-cert
+               hosts:
+               - grafana.lab.m1k.cloud
         prometheus:
           ingress:
             annotations:
-              cert-manager.io/cluster-issuer: letsencrypt-staging
+              cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             ingressClassName: nginx
             hosts:
