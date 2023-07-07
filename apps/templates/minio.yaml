@@ -43,11 +43,11 @@ spec:
           ingressClassName: nginx
           enabled: true
           hosts:
-          - minio.lab.m1k.cloud
+          - s3.lab.m1k.cloud
           tls:
-           - secretName: minio-cert
+           - secretName: s3-cert
              hosts:
-             - minio.lab.m1k.cloud
+             - s3.lab.m1k.cloud
         persistence:
           enabled: true
           storageClass: directpv-min-io
