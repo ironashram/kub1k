@@ -19,7 +19,7 @@ configs:
   repositories:
     k3s-ygg:
       url: ${var.git_repo}
-      name: ${var.git_repo_name}k3s-ygg
+      name: ${var.git_repo_name}
       type: git
       password: ${var.git_token}
       username: ${var.git_user}
