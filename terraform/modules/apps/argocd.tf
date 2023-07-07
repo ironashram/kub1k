@@ -21,8 +21,8 @@ configs:
       url: https://github.com/ironashram/k3s-ygg
       name: k3s-ygg
       type: git
-      password: ${var.github_token}
-      username: sysdadmin@m1k.cloud
+      password: ${var.git_token}
+      username: ${var.git_user}
   params:
     server.insecure: true
 controller:

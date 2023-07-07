@@ -4,4 +4,6 @@ variable "kubeconfig" {}
 
 variable "vault_token" {}
 
-variable "github_token" {}
+variable "git_token" {}
+
+variable "git_user" {}

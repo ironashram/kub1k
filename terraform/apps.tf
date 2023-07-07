@@ -7,5 +7,6 @@ module "provision_apps" {
   argocd_hostname = var.argocd_hostname
   kubeconfig      = var.kube_config_output
   vault_token     = var.vault_token
-  github_token    = data.vault_kv_secret_v2.github_token.data.token
+  git_token       = data.vault_kv_secret_v2.git_token.data.token
+  git_user        = data.vault_kv_secret_v2.git_user.data.username
 }
