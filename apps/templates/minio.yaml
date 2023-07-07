@@ -22,9 +22,9 @@ spec:
             memory: 1Gi
         buckets:
           - name: terraform-backend
-            policy: public
+            policy: private
             purge: false
-            versioning: false
+            versioning: true
         consoleIngress:
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt-prod
