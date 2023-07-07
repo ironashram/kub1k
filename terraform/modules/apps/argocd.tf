@@ -24,7 +24,7 @@ configs:
       password: ${var.git_token}
       username: ${var.git_user}
   params:
-    server.insecure: false
+    server.insecure: true
 controller:
   enableStatefulSet: true
   metrics:

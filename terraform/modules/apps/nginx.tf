@@ -7,9 +7,9 @@ data "template_file" "nginx_values" {
 controller:
   config:
     entries:
-      force-ssl-redirect: "false"
-      ssl-redirect: "false"
-      hsts: "false"
+      force-ssl-redirect: "true"
+      ssl-redirect: "true"
+      hsts: "true"
   ingressClassResource:
     name: nginx
     enabled: true
