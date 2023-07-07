@@ -1,1 +1,1 @@
-### Fully automnated k3s cluster management on synology virtual machine manager
+### Fully automated k8s cluster

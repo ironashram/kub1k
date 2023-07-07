@@ -39,8 +39,8 @@ plan-destroy: init ## Shows what a destroy would do.
 show: init ## Shows resources
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) show
 
-update: ## Gets any module updates
-	@terraform get -update=true
+upgrade: ## Gets any provider updates
+	@terraform $(TERRAFORM_GLOBAL_OPTIONS) init -upgrade
 
 .PHONY: FORCE
 %: FORCE
