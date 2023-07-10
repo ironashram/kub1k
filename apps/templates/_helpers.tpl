@@ -35,29 +35,13 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{/* Select Slack alert channel based on environment */}}
-{{- define "alert_channel" -}}
-{{- if eq .Values.environment "production" -}}
-'#alerts-bedrock'
-{{- else if eq .Values.environment "staging" -}}
-'#alerts-bedrock-staging'
-{{- else if eq .Values.environment "testing" -}}
-'#alerts-bedrock-testing'
-{{- else if eq .Values.environment "development" -}}
-'#alerts-bedrock-development'
-{{- end -}}
-{{- end -}}
 
 {{/* Select domain based on environment */}}
 {{- define "domain" -}}
-{{- if eq .Values.environment "production" -}}
+{{- if eq .Values.environment "ygg" -}}
 lab.m1k.cloud
-{{- else if eq .Values.environment "staging" -}}
-namecheapcloud.host
-{{- else if eq .Values.environment "testing" -}}
-namecheapcloud.wtf
-{{- else if eq .Values.environment "development" -}}
-bedrock.tld
+{{- else if eq .Values.environment "local" -}}
+lab.m1k.local
 {{- end -}}
 {{- end -}}
 
