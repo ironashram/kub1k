@@ -12,7 +12,7 @@ spec:
       prune: true
       selfHeal: true
   source:
-    repoURL: https://github.com/ironashram/k3s-ygg
+    repoURL: https://github.com/ironashram/k3s-kub1k
     path: charts/lets-encrypt-issuers
     targetRevision: HEAD
     helm:

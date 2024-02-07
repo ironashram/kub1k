@@ -3,4 +3,3 @@
 kubeconfig
 terraform.tfstate*
 terraform.tfplan
-environments/ygg/terraform.tfvars

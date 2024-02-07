@@ -7,11 +7,7 @@ help:
 
 .PHONY: apply
 apply: init ## Applies a new state.
-	@export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES; terraform $(TERRAFORM_GLOBAL_OPTIONS) apply -input=true -refresh=true "terraform.tfplan"
-
-.PHONY: dependencies
-dependencies: ## Install all external dependencies
-	@if ! $$(kubectl krew version > /dev/null 2>&1); then echo "See the Prerequsites"; exit 1; fi
+	@terraform $(TERRAFORM_GLOBAL_OPTIONS) apply -input=true -refresh=true "terraform.tfplan"
 
 .PHONY: graph
 graph: ## Runs the terraform grapher
@@ -29,11 +25,11 @@ output: init ## Show outputs of the entire state.
 
 .PHONY: plan
 plan: init update ## Runs a plan.
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -parallelism=1 -out=terraform.tfplan -var-file=../environments/$(ENV)/terraform.tfvars
+	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -out=terraform.tfplan
 
 .PHONY: plan-destroy
 plan-destroy: init ## Shows what a destroy would do.
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -input=false -refresh=true -destroy -var-file=../environments/$(ENV)/terraform.tfvars -out=terraform.tfplan
+	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -input=false -refresh=true -destroy -out=terraform.tfplan
 
 .PHONY: show
 show: init ## Shows resources
@@ -44,4 +40,4 @@ upgrade: ## Gets any provider updates
 
 .PHONY: FORCE
 %: FORCE
-	@if [ "$(ENV)" != "ygg" ] && [ "$(ENV)" != "local" ]; then echo "Environment was not set properly, check README.md or help"; exit 10; fi
+	@if [ "$(ENV)" != "kub1k" ] && [ "$(ENV)" != "local" ]; then echo "Environment was not set properly, check README.md or help"; exit 10; fi

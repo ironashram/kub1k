@@ -1,14 +1,21 @@
-﻿provider "vault" {
-  address = "https://vault.m1k.cloud:8200"
-  token   = var.vault_token
+﻿provider "vault" {}
+
+data "vault_kv_secret_v2" "github" {
+  mount = "kv"
+  name  = "kub1k/github"
 }
 
-data "vault_kv_secret_v2" "git_token" {
+data "vault_kv_secret_v2" "vault" {
   mount = "kv"
-  name  = "ygg/github_token"
+  name  = "kub1k/vault"
 }
 
-data "vault_kv_secret_v2" "git_user" {
+data "vault_kv_secret_v2" "ssh" {
   mount = "kv"
-  name  = "ygg/github_user"
+  name  = "kub1k/ssh"
+}
+
+data "vault_kv_secret_v2" "argocd" {
+  mount = "kv"
+  name  = "kub1k/argocd"
 }

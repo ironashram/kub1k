@@ -1,5 +1,5 @@
 letsencrypt:
-  email: "hostmaster@m1k.cloud"
+  email: "postmaster@m1k.cloud"
   existingSecret:
     name: "cloudflare-api-key"
     key: "api_key"

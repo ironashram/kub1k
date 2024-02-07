@@ -38,7 +38,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 
 {{/* Select domain based on environment */}}
 {{- define "domain" -}}
-{{- if eq .Values.environment "ygg" -}}
+{{- if eq .Values.environment "kub1k" -}}
 lab.m1k.cloud
 {{- else if eq .Values.environment "local" -}}
 lab.m1k.local

@@ -12,7 +12,7 @@ spec:
       prune: true
       selfHeal: true
   source:
-    repoURL: https://github.com/ironashram/k3s-ygg
+    repoURL: https://github.com/ironashram/kub1k
     path: charts/metallb-cr
     targetRevision: HEAD
     helm:

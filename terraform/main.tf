@@ -3,13 +3,17 @@
 *****************************/
 terraform {
   backend "s3" {
-    region                      = "us-west-1"
-    endpoint                    = "s3.lab.m1k.cloud"
-    bucket                      = "terraform-backend"
-    key                         = "terraform.tfstate"
-    workspace_key_prefix        = "infra-mgmt-cluster"
-    force_path_style            = true
+    region = "s3-m1k-cloud"
+    endpoints = {
+      s3 = "https://s3.m1k.cloud"
+    }
+    bucket                      = "tfdata"
+    key                         = "kub1k/terraform.tfstate"
+    use_path_style              = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
     skip_credentials_validation = true
     skip_metadata_api_check     = true
+    skip_s3_checksum            = true
   }
 }

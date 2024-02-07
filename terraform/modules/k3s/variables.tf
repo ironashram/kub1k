@@ -8,6 +8,7 @@ variable "kube_context" {}
 
 variable "k3s_extra_args" {}
 
-variable "masters" {}
+variable "control" {}
 
-variable "workers" {}
+variable "worker" {}
+

@@ -1,52 +1,24 @@
-﻿variable "ssh_key_file" {
-  default = "~/.ssh/id_m1k_2021"
+﻿variable "k3s_extra_args" {
+  default = "--cluster-cidr=172.27.0.0/23 --flannel-backend=none --disable-network-policy --disable traefik --disable servicelb"
 }
 
-variable "ssh_user" {
-  default = "m1k"
-}
-
-variable "kube_config_output" {
-  default = "~/.kube/config-files/k3s-ygg.yaml"
-}
-
-variable "kube_context" {
-  default = "k3s-ygg"
-}
-
-variable "k3s_extra_args" {
-  default = "--cluster-cidr=192.168.8.0/21 --flannel-backend=none --disable-network-policy --disable traefik --disable servicelb"
-}
-
-variable "masters" {
+variable "control" {
   default = [{
-    name = "yggmaster01"
+    name = "kub1k-control-01"
     ip   = "10.0.0.241"
   }]
 }
 
-variable "workers" {
+variable "worker" {
   default = [{
-    name = "yggworker01"
+    name = "kub1k-worker-01"
     ip   = "10.0.0.242"
     }, {
-    name = "yggworker02"
+    name = "kub1k-worker-02"
     ip   = "10.0.0.243"
   }]
 }
 
-variable "argocd_hostname" {
-  default = "argocd.lab.m1k.cloud"
-}
-
-variable "vault_token" {
-  description = "Token for Vault Auth"
-}
-
-variable "git_repo" {
-  default = "https://github.com/ironashram/k3s-ygg"
-}
-
-variable "git_repo_name" {
-  default = "k3s-ygg"
+variable "kube_context" {
+  default = "kub1k"
 }

@@ -9,12 +9,12 @@ spec:
     automated:
       selfHeal: true
   source:
-    repoURL: https://github.com/ironashram/k3s-ygg
+    repoURL: https://github.com/ironashram/k3s-kub1k
     path: apps
     targetRevision: HEAD
     helm:
       parameters:
-      - name: environment
-        value: {{ .Values.environment }}
+        - name: environment
+          value: { { .Values.environment } }
   destination:
     name: in-cluster

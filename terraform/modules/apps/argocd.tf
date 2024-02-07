@@ -17,7 +17,7 @@ notifications:
   enabled: false
 configs:
   repositories:
-    k3s-ygg:
+    k3s-kub1k:
       url: ${var.git_repo}
       name: ${var.git_repo_name}
       type: git

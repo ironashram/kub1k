@@ -17,7 +17,7 @@ EOF
   Nginx
 *********/
 
-resource "helm_release" "nginx_ingress" {
+resource "helm_release" "ingress_nginx" {
   depends_on = [helm_release.tigera_operator]
   name       = "ingress-nginx"
 
