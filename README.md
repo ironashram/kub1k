@@ -1,6 +1,7 @@
-# Kub1k Terraform Project
+# Kub1k
+The name comes from a silly portmanteau between kube and m1k (my nickname)
 
-This repository contains the Terraform code for deploying and managing the infrastructure of the Kub1k project.
+This repository contains the Terraform code for deploying and managing a homelab k8s infrastructure.
 
 ## Overview
 
