@@ -4,7 +4,7 @@ resource "null_resource" "kubeconfig" {
   }
 
   provisioner "local-exec" {
-    command = "test ! -f ${self.triggers.kube_config_output} && echo '---' > ${self.triggers.kube_config_output} || true"
+    command = "test ! -f ${self.triggers.kube_config_output} && touch ${self.triggers.kube_config_output} || true"
   }
 
   provisioner "local-exec" {
