@@ -2,8 +2,7 @@
   Provision K3S
 *****************/
 module "provision_k3s" {
-  depends_on = [module.provision_vm, null_resource.kubeconfig]
-  source     = "./modules/k3s"
+  source = "./modules/k3s"
 
   control            = var.control
   worker             = var.worker

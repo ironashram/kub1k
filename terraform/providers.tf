@@ -1,6 +1,9 @@
-/*************************
+﻿/*************************
   Provider Configuration
 *************************/
+
+provider "vault" {}
+
 provider "helm" {
   kubernetes {
     host                   = local.cluster_host

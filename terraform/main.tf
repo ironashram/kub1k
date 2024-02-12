@@ -8,7 +8,8 @@ terraform {
       s3 = "https://s3.m1k.cloud"
     }
     bucket                      = "tfdata"
-    key                         = "kub1k/terraform.tfstate"
+    key                         = "terraform.tfstate"
+    workspace_key_prefix        = "k8s"
     use_path_style              = true
     skip_region_validation      = true
     skip_requesting_account_id  = true

@@ -9,7 +9,7 @@ installation:
   calicoNetwork:
     ipPools:
     - blockSize: 26
-      cidr: 192.168.0.0/21
+      cidr: 10.49.0.0/21
       encapsulation: VXLANCrossSubnet
       natOutgoing: Enabled
       nodeSelector: all()
@@ -33,4 +33,23 @@ resource "helm_release" "tigera_operator" {
   max_history = 0
 
   values = [data.template_file.calico_values.rendered]
+
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
+}
+
+resource "null_resource" "remove_finalizers" {
+  depends_on = [helm_release.tigera_operator]
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<-EOT
+      kubectl delete installations.operator.tigera.io default
+    EOT
+  }
+
+  triggers = {
+    helm_tigera = helm_release.tigera_operator.status
+  }
 }

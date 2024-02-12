@@ -17,7 +17,7 @@ notifications:
   enabled: false
 configs:
   repositories:
-    k3s-kub1k:
+    kub1k:
       url: ${var.git_repo}
       name: ${var.git_repo_name}
       type: git
@@ -36,7 +36,7 @@ repoServer:
 server:
   replicas: 1
   config:
-    url: http://${var.argocd_hostname}
+    url: http://argocd.lab.m1k.cloud
     timeout.reconciliation: 600s
   ingress:
     annotations:
@@ -44,12 +44,12 @@ server:
     ingressClassName: nginx
     enabled: true
     hosts:
-    - ${var.argocd_hostname}
+    - argocd.lab.m1k.cloud
     https: true
     tls:
      - secretName: argocd-cert
        hosts:
-       - ${var.argocd_hostname}
+       - argocd.lab.m1k.cloud
 EOF
 }
 
