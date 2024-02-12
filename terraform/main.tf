@@ -7,7 +7,7 @@ terraform {
     endpoints = {
       s3 = "https://s3.m1k.cloud"
     }
-    bucket                      = "tfdata"
+    bucket                      = "tfdata-v2"
     key                         = "terraform.tfstate"
     workspace_key_prefix        = "k8s"
     use_path_style              = true
