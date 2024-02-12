@@ -20,7 +20,7 @@ spec:
         clientInfoSecret:
           name: client-info-secret
         storageClasses:
-          synology-iscsi-storage:
+          synology-csi:
             reclaimPolicy: Retain
             parameters:
               fsType: ext4
