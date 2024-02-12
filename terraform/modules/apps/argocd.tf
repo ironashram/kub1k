@@ -35,11 +35,10 @@ server:
   ingress:
     enabled: true
     ingressClassName: nginx
-    hostsname: argocd.lab.m1k.cloud
+    hostname: argocd.lab.m1k.cloud
     tls: true
   certificate:
     enabled: true
-    secretName: argocd-cert
     domain: argocd.lab.m1k.cloud
     issuer:
       group: cert-manager.io
