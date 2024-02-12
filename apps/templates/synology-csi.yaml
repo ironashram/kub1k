@@ -12,9 +12,9 @@ spec:
       prune: true
       selfHeal: true
   source:
-    chart: synology-csi-chart
-    repoURL: https://christian-schlichtherle.github.io
-    targetRevision: 0.9.7
+    path: /
+    repoURL: https://github.com/christian-schlichtherle/synology-csi-chart.git
+    targetRevision: 22e57740732f680d2f4a2ad8a6918b442b48dd1b
     helm:
       values: |
         clientInfoSecret:
