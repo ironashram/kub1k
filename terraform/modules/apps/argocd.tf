@@ -6,9 +6,6 @@ data "template_file" "argocd_values" {
   template = <<EOF
 applicationSet:
   enabled: false
-global:
-  image:
-    tag: "v2.7.7"
 redis-ha:
   enabled: false
 dex:
@@ -35,21 +32,20 @@ repoServer:
     enabled: true
 server:
   replicas: 1
-  config:
-    url: http://argocd.lab.m1k.cloud
-    timeout.reconciliation: 600s
   ingress:
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-    ingressClassName: nginx
     enabled: true
-    hosts:
-    - argocd.lab.m1k.cloud
-    https: true
-    tls:
-     - secretName: argocd-cert
-       hosts:
-       - argocd.lab.m1k.cloud
+    ingressClassName: nginx
+    hostsname: argocd.lab.m1k.cloud
+    tls: true
+  certificate:
+    enabled: true
+    secretName: argocd-cert
+    domain: argocd.lab.m1k.cloud
+    issuer:
+      group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt-prod
+
 EOF
 }
 
@@ -62,7 +58,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = "argocd"
-  version    = "5.37.1"
+  version    = "6.0.6"
 
   create_namespace = true
 

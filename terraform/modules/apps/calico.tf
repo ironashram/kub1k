@@ -25,7 +25,7 @@ resource "helm_release" "tigera_operator" {
 
   repository = "https://docs.projectcalico.org/charts"
   chart      = "tigera-operator"
-  version    = "v3.26.1"
+  version    = "v3.27.0"
   namespace  = "tigera-operator"
 
   create_namespace = true
