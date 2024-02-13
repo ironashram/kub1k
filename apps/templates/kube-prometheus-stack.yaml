@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus-operator
+  name: kube-prometheus-stack
   namespace: argocd
 spec:
   project: default
@@ -31,6 +31,10 @@ spec:
                hosts:
                - alertmanager.lab.m1k.cloud
         grafana:
+          admin:
+            existingSecret: grafana-admin
+            userKey: admin-user
+            passwordKey: admin-password
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
