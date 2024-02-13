@@ -50,7 +50,7 @@ The ArgoCD applications included in this project are:
 
 4. **MetalLB-CR**: MetalLB is a load balancer implementation for bare metal Kubernetes clusters, using standard routing protocols. This application sets up the Custom Resources required for MetalLB.
 
-5. **Prometheus-Operator**: The Prometheus Operator provides easy monitoring definitions for Kubernetes services and deployment and management of Prometheus instances.
+5. **Kube-Prometheus-Stack**: The Kube-Prometheus-Stack provides easy monitoring definitions for Kubernetes services and deployment and management of Prometheus instances.
 
 6. **Secrets**: This application manages the deployment of Kubernetes secrets.
 
