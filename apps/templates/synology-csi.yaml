@@ -19,6 +19,7 @@ spec:
       values: |
         clientInfoSecret:
           name: client-info-secret
+          create: false
         storageClasses:
           default:
             reclaimPolicy: Delete
