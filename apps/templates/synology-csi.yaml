@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: synology-csi
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: synology-csi
+    repoURL: https://ironashram.github.io/synology-csi-chart
+    targetRevision: 0.9.8-SNAPSHOT
+    helm:
+      values: |
+        clientInfoSecret:
+          name: client-info-secret
+        storageClasses:
+          default:
+            reclaimPolicy: Delete
+            parameters:
+              fsType: ext4
+              location: /volume2
+  destination:
+    name: in-cluster
+    namespace: synology-csi

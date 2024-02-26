@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 56.9.0
+    helm:
+      values: |
+        alertmanager:
+          ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+            - alertmanager.lab.m1k.cloud
+            tls:
+             - secretName: alertmanager-cert
+               hosts:
+               - alertmanager.lab.m1k.cloud
+        grafana:
+          admin:
+            existingSecret: grafana-admin
+            userKey: admin-user
+            passwordKey: admin-password
+          ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+            - grafana.lab.m1k.cloud
+            tls:
+             - secretName: grafana-cert
+               hosts:
+               - grafana.lab.m1k.cloud
+        prometheus:
+          ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+            - prometheus.lab.m1k.cloud
+            tls:
+             - secretName: prometheus-cert
+               hosts:
+               - prometheus.lab.m1k.cloud
+          prometheusSpec:
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: synology-csi-default
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 50Gi
+        prometheusOperator:
+          admissionWebhooks:
+            patch:
+              enabled:
+                true
+  destination:
+    name: in-cluster
+    namespace: monitoring

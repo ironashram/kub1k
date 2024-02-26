@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-app-of-apps
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      selfHeal: true
+  source:
+    repoURL: https://github.com/ironashram/kub1k.git
+    path: apps
+    targetRevision: HEAD
+    helm:
+      parameters:
+        - name: environment
+          value: {{ .Values.environment }}
+  destination:
+    name: in-cluster
