@@ -1,7 +1,10 @@
 resource "null_resource" "k3s_control" {
   depends_on = [null_resource.control_ssh_config]
 
-  triggers = { md5 = md5(file("${path.module}/main.tf")) }
+  triggers = {
+    md5_main = md5(file("${path.module}/main.tf"))
+    md5_vars = md5(file("${path.root}/variables.tf"))
+  }
 
   for_each = { for master in var.control : master.name => master }
   provisioner "local-exec" {
@@ -21,7 +24,10 @@ resource "null_resource" "k3s_control" {
 resource "null_resource" "k3s_worker" {
   depends_on = [null_resource.k3s_control]
 
-  triggers = { md5 = md5(file("${path.module}/main.tf")) }
+  triggers = {
+    md5_main = md5(file("${path.module}/main.tf"))
+    md5_vars = md5(file("${path.root}/variables.tf"))
+  }
 
   for_each = { for worker in var.worker : worker.name => worker }
   provisioner "local-exec" {

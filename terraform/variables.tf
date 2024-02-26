@@ -1,5 +1,5 @@
 ﻿variable "k3s_extra_args" {
-  default = "--cluster-cidr=172.27.0.0/23 --flannel-backend=none --disable-network-policy --disable traefik --disable servicelb"
+  default = "--cluster-cidr=172.27.0.0/21 --flannel-backend=none --disable-network-policy --disable traefik --disable servicelb"
 }
 
 variable "k3s_version" {
