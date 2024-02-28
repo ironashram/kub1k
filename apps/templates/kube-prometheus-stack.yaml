@@ -47,6 +47,11 @@ spec:
                hosts:
                - grafana.lab.m1k.cloud
         prometheus:
+          serviceMonitor:
+            relabelings:
+              - replacement: prometheus
+                targetLabel: cluster
+                action: replace
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -71,7 +76,7 @@ spec:
           admissionWebhooks:
             patch:
               enabled:
-                true
+                false
   destination:
     name: in-cluster
     namespace: monitoring
