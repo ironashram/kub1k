@@ -51,6 +51,7 @@ spec:
             relabelings:
               - targetLabel: cluster
                 replacement: prometheus
+                action: replace
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
