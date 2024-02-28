@@ -49,8 +49,8 @@ spec:
         prometheus:
           serviceMonitor:
             relabelings:
-              - targetLabel: cluster
-                replacement: prometheus
+              - replacement: prometheus
+                targetLabel: cluster
                 action: replace
           ingress:
             annotations:
