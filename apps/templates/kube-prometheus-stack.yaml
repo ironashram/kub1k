@@ -50,7 +50,7 @@ spec:
           serviceMonitor:
             relabelings:
               - targetLabel: cluster
-                replacement: 'cluster_name'
+                replacement: prometheus
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
