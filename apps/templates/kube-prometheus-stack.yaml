@@ -75,7 +75,7 @@ spec:
           admissionWebhooks:
             patch:
               enabled:
-                true
+                false
   destination:
     name: in-cluster
     namespace: monitoring
