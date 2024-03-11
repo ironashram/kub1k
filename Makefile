@@ -35,6 +35,11 @@ plan-destroy: init ## Shows what a destroy would do.
 show: init ## Shows resources
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) show
 
+.PHONY: get-kubeconfig
+get-kubeconfig: init ## Gets the kubeconfig from the state
+	@mkdir -p ~/.kube/config-files
+	@terraform $(TERRAFORM_GLOBAL_OPTIONS) output -json kubeconfig | jq > ~/.kube/config-files/$(ENV).yaml
+
 upgrade: ## Gets any provider updates
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) init -upgrade
 
