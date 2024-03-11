@@ -1,5 +1,9 @@
 locals {
-  kube_config_output = pathexpand("~/.kube/config-files/kub1k.yaml")
+  // try to read the kubeconfig either from home or $GITHUB_WORKSPACE
+  kube_config_output = try(
+    pathexpand("~/.kube/config-files/${terraform.workspace}.yaml"),
+    pathexpand("$GITHUB_WORKSPACE/.kube/config-files/${terraform.workspace}.yaml")
+  )
 
   kubeconfig             = try(yamldecode(file(local.kube_config_output)), null)
   cluster_host           = try(local.kubeconfig.clusters[0].cluster.server, null)
