@@ -13,4 +13,3 @@ variable "k3s_version" {}
 variable "control" {}
 
 variable "worker" {}
-
