@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get outputs
+      - name: Get kubeconfig
         uses: dflook/terraform-output@v1
         id: get-kubeconfig
         with:
@@ -32,7 +32,7 @@ jobs:
       - name: Write kubeconfig
         run: |
           mkdir -p ~/.kube/config-files
-          echo "${{ steps.get-kubeconfig.outputs.kubeconfig }}" > ~/.kube/config-files/kub1k.yaml
+          echo "${{ steps.get-kubeconfig.outputs.kubeconfig }}" | jq > ~/.kube/config-files/kub1k.yaml
 
       - name: terraform plan
         uses: dflook/terraform-plan@v1
