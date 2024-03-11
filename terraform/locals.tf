@@ -15,13 +15,6 @@ locals {
   client_key             = try(base64decode(local.kubeconfig.users[0].user.client-key-data), null)
 }
 
-output "kube_config_path_home" {
-  value = local.kube_config_path_home
-}
-
-output "kube_config_path_workspace" {
-  value = local.kube_config_path_workspace
-}
 
 resource "null_resource" "print_paths" {
   provisioner "local-exec" {
