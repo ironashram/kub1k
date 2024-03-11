@@ -22,3 +22,12 @@ output "kube_config_path_home" {
 output "kube_config_path_workspace" {
   value = local.kube_config_path_workspace
 }
+
+resource "null_resource" "print_paths" {
+  provisioner "local-exec" {
+    command = "echo Home path: ${local.kube_config_path_home}; echo Workspace path: ${local.kube_config_path_workspace}"
+  }
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
