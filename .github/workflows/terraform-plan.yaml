@@ -22,14 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+      - name: Get outputs
+        uses: dflook/terraform-output@v1
+        id: get-kubeconfig
         with:
-          terraform_version: 1.7.4
+          path: terraform
+          workspace: kub1k
 
-      - name: Get kubeconfig
+      - name: Write kubeconfig
         run: |
-          make get-kubeconfig kub1k
+          mkdir -p ~/.kube/config-files
+          echo "${{ steps.get-kubeconfig.outputs.kubeconfig }}" > ~/.kube/config-files/kub1k.yaml
 
       - name: terraform plan
         uses: dflook/terraform-plan@v1
