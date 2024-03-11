@@ -14,3 +14,11 @@ locals {
   client_certificate     = try(base64decode(local.kubeconfig.users[0].user.client-certificate-data), null)
   client_key             = try(base64decode(local.kubeconfig.users[0].user.client-key-data), null)
 }
+
+output "kube_config_path_home" {
+  value = local.kube_config_path_home
+}
+
+output "kube_config_path_workspace" {
+  value = local.kube_config_path_workspace
+}
