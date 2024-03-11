@@ -32,7 +32,7 @@ jobs:
       - name: Write kubeconfig
         run: |
           mkdir -p ~/.kube/config-files
-          echo "${{ fromJson(steps.get-kubeconfig.outputs.kubeconfig) }}" > ~/.kube/config-files/kub1k.yaml
+          echo "${{ steps.get-kubeconfig.outputs.kubeconfig }}" > ~/.kube/config-files/kub1k.yaml
 
       - name: terraform plan
         uses: dflook/terraform-plan@v1
