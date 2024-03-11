@@ -33,9 +33,13 @@ jobs:
         run: |
           mkdir -p $GITHUB_WORKSPACE/.kube/config-files
           echo "${{ steps.get-kubeconfig.outputs.kubeconfig }}" > $GITHUB_WORKSPACE/.kube/config-files/kub1k.yaml
+      - name: Print GitHub Workspace
+        run: echo $GITHUB_WORKSPACE
 
       - name: terraform plan
         uses: dflook/terraform-plan@v1
         with:
           path: terraform
           workspace: kub1k
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
