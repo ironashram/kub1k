@@ -1,0 +1,27 @@
+name: Terraform Plan
+
+on:
+  pull_request:
+    paths:
+      - 'terraform/**'
+  workflow_dispatch:
+
+jobs:
+  plan:
+    runs-on: [self-hosted, linux, X64, default]
+    permissions:
+      contents: read
+      pull-requests: write
+    name: Create terraform plan
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: terraform plan
+        uses: dflook/terraform-plan@v1
+        with:
+          path: terraform
+          workspace: kub1k
