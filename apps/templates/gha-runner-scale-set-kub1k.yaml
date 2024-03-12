@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gha-runner-scale-set-kub1k
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: gha-runner-scale-set
+    repoURL: ghcr.io/actions/actions-runner-controller-charts
+    targetRevision: 0.8.3
+    helm:
+      values: |
+        githubConfigUrl: "https://github.com/ironashram/kub1k"
+        githubConfigSecret: "github-config-secret"
+  destination:
+    name: in-cluster
+    namespace: arc-runners
