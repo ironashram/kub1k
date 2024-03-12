@@ -24,11 +24,13 @@ spec:
           name: gha-runner-scale-set-controller-gha-rs-controller
         template:
           spec:
-            env:
-              - name: DOCKER_GROUP_GID
-                value: "123"
-              - name: DOCKER_IPTABLES_LEGACY
-                value: "1"
+            containers:
+              - name: dind
+              env:
+                - name: DOCKER_GROUP_GID
+                  value: "123"
+                - name: DOCKER_IPTABLES_LEGACY
+                  value: "1"
   destination:
     name: in-cluster
     namespace: arc-runners
