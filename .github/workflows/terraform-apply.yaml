@@ -10,7 +10,7 @@ on:
 
 jobs:
   apply:
-    runs-on: [self-hosted, linux, X64, default]
+    runs-on: gha-runner-scale-set-kub1k
     permissions:
         contents: write
         pull-requests: write
@@ -23,10 +23,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Get kubeconfig
-        run: |
-          make get-kubeconfig kub1k
 
       - name: terraform apply
         uses: dflook/terraform-apply@v1

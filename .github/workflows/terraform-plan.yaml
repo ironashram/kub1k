@@ -8,7 +8,7 @@ on:
 
 jobs:
   plan:
-    runs-on: [self-hosted, linux, X64, default]
+    runs-on: gha-runner-scale-set-kub1k
     permissions:
       contents: read
       pull-requests: write
@@ -22,12 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get kubeconfig
-        run: |
-          make get-kubeconfig kub1k
-
       - name: terraform plan
         uses: dflook/terraform-plan@v1
         with:
           path: terraform
           workspace: kub1k
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
