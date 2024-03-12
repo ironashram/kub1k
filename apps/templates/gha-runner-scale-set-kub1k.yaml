@@ -19,6 +19,9 @@ spec:
       values: |
         githubConfigUrl: "https://github.com/ironashram/kub1k"
         githubConfigSecret: "github-config-secret"
+        controllerServiceAccount:
+          namespace: arc-system
+          name: gha-runner-scale-set-controller-gha-rs-controller
   destination:
     name: in-cluster
     namespace: arc-runners
