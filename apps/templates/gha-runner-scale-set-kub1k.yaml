@@ -44,6 +44,9 @@ spec:
                 - name: dind-sock
                   mountPath: /run/docker
                   readOnly: true
+                - name: kubeconfig
+                  mountPath: /home/runner/.kube/config-files/kub1k.yaml
+                  readOnly: true
             - name: dind
               image: docker:dind
               args:
@@ -71,6 +74,10 @@ spec:
               emptyDir: {}
             - name: dind-externals
               emptyDir: {}
+            - name: kubeconfig
+              secret:
+                secretName: kub1k-kubeconfig
+                secretKey: kubeconfig
   destination:
     name: in-cluster
     namespace: arc-runners
