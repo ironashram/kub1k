@@ -26,3 +26,4 @@ variable "worker" {
 variable "kube_context" {
   default = "kub1k"
 }
+
