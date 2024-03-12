@@ -24,18 +24,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get kubeconfig
-        uses: dflook/terraform-output@v1
-        id: get-kubeconfig
-        with:
-          path: terraform
-          workspace: kub1k
-
-      - name: Write kubeconfig
-        run: |
-          mkdir -p $GITHUB_WORKSPACE/.kube/config-files
-          echo "${{ steps.get-kubeconfig.outputs.kubeconfig }}" > $GITHUB_WORKSPACE/.kube/config-files/kub1k.yaml
-
       - name: terraform apply
         uses: dflook/terraform-apply@v1
         with:

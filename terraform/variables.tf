@@ -26,9 +26,3 @@ variable "worker" {
 variable "kube_context" {
   default = "kub1k"
 }
-
-variable "GITHUB_WORKSPACE" {
-  description = "The GitHub workspace directory"
-  type        = string
-  default     = ""
-}
