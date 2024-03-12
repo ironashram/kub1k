@@ -2,8 +2,8 @@ locals {
   kube_config_path_home      = "~/.kube/config-files/${terraform.workspace}.yaml"
   kube_config_path_workspace = "${var.GITHUB_WORKSPACE}/.kube/config-files/${terraform.workspace}.yaml"
 
-  kubeconfig_home      = try(yamldecode(file(pathexpand(local.kube_config_path_home))), "")
-  kubeconfig_workspace = try(yamldecode(file(pathexpand(local.kube_config_path_workspace))), "bb")
+  kubeconfig_home      = try(yamldecode(file(pathexpand(local.kube_config_path_home))), {})
+  kubeconfig_workspace = try(yamldecode(file(pathexpand(local.kube_config_path_workspace))), {})
 
   kubeconfig = coalesce(local.kubeconfig_home, local.kubeconfig_workspace)
 
