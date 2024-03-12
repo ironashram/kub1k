@@ -13,7 +13,7 @@ spec:
       selfHeal: true
   source:
     chart: gha-runner-scale-set-controller
-    repoURL: ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+    repoURL: ghcr.io/actions/actions-runner-controller-charts
     targetRevision: 0.8.3
     helm:
       values: |
