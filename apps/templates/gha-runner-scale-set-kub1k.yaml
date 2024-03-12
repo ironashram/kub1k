@@ -45,7 +45,7 @@ spec:
                   mountPath: /run/docker
                   readOnly: true
                 - name: kubeconfig
-                  mountPath: /github/home/.kube/config-files/
+                  mountPath: /home/runner/_work/.kube/config-files/
                   readOnly: true
             - name: dind
               image: docker:dind
