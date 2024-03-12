@@ -10,7 +10,7 @@ on:
 
 jobs:
   apply:
-    runs-on: [self-hosted, linux, X64, default]
+    runs-on: gha-runner-scale-set-kub1k
     permissions:
         contents: write
         pull-requests: write
