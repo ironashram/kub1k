@@ -42,5 +42,8 @@ jobs:
         with:
           path: terraform
           workspace: kub1k
+          variables: |
+            GITHUB_WORKSPACE="${{ github.workspace }}"
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
