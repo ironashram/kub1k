@@ -22,4 +22,4 @@ spec:
           logLevel: debug
   destination:
     name: in-cluster
-    namespace: arc-systems
+    namespace: arc-runners
