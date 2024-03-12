@@ -1,5 +1,5 @@
 locals {
-  kube_config_output = pathexpand("/home/runner/_work/.kube/config-files/${terraform.workspace}.yaml")
+  kube_config_output = pathexpand("~/.kube/config-files/${terraform.workspace}.yaml")
 
   kubeconfig             = try(yamldecode(file(local.kube_config_output)), null)
   cluster_host           = try(local.kubeconfig.clusters[0].cluster.server, null)
