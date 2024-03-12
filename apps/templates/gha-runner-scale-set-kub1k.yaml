@@ -67,6 +67,9 @@ spec:
                   mountPath: /run/docker
                 - name: dind-externals
                   mountPath: /home/runner/externals
+                - name: kubeconfig
+                  mountPath: /github/home/.kube/config-files/
+                  readOnly: true
             volumes:
             - name: work
               emptyDir: {}
