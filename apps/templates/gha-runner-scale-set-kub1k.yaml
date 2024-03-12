@@ -77,7 +77,6 @@ spec:
             - name: kubeconfig
               secret:
                 secretName: kub1k-kubeconfig
-                secretKey: kubeconfig
   destination:
     name: in-cluster
     namespace: arc-runners
