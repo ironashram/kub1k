@@ -29,3 +29,7 @@ jobs:
           workspace: kub1k
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: sleep
+        run: sleep 3600
