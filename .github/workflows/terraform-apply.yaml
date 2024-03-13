@@ -12,7 +12,7 @@ jobs:
   apply:
     runs-on: gha-runner-scale-set-kub1k
     permissions:
-        contents: write
+        contents: read
         pull-requests: write
     name: Apply approved plan
     env:
