@@ -1,5 +1,5 @@
 ﻿variable "k3s_extra_args" {
-  default = "--cluster-cidr=172.27.0.0/21 --etcd-expose-metrics --flannel-backend=none --disable-network-policy --disable traefik --disable servicelb"
+  default = "--cluster-cidr=172.27.0.0/21 --etcd-expose-metrics --kube-controller-manager-arg=bind-address=0.0.0.0 --kube-proxy-arg=metrics-bind-address=0.0.0.0 --kube-scheduler-arg=bind-address=0.0.0.0  --flannel-backend=none --disable-network-policy --disable traefik --disable servicelb"
 }
 
 variable "k3s_version" {
