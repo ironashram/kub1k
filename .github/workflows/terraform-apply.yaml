@@ -24,6 +24,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install openssh-client
+        run: |
+          sudo apt-get update
+          sudo apt-get install openssh-client -y
+
       - name: Set up SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
