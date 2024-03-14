@@ -32,7 +32,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           TERRAFORM_PRE_RUN: |
             mkdir -p ~/.ssh
-            echo $SSH_PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
             apt-get update
             apt-get install openssh-client -y
             eval $(ssh-agent)
