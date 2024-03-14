@@ -7,7 +7,7 @@ resource "null_resource" "k3s_control" {
   for_each = { for master in var.control : master.name => master }
   provisioner "local-exec" {
     command = <<EOT
-            k3sup install \
+            ./k3sup install \
             --ip ${each.value.ip} \
             --context ${var.kube_context} \
             --user ${var.ssh_user} \
@@ -27,7 +27,7 @@ resource "null_resource" "k3s_worker" {
   for_each = { for worker in var.worker : worker.name => worker }
   provisioner "local-exec" {
     command = <<EOT
-            k3sup join \
+            ./k3sup join \
             --ip ${each.value.ip} \
             --server-ip ${var.control[0].ip} \
             --user ${var.ssh_user} \
