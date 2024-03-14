@@ -29,3 +29,8 @@ jobs:
         with:
           path: terraform
           workspace: kub1k
+        env:
+          TERRAFORM_PRE_RUN: |
+            curl -sLS https://get.k3sup.dev | sh
+            install k3sup /usr/local/bin/
+

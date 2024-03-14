@@ -29,3 +29,7 @@ jobs:
           workspace: kub1k
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TERRAFORM_PRE_RUN: |
+            curl -sLS https://get.k3sup.dev | sh
+            install k3sup /usr/local/bin/
+

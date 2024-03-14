@@ -1,4 +1,4 @@
-# Kub1k
+# kub1k
 The name comes from a silly portmanteau between kube and m1k (my nickname)
 
 This repository contains the Terraform code for deploying and managing a homelab k8s infrastructure.
@@ -13,7 +13,7 @@ The Kub1k project aims to provide a scalable and reliable Kubernetes cluster usi
 - MetalLB: A load balancer implementation for bare metal Kubernetes clusters.
 - Nginx Ingress Controller: An Ingress controller for Kubernetes using Nginx.
 - Vault: A secrets management tool for securely storing and accessing sensitive information.
-- SSH Configuration: Configuration for SSH access to the Kubernetes cluster.
+- Github Runners: Runner scale sets is a group of homogeneous runners that can be assigned jobs from GitHub Actions.
 
 ## Prerequisites
 
