@@ -22,16 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install openssh-client
-        run: |
-          sudo apt-get update
-          sudo apt-get install openssh-client -y
-
-      - name: Set up SSH Agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: terraform plan
         uses: dflook/terraform-plan@v1
         with:
@@ -39,9 +29,14 @@ jobs:
           workspace: kub1k
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           TERRAFORM_PRE_RUN: |
+            mkdir -p ~/.ssh
+            echo $SSH_PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+            apt-get update
+            sudo apt-get install openssh-client -y
+            eval $(ssh-agent)
+            ssh-add ~/.ssh/id_rsa
             curl -sSL https://github.com/alexellis/k3sup/releases/latest/download/k3sup > k3sup
             chmod +x k3sup
             mv k3sup /usr/bin/k3sup
-
-
