@@ -41,6 +41,7 @@ jobs:
           workspace: kub1k
           auto_approve: true
         env:
+          PATH: ${{ github.workspace }}:$PATH
           TERRAFORM_PRE_RUN: |
             curl -sSL https://github.com/alexellis/k3sup/releases/latest/download/k3sup > k3sup
             chmod +x k3sup
