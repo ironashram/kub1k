@@ -41,6 +41,6 @@ jobs:
           workspace: kub1k
         env:
           TERRAFORM_PRE_RUN: |
-            curl -sLS https://get.k3sup.dev | sh
-            sudo install k3sup /usr/local/bin/
+            curl -sSL https://github.com/alexellis/k3sup/releases/latest/download/k3sup > k3sup
+            chmod +x k3sup
 
