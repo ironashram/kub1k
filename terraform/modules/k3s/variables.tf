@@ -1,5 +1,3 @@
-variable "ssh_key_file" {}
-
 variable "ssh_user" {}
 
 variable "kube_config_output" {}

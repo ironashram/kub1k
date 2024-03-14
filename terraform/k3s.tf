@@ -11,6 +11,4 @@ module "provision_k3s" {
   kube_context       = var.kube_context
   kube_config_output = local.kube_config_output
   ssh_user           = data.vault_kv_secret_v2.ssh.data.user
-  ssh_key_file       = data.vault_kv_secret_v2.ssh.data.key_file
-
 }
