@@ -45,3 +45,4 @@ jobs:
             curl -sSL https://github.com/alexellis/k3sup/releases/latest/download/k3sup > k3sup
             chmod +x k3sup
             mv k3sup /usr/local/bin/k3sup
+            which python3
