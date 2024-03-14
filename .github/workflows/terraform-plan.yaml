@@ -34,7 +34,7 @@ jobs:
             mkdir -p ~/.ssh
             echo $SSH_PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
             apt-get update
-            sudo apt-get install openssh-client -y
+            apt-get install openssh-client -y
             eval $(ssh-agent)
             ssh-add ~/.ssh/id_rsa
             curl -sSL https://github.com/alexellis/k3sup/releases/latest/download/k3sup > k3sup
