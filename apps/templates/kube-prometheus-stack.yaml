@@ -67,6 +67,11 @@ spec:
                hosts:
                - prometheus.lab.m1k.cloud
           prometheusSpec:
+            serviceMonitorSelector:
+              matchLabels:
+                release: kube-prometheus-stack
+            serviceMonitorNamespaceSelector: {}
+            serviceMonitorSelectorNilUsesHelmValues: false
             storageSpec:
               volumeClaimTemplate:
                 spec:
