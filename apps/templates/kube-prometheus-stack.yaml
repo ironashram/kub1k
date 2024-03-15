@@ -75,6 +75,9 @@ spec:
                   resources:
                     requests:
                       storage: 50Gi
+            serviceMonitorSelector:
+              matchLabels:
+                release: kube-prometheus-stack
         prometheusOperator:
           admissionWebhooks:
             patch:
