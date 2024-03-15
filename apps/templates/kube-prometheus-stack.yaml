@@ -75,6 +75,25 @@ spec:
                   resources:
                     requests:
                       storage: 50Gi
+            serviceMonitors:
+              - name: kubelet
+                endpoints:
+                  - port: https-metrics
+                    path: /metrics
+                    scheme: https
+                    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+                    tlsConfig:
+                      insecureSkipVerify: true
+                namespaceSelector:
+                  matchNames:
+                    - kube-system
+                selector:
+                  matchLabels:
+                    k8s-app: kubelet
+                metricRelabelings:
+                  - sourceLabels: [__name__]
+                    regex: 'kubelet_node_name'
+                    action: drop
         prometheusOperator:
           admissionWebhooks:
             patch:
