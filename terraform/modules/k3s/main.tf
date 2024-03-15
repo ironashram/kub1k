@@ -19,6 +19,7 @@ resource "null_resource" "k3s_control" {
 }
 
 resource "null_resource" "k3s_worker" {
+  depends_on = [null_resource.k3s_control]
   triggers = {
     md5_main = md5(file("${path.module}/main.tf"))
     md5_vars = md5(file("${path.root}/variables.tf"))
