@@ -67,11 +67,6 @@ spec:
                hosts:
                - prometheus.lab.m1k.cloud
           prometheusSpec:
-            serviceMonitorSelector:
-              matchLabels:
-                release: kube-prometheus-stack
-            serviceMonitorNamespaceSelector: {}
-            serviceMonitorSelectorNilUsesHelmValues: false
             storageSpec:
               volumeClaimTemplate:
                 spec:
@@ -80,25 +75,7 @@ spec:
                   resources:
                     requests:
                       storage: 50Gi
-            serviceMonitors:
-              - name: kubelet
-                endpoints:
-                  - port: https-metrics
-                    path: /metrics
-                    scheme: https
-                    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-                    tlsConfig:
-                      insecureSkipVerify: true
-                namespaceSelector:
-                  matchNames:
-                    - kube-system
-                selector:
-                  matchLabels:
-                    k8s-app: kubelet
-                metricRelabelings:
-                  - sourceLabels: [__name__]
-                    regex: 'kubelet_node_name'
-                    action: drop
+
         prometheusOperator:
           admissionWebhooks:
             patch:
@@ -135,6 +112,9 @@ spec:
               - action: replace
                 sourceLabels: [__metrics_path__]
                 targetLabel: metrics_path
+              - sourceLabels: [__address__]
+                targetLabel: instance
+                replacement: kub1k-kubelet
             metricRelabelings:
               - action: drop
                 regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
