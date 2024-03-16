@@ -112,7 +112,8 @@ spec:
               - action: replace
                 sourceLabels: [__metrics_path__]
                 targetLabel: metrics_path
-              - sourceLabels: [__address__]
+              - action: replace
+                sourceLabels: [__address__]
                 targetLabel: instance
                 replacement: kub1k-kubelet
             metricRelabelings:
