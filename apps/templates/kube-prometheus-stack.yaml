@@ -75,6 +75,7 @@ spec:
                   resources:
                     requests:
                       storage: 50Gi
+
         prometheusOperator:
           admissionWebhooks:
             patch:
@@ -111,6 +112,10 @@ spec:
               - action: replace
                 sourceLabels: [__metrics_path__]
                 targetLabel: metrics_path
+              - action: replace
+                sourceLabels: [__address__]
+                targetLabel: instance
+                replacement: kub1k-kubelet
             metricRelabelings:
               - action: drop
                 regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
@@ -123,6 +128,9 @@ spec:
                 sourceLabels: [__name__]
               - action: drop
                 regex: (workqueue_work_duration_seconds_bucket)
+                sourceLabels: [__name__]
+              - action: drop
+                regex: "kubelet_node_name"
                 sourceLabels: [__name__]
 
         kubeControllerManager:
