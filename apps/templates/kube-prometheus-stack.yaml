@@ -128,6 +128,9 @@ spec:
               - action: drop
                 regex: (workqueue_work_duration_seconds_bucket)
                 sourceLabels: [__name__]
+              - action: drop
+                regex: "kubelet_node_name"
+                sourceLabels: [__name__]
 
         kubeControllerManager:
           endpoints:
