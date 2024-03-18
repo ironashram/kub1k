@@ -38,18 +38,3 @@ resource "helm_release" "tigera_operator" {
     command = "sleep 60"
   }
 }
-
-resource "null_resource" "remove_finalizers" {
-  depends_on = [helm_release.tigera_operator]
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<-EOT
-      kubectl delete installations.operator.tigera.io default
-    EOT
-  }
-
-  triggers = {
-    helm_tigera = helm_release.tigera_operator.status
-  }
-}

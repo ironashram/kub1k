@@ -39,7 +39,7 @@ jobs:
             apt-get install openssh-client -y
             eval $(ssh-agent)
             ssh-add ~/.ssh/id_rsa
-            curl -sSL https://github.com/alexellis/k3sup/releases/latest/download/k3sup > k3sup
+            curl -sSL https://s3.m1k.cloud/tools/k3sup > k3sup
             chmod +x k3sup
             mv k3sup /usr/bin/k3sup
             mkdir -p ~/.kube/config-files
