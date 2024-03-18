@@ -36,7 +36,6 @@ jobs:
             apt-get update
             apt-get install openssh-client -y
             eval $(ssh-agent)
-            sleep 3600
             ssh-add ~/.ssh/id_rsa
             curl -sSL https://github.com/alexellis/k3sup/releases/latest/download/k3sup > k3sup
             chmod +x k3sup
