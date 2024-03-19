@@ -1,12 +1,3 @@
-/****************
-  MetalLB values
-****************/
-
-data "template_file" "metallb_values" {
-  template = <<EOF
-EOF
-}
-
 /*********
   MetalLB
 *********/
@@ -23,6 +14,4 @@ resource "helm_release" "metallb_ingress" {
   create_namespace = true
 
   max_history = 0
-
-  values = [data.template_file.metallb_values.rendered]
 }

@@ -1,9 +1,19 @@
-/****************
-  ArgoCD values
-****************/
+/*********
+  ArgoCD
+*********/
+resource "helm_release" "argocd" {
+  depends_on = [helm_release.tigera_operator]
+  name       = "argocd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  namespace  = "argocd"
+  version    = "6.7.3"
 
-data "template_file" "argocd_values" {
-  template = <<EOF
+  create_namespace = true
+
+  max_history = 0
+
+  values = [<<EOF
 applicationSet:
   enabled: false
 redis-ha:
@@ -13,13 +23,6 @@ dex:
 notifications:
   enabled: false
 configs:
-  repositories:
-    kub1k:
-      url: ${var.git_repo}
-      name: ${var.git_repo_name}
-      type: git
-      password: ${var.git_token}
-      username: ${var.git_user}
   params:
     server.insecure: true
 controller:
@@ -44,24 +47,33 @@ server:
       group: cert-manager.io
       kind: ClusterIssuer
       name: letsencrypt-prod
-
 EOF
+  ]
+
+  set_sensitive {
+    name  = "configs.repositories.${terraform.workspace}.name"
+    value = var.git_repo_name
+  }
+
+  set_sensitive {
+    name  = "configs.repositories.${terraform.workspace}.url"
+    value = var.git_repo
+  }
+
+  set_sensitive {
+    name  = "configs.repositories.${terraform.workspace}.username"
+    value = var.git_user
+  }
+
+  set_sensitive {
+    name  = "configs.repositories.${terraform.workspace}.password"
+    value = var.git_token
+  }
+
+  set {
+    name  = "configs.repositories.${terraform.workspace}.type"
+    value = "git"
+  }
 }
 
-/*********
-  ArgoCD
-*********/
-resource "helm_release" "argocd" {
-  depends_on = [helm_release.tigera_operator]
-  name       = "argocd"
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  namespace  = "argocd"
-  version    = "6.7.3"
 
-  create_namespace = true
-
-  max_history = 0
-
-  values = [data.template_file.argocd_values.rendered]
-}
