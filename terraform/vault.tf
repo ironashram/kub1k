@@ -1,20 +1,20 @@
 ﻿
 data "vault_kv_secret_v2" "github" {
   mount = "kv"
-  name  = "kub1k/github"
+  name  = "${terraform.workspace}/github"
 }
 
 data "vault_kv_secret_v2" "vault" {
   mount = "kv"
-  name  = "kub1k/vault"
+  name  = "${terraform.workspace}/vault"
 }
 
 data "vault_kv_secret_v2" "ssh" {
   mount = "kv"
-  name  = "kub1k/ssh"
+  name  = "${terraform.workspace}/ssh"
 }
 
 data "vault_kv_secret_v2" "k3s" {
   mount = "kv"
-  name  = "kub1k/k3s"
+  name  = "${terraform.workspace}/k3s"
 }
