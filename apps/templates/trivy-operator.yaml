@@ -17,6 +17,10 @@ spec:
     targetRevision: 0.21.1
     helm:
       values: |
+        operator:
+          scanJobsConcurrentLimit: 4
+          scanJobsRetryDelay: 180s
+          scannerReportTTL: "72h"
         trivy:
           severity: CRITICAL
         serviceMonitor:
