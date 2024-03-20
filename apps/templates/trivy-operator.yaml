@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trivy-operator
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: trivy-operator
+    repoURL: ghcr.io/aquasecurity/helm-charts
+    targetRevision: 0.21.1
+    helm:
+      values: |
+        operator:
+          scanJobsConcurrentLimit: 4
+          scanJobsRetryDelay: 180s
+          scannerReportTTL: "72h"
+        trivy:
+          severity: CRITICAL
+        serviceMonitor:
+          enabled: true
+  destination:
+    name: in-cluster
+    namespace: trivy-system
