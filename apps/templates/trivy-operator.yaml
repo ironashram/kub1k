@@ -17,6 +17,8 @@ spec:
     targetRevision: 0.21.1
     helm:
       values: |
+        trivy:
+          severity: CRITICAL
         serviceMonitor:
           enabled: true
   destination:
