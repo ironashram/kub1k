@@ -18,7 +18,7 @@ spec:
     helm:
       values: |
         operator:
-          scanJobsConcurrentLimit: 4
+          scanJobsConcurrentLimit: 1
           scanJobsRetryDelay: 180s
           scannerReportTTL: "72h"
         trivy:
