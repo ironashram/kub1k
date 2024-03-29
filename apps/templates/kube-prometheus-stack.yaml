@@ -67,6 +67,8 @@ spec:
               enabled: true
               label: grafana_dashboard
               enableNewTablePanelSyntax: true
+              provider:
+                allowUiUpdates: true
           persistence:
             enabled: true
             type: pvc
