@@ -67,6 +67,13 @@ spec:
               enabled: true
               label: grafana_dashboard
               enableNewTablePanelSyntax: true
+          persistence:
+            enabled: true
+            type: pvc
+            accessModes:
+              - ReadWriteOnce
+            size: 5Gi
+            storageClassName: synology-csi-default
 
           dashboards:
             grafana-dashboards-kubernetes:
