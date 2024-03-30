@@ -66,69 +66,69 @@ spec:
           dashboards:
             custom-grafana-dashboards:
               k8s-system-api-server:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-system-api-server.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/k8s-system-api-server.json
               k8s-system-coredns:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-system-coredns.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/k8s-system-coredns.json
               k8s-views-global:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-global.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/k8s-views-global.json
               k8s-views-namespaces:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-namespaces.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/k8s-views-namespaces.json
               k8s-views-nodes:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-nodes.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/k8s-views-nodes.json
               k8s-views-pods:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/k8s-views-pods.json
               alertmanager-overview:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/alertmanager-overview.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/alertmanager-overview.json
               coredns:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/coredns.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/coredns.json
               etcd:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/etcd.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/etcd.json
               grafana-overview:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/grafana-overview.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/grafana-overview.json
               kube-apiserver:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-apiserver.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-apiserver.json
               kube-compute-resources-cluster:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-compute-resources-cluster.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-compute-resources-cluster.json
               kube-compute-resources-multi-cluster:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-compute-resources-multi-cluster.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-compute-resources-multi-cluster.json
               kube-compute-resources-namespace-pods:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-compute-resources-namespace-pods.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-compute-resources-namespace-pods.json
               kube-compute-resources-namespace-workloads:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-compute-resources-namespace-workloads.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-compute-resources-namespace-workloads.json
               kube-compute-resources-node-pods:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-compute-resources-node-pods.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-compute-resources-node-pods.json
               kube-compute-resources-pod:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-compute-resources-pod.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-compute-resources-pod.json
               kube-compute-resources-workload:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-compute-resources-workload.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-compute-resources-workload.json
               kube-controller-manager:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-controller-manager.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-controller-manager.json
               kubelet:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kubelet.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kubelet.json
               kube-proxy:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-proxy.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-proxy.json
               kube-scheduler:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-scheduler.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-scheduler.json
               kube-networking-cluster:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-networking-cluster.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-networking-cluster.json
               kube-networking-namespace-pods:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-networking-namespace-pods.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-networking-namespace-pods.json
               kube-networking-namespace-workloads:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-networking-namespace-workloads.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-networking-namespace-workloads.json
               kube-networking-pod:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-networking-pod.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-networking-pod.json
               kube-networking-workload:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kube-networking-workload.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/kube-networking-workload.json
               node-exporter-nodes:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/node-exporter-nodes.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/node-exporter-nodes.json
               node-exporter-methods-cluster:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/node-exporter-methods-cluster.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/node-exporter-methods-cluster.json
               node-exporter-methods-node:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/node-exporter-methods-node.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/node-exporter-methods-node.json
               persistent-volumes:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/persistent-volumes.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/persistent-volumes.json
               prometheus-overview:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/prometheus-overview.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/grafana_newtable/dashboards/prometheus-overview.json
 
         prometheus:
           serviceMonitor:
