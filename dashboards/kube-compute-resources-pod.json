@@ -378,6 +378,7 @@
             "mode": "thresholds"
           },
           "custom": {
+            "align": "auto",
             "cellOptions": {
               "type": "auto"
             },
@@ -820,16 +821,263 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "columns": [],
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "$datasource"
       },
-      "fill": 1,
-      "fontSize": "100%",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "decimals": 2,
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Usage (WSS)"
+              },
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Requests"
+              },
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #C"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Requests %"
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #D"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Limits"
+              },
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #E"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Limits %"
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #F"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Usage (RSS)"
+              },
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #G"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Usage (Cache)"
+              },
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #H"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Usage (Swap)"
+              },
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "container"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Container"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -838,188 +1086,19 @@
       },
       "id": 5,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null as zero",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "styles": [
-        {
-          "alias": "Time",
-          "align": "auto",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "alias": "Memory Usage (WSS)",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #A",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "Memory Requests",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #B",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "Memory Requests %",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #C",
-          "thresholds": [],
-          "type": "number",
-          "unit": "percentunit"
-        },
-        {
-          "alias": "Memory Limits",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #D",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "Memory Limits %",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #E",
-          "thresholds": [],
-          "type": "number",
-          "unit": "percentunit"
-        },
-        {
-          "alias": "Memory Usage (RSS)",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #F",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "Memory Usage (Cache)",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #G",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "Memory Usage (Swap)",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #H",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "Container",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "container",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        }
-      ],
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
@@ -1102,33 +1181,16 @@
           "refId": "H"
         }
       ],
-      "thresholds": [],
       "title": "Memory Quota",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transform": "table",
-      "type": "table-old",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
+      "transformations": [
         {
-          "format": "short",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
         }
-      ]
+      ],
+      "type": "table"
     },
     {
       "collapsed": false,
@@ -1565,12 +1627,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 57
       },
+      "hiddenSeries": false,
       "id": 10,
       "interval": "1m",
       "legend": {
@@ -1587,7 +1651,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1607,6 +1675,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Rate of Received Packets Dropped",
       "tooltip": {
         "shared": false,
@@ -1631,7 +1700,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "aliasColors": {},
@@ -1642,12 +1714,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 57
       },
+      "hiddenSeries": false,
       "id": 11,
       "interval": "1m",
       "legend": {
@@ -1664,7 +1738,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1684,6 +1762,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Rate of Transmitted Packets Dropped",
       "tooltip": {
         "shared": false,
@@ -1708,7 +1787,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "collapsed": false,
@@ -1745,12 +1827,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 65
       },
+      "hiddenSeries": false,
       "id": 12,
       "interval": "1m",
       "legend": {
@@ -1767,7 +1851,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1796,6 +1884,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "IOPS",
       "tooltip": {
         "shared": false,
@@ -1820,7 +1909,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "aliasColors": {},
@@ -1831,12 +1923,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 65
       },
+      "hiddenSeries": false,
       "id": 13,
       "interval": "1m",
       "legend": {
@@ -1853,7 +1947,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1882,6 +1980,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "ThroughPut",
       "tooltip": {
         "shared": false,
@@ -1906,7 +2005,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "collapsed": false,
@@ -1943,12 +2045,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 73
       },
+      "hiddenSeries": false,
       "id": 14,
       "interval": "1m",
       "legend": {
@@ -1965,7 +2069,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1985,6 +2093,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "IOPS(Reads+Writes)",
       "tooltip": {
         "shared": false,
@@ -2009,7 +2118,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "aliasColors": {},
@@ -2020,12 +2132,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 73
       },
+      "hiddenSeries": false,
       "id": 15,
       "interval": "1m",
       "legend": {
@@ -2042,7 +2156,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2062,6 +2180,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "ThroughPut(Read+Write)",
       "tooltip": {
         "shared": false,
@@ -2086,7 +2205,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "collapsed": false,
@@ -2117,12 +2239,14 @@
     {
       "aliasColors": {},
       "bars": false,
+      "columns": [],
       "dashLength": 10,
       "dashes": false,
       "datasource": {
         "uid": "$datasource"
       },
       "fill": 1,
+      "fontSize": "100%",
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -2150,6 +2274,7 @@
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
+      "showHeader": true,
       "sort": {
         "col": 4,
         "desc": true
@@ -2351,7 +2476,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "transform": "table",
+      "transform": "timeseries_to_rows",
       "type": "table-old",
       "xaxis": {
         "mode": "time",
