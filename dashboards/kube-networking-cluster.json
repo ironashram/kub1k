@@ -330,53 +330,279 @@
       "type": "timeseries"
     },
     {
-      "columns": [
-        {
-          "text": "Time",
-          "value": "Time"
-        },
-        {
-          "text": "Value #A",
-          "value": "Value #A"
-        },
-        {
-          "text": "Value #B",
-          "value": "Value #B"
-        },
-        {
-          "text": "Value #C",
-          "value": "Value #C"
-        },
-        {
-          "text": "Value #D",
-          "value": "Value #D"
-        },
-        {
-          "text": "Value #E",
-          "value": "Value #E"
-        },
-        {
-          "text": "Value #F",
-          "value": "Value #F"
-        },
-        {
-          "text": "Value #G",
-          "value": "Value #G"
-        },
-        {
-          "text": "Value #H",
-          "value": "Value #H"
-        },
-        {
-          "text": "namespace",
-          "value": "namespace"
-        }
-      ],
       "datasource": {
         "uid": "$datasource"
       },
-      "fill": 1,
-      "fontSize": "90%",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Current Bandwidth Received"
+              },
+              {
+                "id": "unit",
+                "value": "Bps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Current Bandwidth Transmitted"
+              },
+              {
+                "id": "unit",
+                "value": "Bps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #C"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Average Bandwidth Received"
+              },
+              {
+                "id": "unit",
+                "value": "Bps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #D"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Average Bandwidth Transmitted"
+              },
+              {
+                "id": "unit",
+                "value": "Bps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #E"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Rate of Received Packets"
+              },
+              {
+                "id": "unit",
+                "value": "pps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #F"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Rate of Transmitted Packets"
+              },
+              {
+                "id": "unit",
+                "value": "pps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #G"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Rate of Received Packets Dropped"
+              },
+              {
+                "id": "unit",
+                "value": "pps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #H"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Rate of Transmitted Packets Dropped"
+              },
+              {
+                "id": "unit",
+                "value": "pps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "namespace"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Namespace"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": false,
+                    "title": "Drill down",
+                    "url": "d/8b7a8b326d7a6f1f04244066368c67af/kubernetes-networking-namespace-pods?orgId=1&refresh=30s&var-namespace=${__value.text}"
+                  }
+                ]
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 9,
         "w": 24,
@@ -384,161 +610,20 @@
         "y": 10
       },
       "id": 5,
-      "lines": true,
-      "linewidth": 1,
       "minSpan": 24,
-      "nullPointMode": "null as zero",
-      "renderer": "flot",
-      "scroll": true,
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": false
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "spaceLength": 10,
-      "span": 24,
-      "styles": [
-        {
-          "alias": "Time",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Time",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "Current Bandwidth Received",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #A",
-          "thresholds": [],
-          "type": "number",
-          "unit": "Bps"
-        },
-        {
-          "alias": "Current Bandwidth Transmitted",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #B",
-          "thresholds": [],
-          "type": "number",
-          "unit": "Bps"
-        },
-        {
-          "alias": "Average Bandwidth Received",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #C",
-          "thresholds": [],
-          "type": "number",
-          "unit": "Bps"
-        },
-        {
-          "alias": "Average Bandwidth Transmitted",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #D",
-          "thresholds": [],
-          "type": "number",
-          "unit": "Bps"
-        },
-        {
-          "alias": "Rate of Received Packets",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #E",
-          "thresholds": [],
-          "type": "number",
-          "unit": "pps"
-        },
-        {
-          "alias": "Rate of Transmitted Packets",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #F",
-          "thresholds": [],
-          "type": "number",
-          "unit": "pps"
-        },
-        {
-          "alias": "Rate of Received Packets Dropped",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #G",
-          "thresholds": [],
-          "type": "number",
-          "unit": "pps"
-        },
-        {
-          "alias": "Rate of Transmitted Packets Dropped",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #H",
-          "thresholds": [],
-          "type": "number",
-          "unit": "pps"
-        },
-        {
-          "alias": "Namespace",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": true,
-          "linkTooltip": "Drill down",
-          "linkUrl": "d/8b7a8b326d7a6f1f04244066368c67af/kubernetes-networking-namespace-pods?orgId=1&refresh=30s&var-namespace=${__value.text}",
-          "pattern": "namespace",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
@@ -638,8 +723,15 @@
         }
       ],
       "title": "Current Status",
-      "transform": "table",
-      "type": "table-old"
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
     },
     {
       "collapse": true,

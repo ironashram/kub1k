@@ -369,16 +369,194 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "columns": [],
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "$datasource"
       },
-      "fill": 1,
-      "fontSize": "100%",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "decimals": 2,
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "CPU Usage"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "CPU Requests"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #C"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "CPU Requests %"
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #D"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "CPU Limits"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #E"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "CPU Limits %"
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "container"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Container"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -387,143 +565,19 @@
       },
       "id": 3,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null as zero",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "styles": [
-        {
-          "alias": "Time",
-          "align": "auto",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "alias": "CPU Usage",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #A",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        },
-        {
-          "alias": "CPU Requests",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #B",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        },
-        {
-          "alias": "CPU Requests %",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #C",
-          "thresholds": [],
-          "type": "number",
-          "unit": "percentunit"
-        },
-        {
-          "alias": "CPU Limits",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #D",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        },
-        {
-          "alias": "CPU Limits %",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "Value #E",
-          "thresholds": [],
-          "type": "number",
-          "unit": "percentunit"
-        },
-        {
-          "alias": "Container",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "linkTargetBlank": false,
-          "linkTooltip": "Drill down",
-          "linkUrl": "",
-          "pattern": "container",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "align": "auto",
-          "colors": [],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        }
-      ],
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
@@ -576,33 +630,16 @@
           "refId": "E"
         }
       ],
-      "thresholds": [],
       "title": "CPU Quota",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transform": "table",
-      "type": "table-old",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
+      "transformations": [
         {
-          "format": "short",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
         }
-      ]
+      ],
+      "type": "table"
     },
     {
       "collapsed": false,
@@ -639,12 +676,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 25
       },
+      "hiddenSeries": false,
       "id": 4,
       "interval": "1m",
       "legend": {
@@ -661,7 +700,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -720,6 +763,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Memory Usage (WSS)",
       "tooltip": {
         "shared": false,
@@ -744,7 +788,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "collapsed": false,
@@ -775,12 +822,14 @@
     {
       "aliasColors": {},
       "bars": false,
+      "columns": [],
       "dashLength": 10,
       "dashes": false,
       "datasource": {
         "uid": "$datasource"
       },
       "fill": 1,
+      "fontSize": "100%",
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -808,6 +857,11 @@
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
@@ -1111,12 +1165,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 41
       },
+      "hiddenSeries": false,
       "id": 6,
       "interval": "1m",
       "legend": {
@@ -1133,7 +1189,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1153,6 +1213,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Receive Bandwidth",
       "tooltip": {
         "shared": false,
@@ -1177,7 +1238,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "aliasColors": {},
@@ -1188,12 +1252,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 41
       },
+      "hiddenSeries": false,
       "id": 7,
       "interval": "1m",
       "legend": {
@@ -1210,7 +1276,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1230,6 +1300,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Transmit Bandwidth",
       "tooltip": {
         "shared": false,
@@ -1254,7 +1325,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "collapsed": false,
@@ -1291,12 +1365,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 49
       },
+      "hiddenSeries": false,
       "id": 8,
       "interval": "1m",
       "legend": {
@@ -1313,7 +1389,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1333,6 +1413,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Rate of Received Packets",
       "tooltip": {
         "shared": false,
@@ -1357,7 +1438,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "aliasColors": {},
@@ -1368,12 +1452,14 @@
         "uid": "$datasource"
       },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 49
       },
+      "hiddenSeries": false,
       "id": 9,
       "interval": "1m",
       "legend": {
@@ -1390,7 +1476,11 @@
       "lines": true,
       "linewidth": 0,
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "10.4.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1410,6 +1500,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Rate of Transmitted Packets",
       "tooltip": {
         "shared": false,
@@ -1434,7 +1525,10 @@
           "logBase": 1,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "collapsed": false,
