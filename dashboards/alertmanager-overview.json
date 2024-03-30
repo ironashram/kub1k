@@ -409,7 +409,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -425,7 +426,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 58
+        "y": 37
       },
       "id": 5,
       "options": {
