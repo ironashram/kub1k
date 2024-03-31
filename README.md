@@ -71,3 +71,12 @@ The Helm charts included in this project are:
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+
+## Credits
+
+The grafana dashboards are based on the followings projects:
+
+- [Kubernetes Mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin)
+- [Prometheus 2.0 Grafana dashboard](https://github.com/FUSAKLA/Prometheus2-grafana-dashboard)
+- [Grafana Dashboards K8s](https://github.com/dotdc/grafana-dashboards-kubernetes)
