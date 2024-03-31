@@ -138,6 +138,7 @@
     },
     {
       "datasource": {
+        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "How much error budget is left looking at our 0.990% availability guarantees?",
@@ -193,7 +194,7 @@
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -223,10 +224,12 @@
           "datasource": {
             "uid": "$datasource"
           },
-          "expr": "100 * (apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"} - 0.990000)",
+          "editorMode": "code",
+          "expr": "(0.990000 - apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"}) * 2592000",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "errorbudget",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1751,7 +1754,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
