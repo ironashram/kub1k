@@ -8,7 +8,7 @@ resource "helm_release" "metallb_ingress" {
 
   repository = "https://metallb.github.io/metallb"
   chart      = "metallb"
-  version    = "0.14.3"
+  version    = "0.14.4"
   namespace  = "metallb-system"
 
   create_namespace = true
