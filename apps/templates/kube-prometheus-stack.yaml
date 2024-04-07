@@ -148,6 +148,7 @@ spec:
                hosts:
                - prometheus.lab.m1k.cloud
           prometheusSpec:
+            retention: 45d
             storageSpec:
               volumeClaimTemplate:
                 spec:
