@@ -22,16 +22,17 @@ spec:
           scanJobsRetryDelay: 180s
           scannerReportTTL: "72h"
         trivy:
-          severity: CRITICAL
+          severity: HIGH,CRITICAL
+          slow: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100M
+            limits:
+              cpu: 500m
+              memory: 768M
         serviceMonitor:
           enabled: true
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100M
-          limits:
-            cpu: 500m
-            memory: 768M
   destination:
     name: in-cluster
     namespace: trivy-system
