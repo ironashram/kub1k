@@ -145,18 +145,20 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
-            "axisCenteredZero": false,
+            "axisCenteredZero": true,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
+            "axisSoftMax": 240,
+            "axisSoftMin": -60,
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 100,
-            "gradientMode": "none",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -179,22 +181,23 @@
               "mode": "off"
             }
           },
-          "decimals": 3,
+          "decimals": 1,
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "green",
+                "value": 0
               }
             ]
           },
-          "unit": "s"
+          "unit": "m"
         },
         "overrides": []
       },
@@ -225,9 +228,12 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "expr": "(0.990000 - apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"}) * 2592000",
+          "exemplar": false,
+          "expr": "$__range_s * (apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"} - 0.99) / 60",
           "format": "time_series",
-          "intervalFactor": 2,
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
           "legendFormat": "errorbudget",
           "range": true,
           "refId": "A"
@@ -1754,7 +1760,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-30d",
     "to": "now"
   },
   "timepicker": {
