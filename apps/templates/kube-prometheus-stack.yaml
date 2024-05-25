@@ -349,6 +349,7 @@ spec:
                   targetLabel: "instance"
                   sourceLabels:
                     - "__meta_kubernetes_pod_node_name"
+  ignoreDifferences:
   - group: "apps"
     kind: "Deployment"
     jsonPointers:
