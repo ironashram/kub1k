@@ -160,9 +160,7 @@ spec:
 
         prometheusOperator:
           admissionWebhooks:
-            patch:
-              enabled:
-                false
+            failurePolicy: Ignore
 
         kubeApiServer:
           serviceMonitor:
