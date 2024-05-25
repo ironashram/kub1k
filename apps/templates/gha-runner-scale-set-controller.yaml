@@ -24,7 +24,7 @@ spec:
   - group: "apps"
     kind: "Deployment"
     jsonPointers:
-    - /spec/containers/resources
+    - /spec/template/spec/containers/resources
   destination:
     name: in-cluster
     namespace: arc-runners
