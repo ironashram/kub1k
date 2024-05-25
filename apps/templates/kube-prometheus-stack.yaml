@@ -354,6 +354,7 @@ spec:
     kind: "Deployment"
     jqPathExpressions:
     - .spec.template.spec.containers[].resources
+    - .spec.template.spec.initContainers[].resources
   - group: "apps"
     kind: "DaemonSet"
     jqPathExpressions:
