@@ -20,6 +20,11 @@ spec:
       values: |
         flags:
           logLevel: debug
+  ignoreDifferences:
+  - group: "apps"
+    kind: "Deployment"
+    jsonPointers:
+    - /spec/containers/resources
   destination:
     name: in-cluster
     namespace: arc-runners

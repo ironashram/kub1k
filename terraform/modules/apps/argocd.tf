@@ -7,7 +7,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = "argocd"
-  version    = "6.9.3"
+  version    = "6.11.1"
 
   create_namespace = true
 
@@ -23,6 +23,8 @@ dex:
 notifications:
   enabled: false
 configs:
+  cm:
+    application.resourceTrackingMethod: annotation
   params:
     server.insecure: true
 controller:
