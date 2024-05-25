@@ -42,31 +42,31 @@ For more detailed instructions, please refer to the [Terraform documentation](ht
 
 The ArgoCD applications included in this project are:
 
-1. **Cert-Manager**: A native Kubernetes certificate management controller. It can help with issuing certificates from a variety of sources, such as Let’s Encrypt, HashiCorp Vault, Venafi, a simple signing key pair, or self-signed.
+1. **Cert-Manager**
 
-2. **External-Secrets-Operator**: Kubernetes External Secrets allows you to use external secret management systems, like AWS Secrets Manager or Vault, with Kubernetes. Secrets are written with a controller into Kubernetes secrets. Then they can be used via a reference in the pod spec.
+2. **External-Secrets-Operator**
 
-3. **Lets-Encrypt-Issuers**: This application sets up ClusterIssuer resources for cert-manager for issuing Let's Encrypt certificates.
+3. **Lets-Encrypt-Issuers**
 
-4. **MetalLB-CR**: MetalLB is a load balancer implementation for bare metal Kubernetes clusters, using standard routing protocols. This application sets up the Custom Resources required for MetalLB.
+4. **MetalLB-CR**
 
-5. **Kube-Prometheus-Stack**: The Kube-Prometheus-Stack provides easy monitoring definitions for Kubernetes services and deployment and management of Prometheus instances.
+5. **Kube-Prometheus-Stack**
 
-6. **Secrets**: This application manages the deployment of Kubernetes secrets.
+6. **Secrets**
 
-7. **Synology-CSI**: Synology Container Storage Interface (CSI) is a driver that exposes Synology storage appliances to container orchestrators for persistent storage.
+7. **Synology-CSI**
 
 ## Custom Helm Charts
 
 The Helm charts included in this project are:
 
-1. **ArgoCD-App-of-Apps**: This chart deploys an ArgoCD application that references other ArgoCD applications, allowing you to manage multiple applications in a centralized manner.
+1. **ArgoCD-App-of-Apps**: Deploys an ArgoCD application that references other ArgoCD applications, allowing you to manage multiple applications in a centralized manner.
 
-2. **Lets-Encrypt-Issuers**: This chart deploys the necessary resources for setting up Let's Encrypt issuers in cert-manager.
+2. **Lets-Encrypt-Issuers**: Necessary resources for setting up Let's Encrypt issuers in cert-manager.
 
-3. **MetalLB-CR**: This chart deploys the necessary Custom Resources for setting up MetalLB in your cluster.
+3. **MetalLB-CR**: Custom Resources for setting up MetalLB in your cluster.
 
-4. **Secrets**: This chart manages the deployment of various secrets in your Kubernetes cluster, including the Cloudflare API key for cert-manager, ClusterSecretStore, and Synology CSI client info secret.
+4. **Secrets**: Secrets in your Kubernetes cluster, including the Cloudflare API key for cert-manager, ClusterSecretStore, and Synology CSI client info secret.
 
 ## License
 
