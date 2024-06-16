@@ -21,6 +21,15 @@ spec:
           scanJobsConcurrentLimit: 1
           scanJobsRetryDelay: 180s
           scannerReportTTL: "72h"
+          metricsFindingsEnabled: true
+          metricsVulnIdEnabled: true
+          exposedSecretScannerEnabled: true
+          metricsExposedSecretInfo: true
+          metricsConfigAuditInfo: true
+          metricsRbacAssessmentInfo: true
+          metricsInfraAssessmentInfo: true
+          metricsImageInfo: true
+          metricsClusterComplianceInfo: true
         trivy:
           severity: HIGH,CRITICAL
           slow: true
