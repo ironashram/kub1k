@@ -129,6 +129,8 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/persistent-volumes.json
               prometheus-overview:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/prometheus-overview.json
+              trivy-operator-vulnerabilities:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
 
         prometheus:
           serviceMonitor:
