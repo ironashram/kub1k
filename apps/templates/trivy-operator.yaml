@@ -33,6 +33,7 @@ spec:
               memory: 768M
         serviceMonitor:
           enabled: true
+          namespace: monitoring
   destination:
     name: in-cluster
     namespace: trivy-system
