@@ -45,6 +45,12 @@ spec:
           namespace: monitoring
           labels:
             release: kube-prometheus-stack
+  ignoreDifferences:
+    - group: aquasecurity.github.io
+      kind: ClusterComplianceReport
+      jsonPointers:
+        - metadata/platform
+        - metadata/type
   destination:
     name: in-cluster
     namespace: trivy-system
