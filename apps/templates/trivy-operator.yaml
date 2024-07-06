@@ -45,6 +45,11 @@ spec:
           namespace: monitoring
           labels:
             release: kube-prometheus-stack
+  ignoreDifferences:
+    - group: "*"
+      kind: "ClusterComplianceReport"
+      jsonPointers:
+        - /spec
   destination:
     name: in-cluster
     namespace: trivy-system
