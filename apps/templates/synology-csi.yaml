@@ -13,8 +13,8 @@ spec:
       selfHeal: true
   source:
     chart: synology-csi
-    repoURL: https://ironashram.github.io/synology-csi-chart
-    targetRevision: 0.9.8-SNAPSHOT
+    repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
+    targetRevision: 0.9.10
     helm:
       values: |
         clientInfoSecret:
