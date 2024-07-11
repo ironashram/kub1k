@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: https://github.com/ironashram/kub1k.git
     path: charts/lets-encrypt-issuers
-    targetRevision: HEAD
+    targetRevision: main
     helm:
       values: |
         environment: {{ .Values.environment }}
