@@ -15,20 +15,17 @@ resource "helm_release" "cilium" {
   max_history = 0
 
   values = [<<EOF
-kubeProxyReplacement: true
 k8sServiceHost: 10.0.0.241
 k8sServicePort: 6443
+kubeProxyReplacement: true
+l2announcements:
+  enabled: true
 externalIPs:
   enabled: true
-bpf:
-  hostLegacyRouting: false
-  masquerade: false
 ipam:
   operator:
     clusterPoolIPv4PodCIDRList: ["172.27.0.0/21"]
     clusterPoolIPv4MaskSize: 24
-ipv4NativeRoutingCIDR: "172.27.0.0/21"
-routingMdde: "native"
 EOF
   ]
 
@@ -47,8 +44,25 @@ resource "kubernetes_manifest" "cilium_lb_pool" {
     spec = {
       blocks = [
         {
-          cidr = "10.0.0.231/32"
+          cidr = "10.0.0.230/32"
         }
+      ]
+    }
+  }
+}
+
+resource "kubernetes_manifest" "cilium_l2_policy" {
+  manifest = {
+    apiVersion = "cilium.io/v2alpha1"
+    kind       = "CiliumL2AnnouncementPolicy"
+    metadata = {
+      name = "l2-policy"
+    }
+    spec = {
+      externalIPs     = true
+      loadBalancerIPs = true
+      interfaces = [
+        "ens3"
       ]
     }
   }
