@@ -15,7 +15,7 @@ spec:
   source:
     chart: gha-runner-scale-set
     repoURL: ghcr.io/actions/actions-runner-controller-charts
-    targetRevision: 0.9.2
+    targetRevision: 0.9.3
     helm:
       values: |
         githubConfigUrl: "https://github.com/ironashram/mail-matrix-server"
@@ -71,6 +71,12 @@ spec:
               emptyDir: {}
             - name: dind-externals
               emptyDir: {}
+  ignoreDifferences:
+  - group: "*"
+    kind: "*"
+    managedFieldsManagers:
+    - manager
+    - cilium-agent
   destination:
     name: in-cluster
     namespace: arc-runners
