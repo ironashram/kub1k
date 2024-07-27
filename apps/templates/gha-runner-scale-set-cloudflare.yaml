@@ -71,13 +71,6 @@ spec:
               emptyDir: {}
             - name: dind-externals
               emptyDir: {}
-  ignoreDifferences:
-  - group: rbac.authorization.k8s.io/v1
-    kind: Role
-  - group: cilium.io/v2
-    kind: CiliumIdentity
-  - group: actions.github.com/v1alpha1
-    kind: AutoscalingListener
   destination:
     name: in-cluster
     namespace: arc-runners

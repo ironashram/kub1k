@@ -24,8 +24,8 @@ dex:
 notifications:
   enabled: false
 configs:
-  # cm:
-  #   application.resourceTrackingMethod: annotation
+  cm:
+    application.resourceTrackingMethod: annotation
   params:
     server.insecure: true
 controller:

@@ -71,12 +71,6 @@ spec:
               emptyDir: {}
             - name: dind-externals
               emptyDir: {}
-  ignoreDifferences:
-  - group: "*"
-    kind: "*"
-    managedFieldsManagers:
-    - manager
-    - cilium-agent
   destination:
     name: in-cluster
     namespace: arc-runners
