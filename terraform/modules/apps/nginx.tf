@@ -18,7 +18,7 @@ EOF
 *********/
 
 resource "helm_release" "ingress_nginx" {
-  depends_on = [helm_release.tigera_operator]
+  depends_on = [helm_release.cilium]
   name       = "ingress-nginx"
 
   repository = "https://kubernetes.github.io/ingress-nginx"

@@ -1,5 +1,0 @@
-apiVersion: v2
-description: A Helm chart for Vault, a tool for managing secrets
-name: metallb-cr
-version: 0.0.1
-appVersion: 0.13.10
