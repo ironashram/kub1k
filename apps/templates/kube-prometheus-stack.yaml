@@ -161,6 +161,8 @@ spec:
                       storage: 50Gi
 
         prometheusOperator:
+          tls:
+            enabled: false
           admissionWebhooks:
             enabled: false
             failurePolicy: Ignore
