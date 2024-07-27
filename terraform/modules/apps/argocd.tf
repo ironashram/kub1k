@@ -2,13 +2,13 @@
   ArgoCD
 *********/
 resource "helm_release" "argocd" {
-  depends_on = [helm_release.cilium]
-  name       = "argocd"
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  namespace  = "argocd"
-  version    = "7.3.11"
-
+  depends_on       = [helm_release.cilium, helm_release.cert_manager]
+  name             = "argocd"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  namespace        = "argocd"
+  version          = "7.3.11"
+  disable_webhooks = true
 
   create_namespace = true
 
@@ -43,13 +43,13 @@ server:
     ingressClassName: nginx
     hostname: argocd.lab.m1k.cloud
     tls: true
-  #certificate:
-  #  enabled: true
-  #  domain: argocd.lab.m1k.cloud
-  #  issuer:
-  #    group: cert-manager.io
-  #    kind: ClusterIssuer
-  #    name: letsencrypt-prod
+  certificate:
+    enabled: true
+    domain: argocd.lab.m1k.cloud
+    issuer:
+      group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt-prod
 EOF
   ]
 

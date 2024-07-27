@@ -36,3 +36,20 @@ EOF
     command = "sleep 60"
   }
 }
+
+resource "kubernetes_manifest" "cilium_lb_pool" {
+  manifest = {
+    apiVersion = "cilium.io/v2alpha1"
+    kind       = "CiliumLoadBalancerIPPool"
+    metadata = {
+      name = "lb-pool"
+    }
+    spec = {
+      blocks = [
+        {
+          cidr = "10.0.0.231/32"
+        }
+      ]
+    }
+  }
+}
