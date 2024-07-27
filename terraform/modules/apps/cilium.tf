@@ -26,6 +26,22 @@ ipam:
   operator:
     clusterPoolIPv4PodCIDRList: ["172.27.0.0/21"]
     clusterPoolIPv4MaskSize: 24
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      enabled: true
+      className: nginx
+      hosts:
+        - hubble.lab.m1k.cloud
+      tls:
+        - secretName: hubble-cert
+          hosts:
+          - hubble.lab.m1k.cloud
 EOF
   ]
 
