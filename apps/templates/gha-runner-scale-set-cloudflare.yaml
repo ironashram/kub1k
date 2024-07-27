@@ -72,11 +72,10 @@ spec:
             - name: dind-externals
               emptyDir: {}
   ignoreDifferences:
-  - group: "*"
-    kind: "*"
-    managedFieldsManagers:
-    - manager
-    - cilium-agent
+  - group: rbac.authorization.k8s.io
+    kind: ServiceAccount
+  - group: rbac.authorization.k8s.io
+    kind: RoleBinding
   destination:
     name: in-cluster
     namespace: arc-runners
