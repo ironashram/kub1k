@@ -73,9 +73,9 @@ spec:
               emptyDir: {}
   ignoreDifferences:
   - group: rbac.authorization.k8s.io
-    kind: ServiceAccount
-  - group: rbac.authorization.k8s.io
-    kind: RoleBinding
+    kind: "*"
+  - group: cilium.io/v2
+    kind: "*"
   destination:
     name: in-cluster
     namespace: arc-runners
