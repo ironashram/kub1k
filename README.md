@@ -8,9 +8,8 @@ This repository contains the Terraform code for deploying and managing a homelab
 The Kub1k project aims to provide a scalable and reliable Kubernetes cluster using the K3s lightweight Kubernetes distribution. The infrastructure is provisioned using Terraform and includes the following components:
 
 - ArgoCD: A GitOps continuous delivery tool for Kubernetes.
-- Calico: A networking and network security solution for Kubernetes.
 - External Secrets: A controller for managing secrets stored in external secret management systems.
-- MetalLB: A load balancer implementation for bare metal Kubernetes clusters.
+- Cilium: Networking and security layer, provides both networking capabilities, such as load balancing and routing, and security features like network policies and endpoint protection.
 - Nginx Ingress Controller: An Ingress controller for Kubernetes using Nginx.
 - Vault: A secrets management tool for securely storing and accessing sensitive information.
 - Github Runners: Runner scale sets is a group of homogeneous runners that can be assigned jobs from GitHub Actions.
@@ -48,13 +47,11 @@ The ArgoCD applications included in this project are:
 
 3. **Lets-Encrypt-Issuers**
 
-4. **MetalLB-CR**
+4. **Kube-Prometheus-Stack**
 
-5. **Kube-Prometheus-Stack**
+5. **Secrets**
 
-6. **Secrets**
-
-7. **Synology-CSI**
+6. **Synology-CSI**
 
 ## Custom Helm Charts
 
@@ -64,9 +61,7 @@ The Helm charts included in this project are:
 
 2. **Lets-Encrypt-Issuers**: Necessary resources for setting up Let's Encrypt issuers in cert-manager.
 
-3. **MetalLB-CR**: Custom Resources for setting up MetalLB in your cluster.
-
-4. **Secrets**: Secrets in your Kubernetes cluster, including the Cloudflare API key for cert-manager, ClusterSecretStore, and Synology CSI client info secret.
+3. **Secrets**: Secrets in your Kubernetes cluster, including the Cloudflare API key for cert-manager, ClusterSecretStore, and Synology CSI client info secret.
 
 ## License
 
