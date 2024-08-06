@@ -8,7 +8,7 @@ resource "helm_release" "cert_manager" {
 
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
-  version    = "1.15.1"
+  version    = "1.15.2"
   namespace  = "cert-manager"
 
   create_namespace = true
@@ -16,7 +16,8 @@ resource "helm_release" "cert_manager" {
   max_history = 0
 
   values = [<<EOF
-installCRDs: true
+crds:
+  enabled: true
 EOF
   ]
 }
