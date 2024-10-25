@@ -5,10 +5,10 @@
 resource "helm_release" "cilium" {
   name = "cilium"
 
-  repository = "https://helm.cilium.io/"
-  chart      = "cilium"
-  version    = "1.16.1"
-  namespace  = "kube-system"
+  repository = yamldecode(file("${path.module}/manifests/cilium.yaml")).spec.source.repoURL
+  chart      = yamldecode(file("${path.module}/manifests/cilium.yaml")).spec.source.chart
+  version    = yamldecode(file("${path.module}/manifests/cilium.yaml")).spec.source.targetRevision
+  namespace  = yamldecode(file("${path.module}/manifests/cilium.yaml")).metadata.namespace
 
   create_namespace = true
 

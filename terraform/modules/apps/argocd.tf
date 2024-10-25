@@ -3,11 +3,11 @@
 *********/
 resource "helm_release" "argocd" {
   depends_on       = [helm_release.cilium, helm_release.cert_manager]
-  name             = "argocd"
-  repository       = "https://argoproj.github.io/argo-helm"
-  chart            = "argo-cd"
-  namespace        = "argocd"
-  version          = "7.6.6"
+  name             = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.name
+  repository       = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.repoURL
+  chart            = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.chart
+  namespace        = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.namespace
+  version          = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.targetRevision
   disable_webhooks = true
 
   create_namespace = true

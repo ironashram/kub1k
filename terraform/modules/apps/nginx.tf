@@ -19,12 +19,12 @@ EOF
 
 resource "helm_release" "ingress_nginx" {
   depends_on = [helm_release.cilium, helm_release.cert_manager]
-  name       = "ingress-nginx"
+  name       = yamldecode(file("${path.module}/manifests/nginx.yaml")).metadata.name
 
-  repository = "https://kubernetes.github.io/ingress-nginx"
-  chart      = "ingress-nginx"
-  version    = "4.11.1"
-  namespace  = "ingress-nginx"
+  repository = yamldecode(file("${path.module}/manifests/nginx.yaml")).spec.source.repoURL
+  chart      = yamldecode(file("${path.module}/manifests/nginx.yaml")).spec.source.chart
+  version    = yamldecode(file("${path.module}/manifests/nginx.yaml")).spec.source.targetRevision
+  namespace  = yamldecode(file("${path.module}/manifests/nginx.yaml")).metadata.namespace
 
   create_namespace = true
 
