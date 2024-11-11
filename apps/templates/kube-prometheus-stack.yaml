@@ -136,6 +136,12 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
 
         prometheus:
+          prometheusSpec:
+            serviceMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorNamespaceSelector:
+              matchExpressions:
+              - key: kubernetes.io/metadata.name
+                operator: Exists
           serviceMonitor:
             relabelings:
               - action: replace
