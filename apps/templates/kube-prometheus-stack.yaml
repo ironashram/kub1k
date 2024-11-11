@@ -134,6 +134,8 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/prometheus-overview.json
               trivy-operator-vulnerabilities:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
+              kubescape:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/kubescape.json
 
         prometheus:
           serviceMonitor:
