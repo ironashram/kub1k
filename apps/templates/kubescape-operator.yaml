@@ -26,12 +26,6 @@ spec:
         kubescape:
           serviceMonitor:
             enabled: true
-            namespace: monitoring
-        nodeAgent:
-          prometheusExporter: enable
-          serviceMonitor:
-            enabled: true
-            namespace: monitoring
   destination:
     name: in-cluster
     namespace: kubescape
