@@ -21,14 +21,16 @@ spec:
     helm:
       values: |
         clusterName: kub1k
-        kubescape:
-          serviceMonitor:
-            enabled: true
-            namespace: monitoring
-        nodeAgent:
-          serviceMonitor:
-            enabled: true
-            namespace: monitoring
+        capabilities:
+          prometheusExporter: enable
+#        kubescape:
+#          serviceMonitor:
+#            enabled: true
+#            namespace: monitoring
+#        nodeAgent:
+#          serviceMonitor:
+#            enabled: true
+#            namespace: monitoring
   destination:
     name: in-cluster
     namespace: kubescape
