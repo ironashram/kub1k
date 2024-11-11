@@ -45,9 +45,6 @@ spec:
               memory: 768M
         serviceMonitor:
           enabled: true
-          namespace: monitoring
-          labels:
-            release: kube-prometheus-stack
   destination:
     name: in-cluster
     namespace: trivy-system
