@@ -17,13 +17,16 @@ spec:
   source:
     chart: kubescape-operator
     repoURL: https://kubescape.github.io/helm-charts
-    targetRevision: 1.22.7
+    targetRevision: 1.23.1
     helm:
       values: |
         clusterName: kub1k
         capabilities:
           prometheusExporter: enable
         kubescape:
+          serviceMonitor:
+            enabled: true
+        nodeAgent:
           serviceMonitor:
             enabled: true
   destination:

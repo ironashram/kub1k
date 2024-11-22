@@ -107,11 +107,11 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "kubescape_cluster_complianceScore",
+          "expr": "kubescape_cluster_riskScore",
           "refId": "A"
         }
       ],
-      "title": "Overtime Cluster Compliance score",
+      "title": "Overtime Cluster Risk score",
       "transparent": true,
       "type": "timeseries"
     },
@@ -198,7 +198,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum (kubescape_control_complianceScore) by (name)",
+          "expr": "sum (kubescape_control_riskScore) by (name)",
           "instant": false,
           "interval": "",
           "legendFormat": "{{link}}",
@@ -206,7 +206,7 @@
           "refId": "A"
         }
       ],
-      "title": "Overtime Controls Compliance score ",
+      "title": "Overtime Controls Risk score ",
       "type": "timeseries"
     },
     {
@@ -270,7 +270,7 @@
               "options": {
                 "mode": "exclude",
                 "names": [
-                  "{__name__=\"kubescape_framework_complianceScore\", container=\"kubescape\", endpoint=\"http\", instance=\"172.17.0.9:8080\", job=\"armo-kubescape\", name=\"DevOpsBest\", namespace=\"armo-system\", pod=\"armo-kubescape-66555d4db6-wznwg\", service=\"armo-kubescape\"}"
+                  "{__name__=\"kubescape_framework_riskScore\", container=\"kubescape\", endpoint=\"http\", instance=\"172.17.0.9:8080\", job=\"armo-kubescape\", name=\"DevOpsBest\", namespace=\"armo-system\", pod=\"armo-kubescape-66555d4db6-wznwg\", service=\"armo-kubescape\"}"
                 ],
                 "prefix": "All except:",
                 "readOnly": true
@@ -315,7 +315,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(kubescape_framework_complianceScore) by (name)",
+          "expr": "sum(kubescape_framework_riskScore) by (name)",
           "hide": false,
           "instant": true,
           "legendFormat": "{{name}}",
@@ -323,7 +323,7 @@
           "refId": "A"
         }
       ],
-      "title": "Overtime Frameworks Compliance score",
+      "title": "Overtime Frameworks Risk score",
       "type": "timeseries"
     },
     {
