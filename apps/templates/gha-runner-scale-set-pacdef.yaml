@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gha-runner-scale-set-pacdef
+  name: gha-runner-scale-set-metapac
   namespace: argocd
   labels:
     app.m1k.cloud/cluster: kub1k
@@ -21,7 +21,7 @@ spec:
     targetRevision: 0.9.3
     helm:
       values: |
-        githubConfigUrl: "https://github.com/ironashram/arch_pacdef"
+        githubConfigUrl: "https://github.com/ironashram/metapac"
         githubConfigSecret: "github-config-secret"
         controllerServiceAccount:
           namespace: arc-runners
