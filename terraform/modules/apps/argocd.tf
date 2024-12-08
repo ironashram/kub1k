@@ -28,6 +28,8 @@ configs:
     application.resourceTrackingMethod: annotation
   params:
     server.insecure: true
+  secret:
+    argocdServerAdminPassword: ${var.argocd_admin_password}
 controller:
   enableStatefulSet: true
   metrics:

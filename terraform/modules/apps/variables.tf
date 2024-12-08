@@ -17,3 +17,7 @@ variable "git_repo" {
 variable "git_repo_name" {
   sensitive = true
 }
+
+variable "argocd_admin_password" {
+  sensitive = true
+}
