@@ -14,46 +14,12 @@ resource "helm_release" "argocd" {
 
   max_history = 0
 
-  values = [<<EOF
-applicationSet:
-  enabled: false
-redis-ha:
-  enabled: false
-dex:
-  enabled: false
-notifications:
-  enabled: false
-configs:
-  cm:
-    application.resourceTrackingMethod: annotation
-  params:
-    server.insecure: true
-  secret:
-    argocdServerAdminPassword: ${var.argocd_admin_password}
-controller:
-  enableStatefulSet: true
-  metrics:
-    enabled: true
-repoServer:
-  replicas: 1
-  metrics:
-    enabled: true
-server:
-  replicas: 1
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    hostname: argocd.lab.m1k.cloud
-    tls: true
-  certificate:
-    enabled: true
-    domain: argocd.lab.m1k.cloud
-    issuer:
-      group: cert-manager.io
-      kind: ClusterIssuer
-      name: letsencrypt-prod
-EOF
-  ]
+  values = [data.template_file.argocd_values.rendered]
+
+  set_sensitive {
+    name  = "configs.secret.argocdServerAdminPassword"
+    value = var.argocd_admin_password
+  }
 
   set_sensitive {
     name  = "configs.repositories.${terraform.workspace}.name"
@@ -81,4 +47,46 @@ EOF
   }
 }
 
+/****************
+  ArgoCD values
+****************/
 
+data "template_file" "argocd_values" {
+  template = <<EOF
+global:
+  domain: argocd.lab.m1k.cloud
+applicationSet:
+  enabled: false
+redis-ha:
+  enabled: false
+dex:
+  enabled: false
+notifications:
+  enabled: false
+configs:
+  cm:
+    application.resourceTrackingMethod: annotation
+  params:
+    server.insecure: true
+controller:
+  enableStatefulSet: true
+  metrics:
+    enabled: true
+repoServer:
+  replicas: 1
+  metrics:
+    enabled: true
+server:
+  replicas: 1
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    tls: true
+  certificate:
+    enabled: true
+    issuer:
+      group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt-prod
+EOF
+}
