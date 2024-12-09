@@ -42,7 +42,7 @@
         "content": "The SLO (service level objective) and other metrics displayed on this dashboard are for informational purposes only.",
         "mode": "markdown"
       },
-      "pluginVersion": "10.4.1",
+      "pluginVersion": "10.4.0",
       "span": 12,
       "targets": [
         {
@@ -120,7 +120,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.1",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
@@ -138,27 +138,24 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "How much error budget is left looking at our 0.990% availability guarantees?",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisBorderShow": false,
-            "axisCenteredZero": true,
+            "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMax": 240,
-            "axisSoftMin": -60,
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 100,
-            "gradientMode": "scheme",
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -181,23 +178,22 @@
               "mode": "off"
             }
           },
-          "decimals": 1,
-          "fieldMinMax": false,
+          "decimals": 3,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "green",
-                "value": 0
+                "color": "red",
+                "value": 80
               }
             ]
           },
-          "unit": "m"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -227,15 +223,10 @@
           "datasource": {
             "uid": "$datasource"
           },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "$__range_s * (apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"} - 0.99) / 60",
+          "expr": "100 * (apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"} - 0.990000)",
           "format": "time_series",
-          "instant": false,
-          "interval": "",
-          "intervalFactor": 1,
+          "intervalFactor": 2,
           "legendFormat": "errorbudget",
-          "range": true,
           "refId": "A"
         }
       ],
@@ -306,7 +297,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.1",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
@@ -736,7 +727,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.1",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
@@ -1149,7 +1140,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1244,7 +1236,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1338,7 +1331,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1434,7 +1428,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1529,7 +1524,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1623,7 +1619,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1672,7 +1669,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "30s",
+  "refresh": "10s",
   "schemaVersion": 39,
   "tags": [
     "kubernetes-mixin"
@@ -1754,7 +1751,7 @@
     ]
   },
   "time": {
-    "from": "now-30d",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
