@@ -178,70 +178,16 @@ spec:
         kubeApiServer:
           serviceMonitor:
             metricRelabelings:
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
+              - sourceLabels: [ "__name__" ]
+                regex: "(apiserver|workqueue|rest_client|process|go)_(.+)"
+                action: keep
 
         kubelet:
           serviceMonitor:
-            cAdvisorRelabelings:
-              - action: replace
-                sourceLabels: [__metrics_path__]
-                targetLabel: metrics_path
-              - action: replace
-                targetLabel: instance
-                sourceLabels:
-                  - "node"
-            relabelings:
-              - action: replace
-                sourceLabels: [__metrics_path__]
-                targetLabel: metrics_path
-              - action: drop
-                sourceLabels: [service]
-                regex: prometheus-operator-kube-p-kubelet
             metricRelabelings:
-              - action: drop
-                regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
-
-        kubeControllerManager:
-          endpoints:
-            - 10.0.0.241
-          service:
-            enabled: true
-            port: 10257
-            targetPort: 10257
-          serviceMonitor:
-            https: true
-            insecureSkipVerify: true
-            metricRelabelings:
-              - action: drop
-                regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
+              - sourceLabels: [ "__name__" ]
+                regex: "(kubelet|storage|rest_client|process|go)_(.+)"
+                action: keep
 
         kubeEtcd:
           endpoints:
@@ -252,18 +198,35 @@ spec:
             targetPort: 2381
           serviceMonitor:
             metricRelabelings:
-              - action: drop
-                regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
+              - sourceLabels: [ "__name__" ]
+                regex: "(etcd|grpc|rest_client|process|go)_(.+)"
+                action: keep
+
+        kubeProxy:
+          endpoints:
+            - 10.0.0.241
+          service:
+            enabled: true
+            port: 10249
+            targetPort: 10249
+          serviceMonitor:
+            metricRelabelings:
+              - sourceLabels: [ "__name__" ]
+                regex: "(kubeproxy|rest_client|process|go)_(.+)"
+                action: keep
+
+        kubeControllerManager:
+          endpoints:
+            - 10.0.0.241
+          service:
+            enabled: true
+            port: 10257
+            targetPort: 10257
+          serviceMonitor:
+            metricRelabelings:
+              - sourceLabels: [ "__name__" ]
+                regex: "(workqueue|rest_client|process|go)_(.+)"
+                action: keep
 
         kubeScheduler:
           endpoints:
@@ -273,95 +236,11 @@ spec:
             port: 10259
             targetPort: 10259
           serviceMonitor:
-            https: true
-            insecureSkipVerify: true
             metricRelabelings:
-              - action: drop
-                regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
+              - sourceLabels: ["__name__"]
+                regex: "(scheduler|rest_client|process|go)_(.+)"
+                action: keep
 
-        kubeProxy:
-          endpoints:
-            - 10.0.0.241
-          service:
-            enabled: true
-            port: 10249
-            targetPort: 10249
-            selector:
-              k8s-app: kube-proxy
-          serviceMonitor:
-            metricRelabelings:
-              - action: drop
-                regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
-
-        coreDns:
-          serviceMonitor:
-            metricRelabelings:
-              - action: drop
-                regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
-
-        kubeDns:
-          serviceMonitor:
-            metricRelabelings:
-              - action: drop
-                regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: "etcd_request_duration_seconds_bucket"
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (scheduler_plugin_execution_duration_seconds_bucket)
-                sourceLabels: [__name__]
-              - action: drop
-                regex: (workqueue_work_duration_seconds_bucket)
-                sourceLabels: [__name__]
-
-        kube-state-metrics:
-          prometheus:
-            monitor:
-              relabelings:
-                - action: replace
-                  targetLabel: "instance"
-                  sourceLabels:
-                    - "__meta_kubernetes_pod_node_name"
-
-        prometheus-node-exporter:
-          prometheus:
-            monitor:
-              relabelings:
-                - action: replace
-                  targetLabel: "instance"
-                  sourceLabels:
-                    - "__meta_kubernetes_pod_node_name"
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
