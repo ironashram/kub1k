@@ -8,7 +8,6 @@ module "provision_k3s" {
   worker             = var.worker
   k3s_extra_args     = var.k3s_extra_args
   k3s_version        = var.k3s_version
-  kube_context       = var.kube_context
   kube_config_output = local.kube_config_output
   ssh_user           = data.vault_kv_secret_v2.ssh.data.user
 }

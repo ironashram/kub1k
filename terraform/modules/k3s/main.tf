@@ -9,7 +9,7 @@ resource "null_resource" "k3s_control" {
     command = <<EOT
             k3sup install \
             --ip ${each.value.ip} \
-            --context ${var.kube_context} \
+            --context ${terraform.workspace} \
             --user ${var.ssh_user} \
             --local-path ${var.kube_config_output} \
             --k3s-version ${var.k3s_version} \
@@ -49,7 +49,7 @@ resource "null_resource" "k3s_kubeconfig" {
             k3sup install \
             --skip-install \
             --ip ${var.control[0].ip} \
-            --context ${var.kube_context} \
+            --context ${terraform.workspace} \
             --user ${var.ssh_user} \
             --local-path ${var.kube_config_output}
         EOT

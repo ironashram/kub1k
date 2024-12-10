@@ -33,7 +33,3 @@ variable "worker" {
     ip   = "10.0.0.243"
   }]
 }
-
-variable "kube_context" {
-  default = "kub1k"
-}
