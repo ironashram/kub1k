@@ -1,6 +1,6 @@
-/*********
+/***************
   Cert Manager
-*********/
+***************/
 
 resource "helm_release" "cert_manager" {
   depends_on = [helm_release.cert_manager]
@@ -15,9 +15,8 @@ resource "helm_release" "cert_manager" {
 
   max_history = 0
 
-  values = [<<EOF
-crds:
-  enabled: true
-EOF
-  ]
+  set {
+    name  = "crds.enabled"
+    value = "true"
+  }
 }
