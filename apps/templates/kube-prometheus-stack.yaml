@@ -35,7 +35,7 @@ spec:
                - alertmanager.lab.m1k.cloud
 
         grafana:
-          defaultDashboardsEnabled: false
+          #defaultDashboardsEnabled: false
           #forceDeployDashboards: true
           admin:
             existingSecret: grafana-admin
