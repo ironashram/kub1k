@@ -23,8 +23,8 @@ spec:
       values: |
         githubConfigUrl: "https://github.com/ironashram/metapac"
         githubConfigSecret: "github-config-secret"
-        containerMode:
-          type: kubernetes
+        #containerMode:
+        #  type: kubernetes
         controllerServiceAccount:
           namespace: arc-runners
           name: gha-runner-scale-set-controller-gha-rs-controller
