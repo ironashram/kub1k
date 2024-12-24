@@ -24,13 +24,7 @@ spec:
         githubConfigUrl: "https://github.com/ironashram/metapac"
         githubConfigSecret: "github-config-secret"
         containerMode:
-          type: "kubernetes"
-          kubernetesModeWorkVolumeClaim:
-            accessModes: ["ReadWriteOnce"]
-            storageClassName: "local-path"
-            resources:
-              requests:
-                storage: 1Gi
+          type: kubernetes
         controllerServiceAccount:
           namespace: arc-runners
           name: gha-runner-scale-set-controller-gha-rs-controller
