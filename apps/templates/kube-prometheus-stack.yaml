@@ -67,6 +67,8 @@ spec:
                   path: /var/lib/grafana/dashboards/custom-grafana-dashboards
           dashboards:
             custom-grafana-dashboards:
+              k8s-system-api-server:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-system-api-server.json
               k8s-views-global:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-global.json
               k8s-views-namespaces:
