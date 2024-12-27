@@ -23,57 +23,17 @@ spec:
       values: |
         githubConfigUrl: "https://github.com/ironashram/m1k.cloud"
         githubConfigSecret: "github-config-secret"
+        containerMode:
+          type: "kubernetes"
+          kubernetesModeWorkVolumeClaim:
+            accessModes: ["ReadWriteOnce"]
+            storageClassName: "local-path"
+            resources:
+              requests:
+                storage: 2Gi
         controllerServiceAccount:
           namespace: arc-runners
           name: gha-runner-scale-set-controller-gha-rs-controller
-        template:
-          spec:
-            initContainers:
-            - name: init-dind-externals
-              image: ghcr.io/actions/actions-runner:latest
-              command: ["cp", "-r", "-v", "/home/runner/externals/.", "/home/runner/tmpDir/"]
-              volumeMounts:
-                - name: dind-externals
-                  mountPath: /home/runner/tmpDir
-            containers:
-            - name: runner
-              image: ghcr.io/actions/actions-runner:latest
-              command: ["/home/runner/run.sh"]
-              env:
-                - name: DOCKER_HOST
-                  value: unix:///var/run/docker.sock
-              volumeMounts:
-                - name: work
-                  mountPath: /home/runner/_work
-                - name: dind-sock
-                  mountPath: /var/run
-            - name: dind
-              image: docker:dind
-              args:
-                - dockerd
-                - --host=unix:///var/run/docker.sock
-                - --group=$(DOCKER_GROUP_GID)
-              env:
-                - name: DOCKER_GROUP_GID
-                  value: "123"
-                - name: DOCKER_IPTABLES_LEGACY
-                  value: "1"
-              securityContext:
-                privileged: true
-              volumeMounts:
-                - name: work
-                  mountPath: /home/runner/_work
-                - name: dind-sock
-                  mountPath: /var/run
-                - name: dind-externals
-                  mountPath: /home/runner/externals
-            volumes:
-            - name: work
-              emptyDir: {}
-            - name: dind-sock
-              emptyDir: {}
-            - name: dind-externals
-              emptyDir: {}
   destination:
     name: in-cluster
     namespace: arc-runners
