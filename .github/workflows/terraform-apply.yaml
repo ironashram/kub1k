@@ -11,15 +11,16 @@ on:
 jobs:
   apply:
     runs-on: gha-runner-scale-set-kub1k
+    container:
+      image: ubuntu:22.04
+    defaults:
+      run:
+        shell: bash
     permissions:
         contents: read
         pull-requests: write
+
     name: Apply approved plan
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
-      VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,6 +32,10 @@ jobs:
           workspace: kub1k
           auto_approve: true
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+          VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           TERRAFORM_PRE_RUN: |
             mkdir -p ~/.ssh
