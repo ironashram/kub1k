@@ -4,8 +4,10 @@
     "--cluster-init",
     "--etcd-expose-metrics",
     "--kube-controller-manager-arg=bind-address=0.0.0.0",
-    "--kube-proxy-arg=metrics-bind-address=0.0.0.0",
+    "--kube-controller-manager-arg=secure-port=10257",
+    "--kube-proxy-arg=metrics-bind-address=0.0.0.0:10249",
     "--kube-scheduler-arg=bind-address=0.0.0.0",
+    "--kube-scheduler-arg=secure-port=10259",
     "--flannel-backend=none",
     "--disable-network-policy",
     "--disable traefik",
@@ -14,7 +16,7 @@
 }
 
 variable "k3s_version" {
-  default = "v1.31.2+k3s1"
+  default = "v1.31.4+k3s1"
 }
 
 variable "control" {
