@@ -103,7 +103,7 @@ spec:
               matchExpressions:
               - key: kubernetes.io/metadata.name
                 operator: Exists
-            retention: 7d
+            retention: 45d
             storageSpec:
               volumeClaimTemplate:
                 spec:
