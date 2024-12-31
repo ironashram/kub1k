@@ -30,10 +30,10 @@ plan: init ## Runs a plan.
 .PHONY: comment-pr
 comment-pr: ## Posts the terraform plan as a PR comment.
 	@PLAN=$$(terraform $(TERRAFORM_GLOBAL_OPTIONS) show -no-color terraform.tfplan) && \
-	PR_NUMBER=$$(jq --raw-output .pull_request.number "$$GITHUB_EVENT_PATH") && \
-	REPO_OWNER=$$(jq --raw-output .repository.owner.login "$$GITHUB_EVENT_PATH") && \
-	REPO_NAME=$$(jq --raw-output .repository.name "$$GITHUB_EVENT_PATH") && \
-	COMMENT_BODY=$$(jq -n --arg body "$$PLAN" '{body: $$body}') && \
+	PR_NUMBER=$$(jq --raw-output .pull_request.number "$$GITHUB_EVENT_PATH" > /dev/null) && \
+	REPO_OWNER=$$(jq --raw-output .repository.owner.login "$$GITHUB_EVENT_PATH" > /dev/null) && \
+	REPO_NAME=$$(jq --raw-output .repository.name "$$GITHUB_EVENT_PATH" > /dev/null) && \
+	COMMENT_BODY=$$(jq -n --arg body "$$(echo "$$PLAN" | sed 's/^/    /')" '{body: $$body}') && \
 	curl -s -H "Authorization: token $$GITHUB_TOKEN" \
 		-H "Content-Type: application/json" \
 		-X POST \
