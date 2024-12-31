@@ -43,6 +43,6 @@ jobs:
 
       - name: Post plan as PR comment
         if: github.event_name == 'pull_request'
-        run: make comment-pr
+        run: make comment-pr kub1k
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
