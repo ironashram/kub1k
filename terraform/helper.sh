@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2124
+
 [[ "$DEBUG" ]] && set -x
 
 set -e
 
 terraform_init() {
-  declare desc="run terraform init in environment"
   local ENVIRONMENT="$1"; shift
   local TERRAFORM_GLOBAL_OPTIONS="$@"
 
@@ -12,7 +13,6 @@ terraform_init() {
 }
 
 main() {
-  declare desc="main function"
   local ENVIRONMENT="$1"; shift
   local TERRAFORM_GLOBAL_OPTIONS="$@"
 
