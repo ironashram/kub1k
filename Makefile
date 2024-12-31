@@ -25,6 +25,7 @@ output: init ## Show outputs of the entire state.
 
 .PHONY: plan
 plan: init ## Runs a plan.
+	@mkdir -p ~/.kube/config-files
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -out=terraform.tfplan
 
 .PHONY: comment-pr
@@ -38,11 +39,6 @@ plan-destroy: init ## Shows what a destroy would do.
 .PHONY: show
 show: init ## Shows resources
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) show
-
-.PHONY: get-kubeconfig
-get-kubeconfig: init ## Gets the kubeconfig from the state
-	@mkdir -p ~/.kube/config-files
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) output -json kubeconfig | jq > ~/.kube/config-files/$(ENV).yaml
 
 upgrade: ## Gets any provider updates
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) init -upgrade
