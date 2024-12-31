@@ -33,7 +33,7 @@ comment-pr: ## Posts the terraform plan as a PR comment.
 	PR_NUMBER=$$(jq --raw-output .pull_request.number "$$GITHUB_EVENT_PATH") && \
 	REPO_OWNER=$$(jq --raw-output .repository.owner.login "$$GITHUB_EVENT_PATH") && \
 	REPO_NAME=$$(jq --raw-output .repository.name "$$GITHUB_EVENT_PATH") && \
-    COMMENT_BODY=$$(jq -n --arg body "$$(echo "$$PLAN" | awk '{print "```\n" $$0 "\n```"}')" '{body: $$body}') && \
+    COMMENT_BODY=$$(jq -n --arg body "```\n$$PLAN\n```" '{body: $$body}') && \
 	curl -s -H "Authorization: token $$GITHUB_TOKEN" \
 		-H "Content-Type: application/json" \
 		-X POST \
