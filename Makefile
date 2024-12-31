@@ -16,7 +16,7 @@ graph: ## Runs the terraform grapher
 	@open graph.png
 
 .PHONY: init
-init: dependencies ## Initializes the terraform remote state backend and pulls the correct environments state.
+init: ## Initializes the terraform remote state backend and pulls the correct environments state.
 	@./terraform/helper.sh $(ENV) $(TERRAFORM_GLOBAL_OPTIONS)
 
 .PHONY: output
@@ -24,8 +24,21 @@ output: init ## Show outputs of the entire state.
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) output -json
 
 .PHONY: plan
-plan: init update ## Runs a plan.
+plan: init ## Runs a plan.
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -out=terraform.tfplan
+
+.PHONY: comment-pr
+comment-pr: ## Posts the terraform plan as a PR comment.
+	@PLAN=$$(terraform show -no-color terraform/terraform.tfplan) && \
+	PR_NUMBER=$$(jq --raw-output .pull_request.number "$$GITHUB_EVENT_PATH") && \
+	REPO_OWNER=$$(jq --raw-output .repository.owner.login "$$GITHUB_EVENT_PATH") && \
+	REPO_NAME=$$(jq --raw-output .repository.name "$$GITHUB_EVENT_PATH") && \
+	COMMENT_BODY=$$(jq -n --arg body "$$PLAN" '{body: $$body}') && \
+	curl -s -H "Authorization: token $$GITHUB_TOKEN" \
+		-H "Content-Type: application/json" \
+		-X POST \
+		-d "$$COMMENT_BODY" \
+		"https://api.github.com/repos/$$REPO_OWNER/$$REPO_NAME/issues/$$PR_NUMBER/comments"
 
 .PHONY: plan-destroy
 plan-destroy: init ## Shows what a destroy would do.

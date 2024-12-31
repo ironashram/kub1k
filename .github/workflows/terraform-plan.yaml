@@ -24,26 +24,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up ssh key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+          eval $(ssh-agent)
+          ssh-add ~/.ssh/id_rsa
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: terraform plan
-        uses: dflook/terraform-plan@v1.45
-        with:
-          path: terraform
-          workspace: kub1k
+        run: make plan kub1k
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
           VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+
+      - name: Post plan as PR comment
+        if: github.event_name == 'pull_request'
+        run: make comment-pr
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          TERRAFORM_PRE_RUN: |
-            mkdir -p ~/.ssh
-            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-            apt-get update
-            apt-get install openssh-client -y
-            eval $(ssh-agent)
-            ssh-add ~/.ssh/id_rsa
-            curl -sSL https://s3.m1k.cloud/tools/k3sup > k3sup
-            chmod +x k3sup
-            mv k3sup /usr/bin/k3sup
-            mkdir -p ~/.kube/config-files
