@@ -29,16 +29,7 @@ plan: init ## Runs a plan.
 
 .PHONY: comment-pr
 comment-pr: ## Posts the terraform plan as a PR comment.
-	@PLAN=$$(terraform show -no-color terraform/terraform.tfplan) && \
-	PR_NUMBER=$$(jq --raw-output .pull_request.number "$$GITHUB_EVENT_PATH") && \
-	REPO_OWNER=$$(jq --raw-output .repository.owner.login "$$GITHUB_EVENT_PATH") && \
-	REPO_NAME=$$(jq --raw-output .repository.name "$$GITHUB_EVENT_PATH") && \
-	COMMENT_BODY=$$(jq -n --arg body "$$PLAN" '{body: $$body}') && \
-	curl -s -H "Authorization: token $$GITHUB_TOKEN" \
-		-H "Content-Type: application/json" \
-		-X POST \
-		-d "$$COMMENT_BODY" \
-		"https://api.github.com/repos/$$REPO_OWNER/$$REPO_NAME/issues/$$PR_NUMBER/comments"
+	@./terraform/comment-pr.sh $(TERRAFORM_GLOBAL_OPTIONS)
 
 .PHONY: plan-destroy
 plan-destroy: init ## Shows what a destroy would do.
