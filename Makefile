@@ -37,7 +37,7 @@ comment-pr: ## Posts the terraform plan as a PR comment.
 	curl -s -H "Authorization: token $$GITHUB_TOKEN" \
 		-H "Content-Type: application/json" \
 		-X POST \
-		-d "{\"body\": \"$$COMMENT_BODY\"}" \
+		-d "$$COMMENT_BODY" \
 		"https://api.github.com/repos/$$REPO_OWNER/$$REPO_NAME/issues/$$PR_NUMBER/comments"
 
 .PHONY: plan-destroy
