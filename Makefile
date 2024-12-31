@@ -29,7 +29,7 @@ plan: init ## Runs a plan.
 
 .PHONY: comment-pr
 comment-pr: ## Posts the terraform plan as a PR comment.
-	@PLAN=$$(terraform show -no-color terraform/terraform.tfplan) && \
+	@PLAN=$$(terraform $(TERRAFORM_GLOBAL_OPTIONS) show -no-color terraform.tfplan) && \
 	PR_NUMBER=$$(jq --raw-output .pull_request.number "$$GITHUB_EVENT_PATH") && \
 	REPO_OWNER=$$(jq --raw-output .repository.owner.login "$$GITHUB_EVENT_PATH") && \
 	REPO_NAME=$$(jq --raw-output .repository.name "$$GITHUB_EVENT_PATH") && \
