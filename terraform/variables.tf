@@ -33,3 +33,11 @@ variable "worker" {
     ip   = "10.0.0.243"
   }]
 }
+
+variable "vm_storage_name" {
+  default = "yggstorage"
+}
+
+variable "vm_network_name" {
+  default = "yggnet"
+}

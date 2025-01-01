@@ -1,6 +1,29 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/appkins-org/synology" {
+  version     = "0.0.1"
+  constraints = "0.0.1"
+  hashes = [
+    "h1:CtKukSzsFVtPXnII631yVO9f/CTPF4p2kEIG2v0Z7II=",
+    "zh:01d28b8e74eda991c2f4c736147e365b90f10bcfcc06201d2e17e7b7cb6cb196",
+    "zh:0950bfdc79f640b836b9c756a4cea5f108bd2cbf32062179fef4a6cea18d7ad7",
+    "zh:0df7eae919cb4bc69e2265ca11e50dc7f05eb06a413179c6e7ddff7cc0aef337",
+    "zh:31b47049ced7b51913b3f15e03361d7dec83231a3c18e6b83db4356be171e488",
+    "zh:3b85a2713444dc6939c0bb0fdc7a8b86d259cd14c3333f8b6452e9ca8c0b126d",
+    "zh:4e18c2db1f33ff669b5107ae6edfdb8b25a91aeb80b1e3a6c46a085f2c86f1c7",
+    "zh:5113b5689aca0b3b31608eadec711396de6cbcb85d3bead97a6d2743cd9f060c",
+    "zh:625028b92d6ab5b349d96aca6f8c5c2d316ee81d73a9daff6d19d11ed4bd8594",
+    "zh:8f1373f2d262a85e8a93d986e0d66c3ca994a738a82bf3d6a705a6de818c64f8",
+    "zh:9908571cd588fc07706e63f3bd44af782a14eba135a840434f891aa76bac578c",
+    "zh:a92dcc2086b9ae70e6fc8c91019ed83e074282349f38212adb064062bc484a65",
+    "zh:b0777c4840a13ebaa04e52639e5ebb0081fe9124bb0dce9e167af0ae2f34e1d0",
+    "zh:b844a07e7cfb6f750ab2cf8fd10e68feab1f69d08fd098ed67992090f4212de7",
+    "zh:c8aa05ecfa4de66c9f64259834c292dd4ac6dbf8a38640f900208c50160400d9",
+    "zh:f569b65999264a9416862bca5cd2a6177d94ccb0424f3a4ef424428912b9cb3c",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/helm" {
   version     = "2.17.0"
   constraints = ">= 2.10.1"

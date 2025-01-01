@@ -12,5 +12,9 @@
       source  = "hashicorp/vault"
       version = ">=3.22.0"
     }
+    synology = {
+      source  = "appkins-org/synology"
+      version = "0.0.1"
+    }
   }
 }
