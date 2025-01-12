@@ -112,7 +112,7 @@ spec:
                   resources:
                     requests:
                       storage: 50Gi
-            nodeselector:
+            nodeSelector:
               node-role.kubernetes.io/worker: true
 
         prometheusOperator:
