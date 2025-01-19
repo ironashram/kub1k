@@ -14,7 +14,7 @@
 }
 
 variable "k3s_version" {
-  default = "v1.31.4+k3s1"
+  default = "v1.32.0+k3s1"
 }
 
 variable "control" {
