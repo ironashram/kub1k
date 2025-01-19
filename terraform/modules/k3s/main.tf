@@ -40,10 +40,6 @@ resource "null_resource" "k3s_worker" {
 resource "null_resource" "k3s_kubeconfig" {
   depends_on = [null_resource.k3s_control]
 
-  triggers = {
-    timestamp = timestamp()
-  }
-
   provisioner "local-exec" {
     command = <<EOT
             k3sup install \

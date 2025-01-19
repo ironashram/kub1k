@@ -15,8 +15,13 @@ graph: ## Runs the terraform grapher
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) graph -draw-cycles | dot -Tpng > graph.png
 	@open graph.png
 
+.PHONY: get-kubeconfig
+get-kubeconfig: ## Gets the kubeconfig for the environment if it doesn't exist.
+	@mkdir -p ~/.kube/config-files
+	@test -s ~/.kube/config-files/$(ENV).yaml || curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $(VAULT_TOKEN)" $(VAULT_ADDR)/v1/kv/data/$(ENV)/k3s | jq -r '.data.data.kubeconfig' | base64 -d > ~/.kube/config-files/$(ENV).yaml
+
 .PHONY: init
-init: ## Initializes the terraform remote state backend and pulls the correct environments state.
+init: get-kubeconfig ## Initializes the terraform remote state backend and pulls the correct environments state.
 	@./terraform/helper.sh $(ENV) $(TERRAFORM_GLOBAL_OPTIONS)
 
 .PHONY: output
@@ -25,7 +30,6 @@ output: init ## Show outputs of the entire state.
 
 .PHONY: plan
 plan: init ## Runs a plan.
-	@mkdir -p ~/.kube/config-files
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -out=terraform.tfplan
 
 .PHONY: comment-pr
