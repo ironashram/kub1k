@@ -33,8 +33,8 @@ if ! curl -s \
     -H "Content-Type: application/json" \
     -X POST \
     -d "$PAYLOAD" \
-    "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/$PR_NUMBER/comments"; then
-    echo "Error: Failed to post comment"
+    "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/$PR_NUMBER/comments" > /dev/null; then
+    echo "Error: Failed to post comment" >&2
     exit 1
 fi
 
