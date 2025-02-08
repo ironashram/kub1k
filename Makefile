@@ -49,4 +49,4 @@ upgrade: ## Gets any provider updates
 
 .PHONY: FORCE
 %: FORCE
-  @if [ "$(MAKECMDGOALS)" != "help" ] && [ "$(ENV)" = "" ]; then echo "Environment was not set properly, check README.md"; exit 1; fi
+        @if [ "$(MAKECMDGOALS)" != "help" ] && [ "$(ENV)" = "" ]; then echo "Environment was not set properly, check README.md"; exit 1; fi
