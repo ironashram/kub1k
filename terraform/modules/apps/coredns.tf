@@ -24,11 +24,9 @@ resource "helm_release" "coredns" {
 data "template_file" "coredns_values" {
   template = <<EOF
 service:
-  name: kube-dns
-  selector:
-    k8s-app: kube-dns
-  type: ClusterIP
+  clusterIP: "10.43.0.10"
 replicaCount: 3
-k8sAppLabelOverride: "kube-dns"
+podDisruptionBudget:
+  minAvailable: 1
 EOF
 }
