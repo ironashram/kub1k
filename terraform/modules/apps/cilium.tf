@@ -3,7 +3,8 @@
 *********/
 
 resource "helm_release" "cilium" {
-  name = "cilium"
+  depends_on = [helm_release.coredns]
+  name       = "cilium"
 
   repository = yamldecode(file("${path.module}/manifests/cilium.yaml")).spec.source.repoURL
   chart      = yamldecode(file("${path.module}/manifests/cilium.yaml")).spec.source.chart
