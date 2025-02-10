@@ -9,7 +9,8 @@
     "--flannel-backend=none",
     "--disable-network-policy",
     "--disable traefik",
-    "--disable servicelb"
+    "--disable servicelb",
+    "--disable coredns"
   ]
 }
 
