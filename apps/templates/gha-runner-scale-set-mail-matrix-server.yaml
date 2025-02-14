@@ -27,7 +27,7 @@ spec:
           type: "kubernetes"
           kubernetesModeWorkVolumeClaim:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "local-path"
+            storageClassName: "synology-csi-default"
             resources:
               requests:
                 storage: 2Gi
