@@ -36,6 +36,7 @@ spec:
             parameters:
               protocol: nfs
               location: /volume2
+              mountPermissions: "0755"
             reclaimPolicy: Delete
   destination:
     name: in-cluster
