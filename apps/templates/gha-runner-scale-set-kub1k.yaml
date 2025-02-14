@@ -26,8 +26,8 @@ spec:
         containerMode:
           type: "kubernetes"
           kubernetesModeWorkVolumeClaim:
-            accessModes: ["ReadWriteOnce"]
-            storageClassName: "synology-csi-default"
+            accessModes: ["ReadWriteMany"]
+            storageClassName: "synology-csi-nfs-delete"
             resources:
               requests:
                 storage: 2Gi
