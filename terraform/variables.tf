@@ -10,7 +10,8 @@
     "--disable-network-policy",
     "--disable traefik",
     "--disable servicelb",
-    "--disable coredns"
+    "--disable coredns",
+    "--disable local-storage"
   ]
 }
 
