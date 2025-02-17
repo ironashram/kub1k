@@ -1,4 +1,4 @@
-﻿variable "k3s_extra_args" {
+variable "k3s_extra_args" {
   default = [
     "--cluster-cidr=172.27.0.0/21",
     "--cluster-init",
