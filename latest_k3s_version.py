@@ -4,25 +4,25 @@ import requests
 import hcl2
 from semver import VersionInfo
 
-URL = "https://hub.docker.com/v2/repositories/rancher/k3s/tags/?page_size=100"
+K3S_RELEASE_URL = "https://api.github.com/repos/k3s-io/k3s/releases"
 NOVERSION = VersionInfo.parse("0.0.0")
-response = requests.get(URL, timeout=30)
+response = requests.get(K3S_RELEASE_URL, timeout=30)
 if response.raise_for_status() is not None:
     sys.exit(1)
-tags = response.json()["results"]
+tags = response.json()
 
 versions = []
 for tag in tags:
     try:
-        version = VersionInfo.parse(tag["name"].lstrip("v"))
-        if version.prerelease.startswith("k3s") and "-" not in version.prerelease:
+        version = VersionInfo.parse(tag["tag_name"].lstrip("v"))
+        if version.prerelease is None:
             versions.append(version)
     except ValueError:
         pass
 
 if versions:
-    latest_str = f"v{str(max(versions))}".replace("-", "+")
-    print(f"Latest: v{str(max(versions))}")
+    latest = f"v{str(max(versions))}"
+    print(f"Latest: {latest}")
 else:
     sys.exit(1)
 
@@ -40,12 +40,12 @@ print(f"Current: v{current_version}")
 
 if max(versions) > current_version and current_version != NOVERSION:
     with open("terraform/variables.tf", "w", encoding="utf8") as wfile:
-        replace_version = False
+        replace_flag = False
         for line in lines:
-            if replace_version:
-                line = f'  default = "{latest_str}"\n'
-                replace_version = False
+            if replace_flag:
+                line = f'  default = "{latest}"\n'
+                replace_flag = False
             elif "k3s_version" in line:
-                replace_version = True
+                replace_flag = True
             wfile.write(line)
-    print(f"Updated: v{str(max(versions))}")
+    print(f"Updated: v{current_version} -> {latest}")

@@ -44,9 +44,19 @@ plan-destroy: init ## Shows what a destroy would do.
 show: init ## Shows resources
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) show
 
+.PHONY: upgrade
 upgrade: ## Gets any provider updates
 	@terraform $(TERRAFORM_GLOBAL_OPTIONS) init -upgrade
 
+.PHONY: upgrade-kubernetes-version
+upgrade-kubernetes-version: ## Checks and upgrades k3s version if necessary
+	@python latest_k3s_version.py
+
 .PHONY: FORCE
 %: FORCE
-	@if [ "$(MAKECMDGOALS)" != "help" ] && [ "$(ENV)" = "" ]; then echo "Environment was not set properly, check README.md"; exit 1; fi
+	@if [ "$(MAKECMDGOALS)" != "help" ] \
+	 && [ "$(MAKECMDGOALS)" != "upgrade-kubernetes-version" ] \
+	 && [ "$(ENV)" = "" ]; then \
+		echo "Environment was not set properly, check README.md"; \
+		exit 1; \
+	fi
