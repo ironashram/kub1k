@@ -18,7 +18,12 @@ graph: ## Runs the terraform grapher
 .PHONY: get-kubeconfig
 get-kubeconfig: ## Gets the kubeconfig for the environment if it doesn't exist.
 	@mkdir -p ~/.kube/config-files
-	@test -s ~/.kube/config-files/$(ENV).yaml || curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $(VAULT_TOKEN)" $(VAULT_ADDR)/v1/kv/data/$(ENV)/k3s | jq -r '.data.data.kubeconfig' | base64 -d > ~/.kube/config-files/$(ENV).yaml
+	@test -s ~/.kube/config-files/$(ENV).yaml || \
+    	curl -s -H "X-Vault-Request: true" \
+	           -H "X-Vault-Token: $(VAULT_TOKEN)" \
+    	       $(VAULT_ADDR)/v1/kv/data/$(ENV)/k3s \
+    	| jq -r '.data.data.kubeconfig' \
+    	| base64 -d > ~/.kube/config-files/$(ENV).yaml
 
 .PHONY: init
 init: get-kubeconfig ## Initializes the terraform remote state backend and pulls the correct environments state.
