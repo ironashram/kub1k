@@ -41,14 +41,15 @@ For more detailed instructions, please refer to the [Terraform documentation](ht
 
 ## First Deploy Caveats
 
-During the first deploy of the cluster we need to overcome a [limitation](https://github.com/hashicorp/terraform-provider-kubernetes/issues/2597) of the kubernetes provider
+During the first deploy of the cluster we need to overcome a [limitation](https://github.com/hashicorp/terraform-provider-kubernetes/issues/2597) of the kubernetes provider.
+
+In order to allow this i had to switch to OpenTofu which adds the `-exclude` plan paramter since version [1.9.0](https://opentofu.org/blog/opentofu-1-9-0/).
 
 ```
 make plan-custom kub1k OPTIONS='-exclude="module.provision_apps[0].kubernetes_manifest.cilium_lb_pool" -exclude="module.provision_apps[0].kubernetes_manifest.cilium_l2_policy"'
 make apply kub1k
 ```
 
-In order to allow this i had to switch to OpenTofu since from version [1.9.0](https://opentofu.org/blog/opentofu-1-9-0/) it adds the `-exclude` plan paramter.
 
 
 ## ArgoCD Applications
