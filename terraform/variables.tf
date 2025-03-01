@@ -15,7 +15,7 @@ variable "k3s_extra_args" {
 }
 
 variable "k3s_version" {
-  default = "v1.32.1+k3s1"
+  default = "v1.32.2+k3s1"
 }
 
 variable "control" {
