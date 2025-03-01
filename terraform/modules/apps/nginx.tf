@@ -15,15 +15,7 @@ resource "helm_release" "ingress_nginx" {
 
   max_history = 0
 
-  values = [data.template_file.nginx_values.rendered]
-}
-
-/****************
-  Nginx values
-****************/
-
-data "template_file" "nginx_values" {
-  template = <<EOF
+  values = [<<EOF
 controller:
   ingressClassResource:
     name: nginx
@@ -35,4 +27,5 @@ controller:
 admissionWebhooks:
   enabled: false
 EOF
+  ]
 }

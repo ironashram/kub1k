@@ -14,15 +14,7 @@ resource "helm_release" "coredns" {
 
   max_history = 0
 
-  values = [data.template_file.coredns_values.rendered]
-}
-
-/****************
-  CoreDNS Values
-****************/
-
-data "template_file" "coredns_values" {
-  template = <<EOF
+  values = [<<EOF
 deployment:
   enabled: true
 service:
@@ -39,4 +31,5 @@ prometheus:
   monitor:
     enabled: true
 EOF
+  ]
 }

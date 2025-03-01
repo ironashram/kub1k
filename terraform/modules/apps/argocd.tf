@@ -14,8 +14,6 @@ resource "helm_release" "argocd" {
 
   max_history = 0
 
-  values = [data.template_file.argocd_values.rendered]
-
   set_sensitive {
     name  = "configs.secret.argocdServerAdminPassword"
     value = var.argocd_admin_password
@@ -45,14 +43,8 @@ resource "helm_release" "argocd" {
     name  = "configs.repositories.${terraform.workspace}.type"
     value = "git"
   }
-}
 
-/****************
-  ArgoCD values
-****************/
-
-data "template_file" "argocd_values" {
-  template = <<EOF
+  values = [<<EOF
 global:
   domain: argocd.lab.m1k.cloud
 redis-ha:
@@ -92,6 +84,7 @@ server:
       kind: ClusterIssuer
       name: letsencrypt-prod
 EOF
+  ]
 }
 
 resource "kubernetes_secret" "argocd_redis" {

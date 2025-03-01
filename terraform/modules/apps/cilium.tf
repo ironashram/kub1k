@@ -14,19 +14,7 @@ resource "helm_release" "cilium" {
 
   max_history = 0
 
-  values = [data.template_file.cilium_values.rendered]
-
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
-}
-
-/****************
-  Cilium values
-****************/
-
-data "template_file" "cilium_values" {
-  template = <<EOF
+  values = [<<EOF
 k8sServiceHost: 10.0.0.241
 k8sServicePort: 6443
 kubeProxyReplacement: true
@@ -55,7 +43,13 @@ hubble:
           hosts:
           - hubble.lab.m1k.cloud
 EOF
+  ]
+
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
 }
+
 
 /*******************
   Cilium Resources
