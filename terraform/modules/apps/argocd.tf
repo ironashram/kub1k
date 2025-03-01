@@ -2,7 +2,7 @@
   ArgoCD
 *********/
 resource "helm_release" "argocd" {
-  depends_on       = [helm_release.cilium, helm_release.cert_manager]
+  depends_on       = [helm_release.cilium, helm_release.cert_manager, helm_release.ingress_nginx, helm_release.coredns, kubernetes_secret.argocd_redis]
   name             = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.name
   repository       = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.repoURL
   chart            = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.chart
@@ -55,9 +55,12 @@ data "template_file" "argocd_values" {
   template = <<EOF
 global:
   domain: argocd.lab.m1k.cloud
-applicationSet:
-  enabled: false
 redis-ha:
+  enabled: true
+  auth:
+    enabled: true
+    existingSecret: argocd-redis
+redisSecretInit:
   enabled: false
 dex:
   enabled: false
@@ -89,4 +92,15 @@ server:
       kind: ClusterIssuer
       name: letsencrypt-prod
 EOF
+}
+
+resource "kubernetes_secret" "argocd_redis" {
+  metadata {
+    name      = "argocd-redis"
+    namespace = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.namespace
+  }
+
+  data = {
+    "auth" = var.argocd_admin_password
+  }
 }

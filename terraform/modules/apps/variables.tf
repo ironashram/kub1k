@@ -21,3 +21,5 @@ variable "git_repo_name" {
 variable "argocd_admin_password" {
   sensitive = true
 }
+
+variable "k3s_cluster_dns" {}

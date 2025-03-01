@@ -30,5 +30,9 @@ controller:
     enabled: true
     default: false
     controllerValue: "k8s.io/ingress-nginx"
+  replicaCount: 2
+  minAvailable: 1
+admissionWebhooks:
+  enabled: false
 EOF
 }

@@ -7,12 +7,12 @@ help:
 
 .PHONY: apply
 apply: init ## Applies a new state.
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) apply -input=true -refresh=true "terraform.tfplan"
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) apply -input=true -refresh=true "terraform.tfplan"
 
 .PHONY: graph
 graph: ## Runs the terraform grapher
 	@rm -f terraform/graph.png
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) graph -draw-cycles | dot -Tpng > graph.png
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) graph -draw-cycles | dot -Tpng > graph.png
 	@open graph.png
 
 .PHONY: get-kubeconfig
@@ -31,11 +31,15 @@ init: get-kubeconfig ## Initializes the terraform remote state backend and pulls
 
 .PHONY: output
 output: init ## Show outputs of the entire state.
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) output -json
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) output -json
 
 .PHONY: plan
 plan: init ## Runs a plan.
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -out=terraform.tfplan
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) plan -out=terraform.tfplan
+
+.PHONY: plan-custom
+plan-custom: init ## Runs a plan with custom options.
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) plan -out=terraform.tfplan $(OPTIONS)
 
 .PHONY: comment-pr
 comment-pr: ## Posts the terraform plan as a PR comment.
@@ -43,15 +47,15 @@ comment-pr: ## Posts the terraform plan as a PR comment.
 
 .PHONY: plan-destroy
 plan-destroy: init ## Shows what a destroy would do.
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) plan -input=false -refresh=true -destroy -out=terraform.tfplan
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) plan -input=false -refresh=true -destroy -out=terraform.tfplan
 
 .PHONY: show
 show: init ## Shows resources
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) show
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) show
 
 .PHONY: upgrade
 upgrade: ## Gets any provider updates
-	@terraform $(TERRAFORM_GLOBAL_OPTIONS) init -upgrade
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) init -upgrade
 
 .PHONY: upgrade-kubernetes-version
 upgrade-kubernetes-version: ## Checks and upgrades k3s version if necessary

@@ -23,10 +23,20 @@ resource "helm_release" "coredns" {
 
 data "template_file" "coredns_values" {
   template = <<EOF
+deployment:
+  enabled: true
 service:
-  clusterIP: "10.43.0.10"
+  clusterIP: "${var.k3s_cluster_dns}"
 replicaCount: 3
 podDisruptionBudget:
   minAvailable: 1
+prometheus:
+  service:
+    enabled: true
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9153"
+  monitor:
+    enabled: true
 EOF
 }
