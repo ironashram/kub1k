@@ -21,7 +21,7 @@ The Kub1k project aims to provide a scalable and reliable Kubernetes cluster usi
 
 Before deploying the infrastructure, make sure you have the following prerequisites:
 
-- Terraform: Version >= 1.0.0
+- OpenTofu: Version >= 1.9.0
 - Helm: Version >= 3.0.0
 - Kubernetes: Version >= 1.21.0
 - Vault: Version >= 1.7.0
