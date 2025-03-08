@@ -9,12 +9,6 @@ help:
 apply: init ## Applies a new state.
 	@tofu $(TERRAFORM_GLOBAL_OPTIONS) apply -input=true -refresh=true "terraform.tfplan"
 
-.PHONY: graph
-graph: ## Runs the terraform grapher
-	@rm -f terraform/graph.png
-	@tofu $(TERRAFORM_GLOBAL_OPTIONS) graph -draw-cycles | dot -Tpng > graph.png
-	@open graph.png
-
 .PHONY: get-kubeconfig
 get-kubeconfig: ## Gets the kubeconfig for the environment if it doesn't exist.
 	@mkdir -p ~/.kube/config-files
