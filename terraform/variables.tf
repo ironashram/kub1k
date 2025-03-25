@@ -7,7 +7,7 @@ variable "k3s_cluster_dns" {
 }
 
 variable "k3s_version" {
-  default = "v1.32.2+k3s1"
+  default = "v1.32.3+k3s1"
 }
 
 variable "control" {
