@@ -5,7 +5,9 @@ import hcl2
 from semver import VersionInfo
 
 K3S_RELEASE_URL = "https://api.github.com/repos/k3s-io/k3s/releases"
+TF_VARIABLES = "../terraform/variables.tf"
 NOVERSION = VersionInfo.parse("0.0.0")
+
 response = requests.get(K3S_RELEASE_URL, timeout=30)
 if response.raise_for_status() is not None:
     sys.exit(1)
@@ -26,7 +28,7 @@ if versions:
 else:
     sys.exit(1)
 
-with open("terraform/variables.tf", "r", encoding="utf8") as rfile:
+with open(TF_VARIABLES, "r", encoding="utf8") as rfile:
     content = rfile.read()
 
 tfvars = hcl2.load(io.StringIO(content))
@@ -39,7 +41,7 @@ for variable in tfvars["variable"]:
 print(f"Current: v{current_version}")
 
 if max(versions) > current_version and current_version != NOVERSION:
-    with open("terraform/variables.tf", "w", encoding="utf8") as wfile:
+    with open(TF_VARIABLES, "w", encoding="utf8") as wfile:
         replace_flag = False
         for line in lines:
             if replace_flag:

@@ -53,7 +53,7 @@ upgrade: ## Gets any provider updates
 
 .PHONY: upgrade-kubernetes-version
 upgrade-kubernetes-version: ## Checks and upgrades k3s version if necessary
-	@python latest_k3s_version.py
+	@python tools/latest_k3s_version.py
 
 .PHONY: FORCE
 %: FORCE
