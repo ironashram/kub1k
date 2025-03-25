@@ -7,4 +7,4 @@ spec:
   source:
     chart: coredns
     repoURL: https://coredns.github.io/helm
-    targetRevision: 1.39.1
+    targetRevision: 1.39.2
