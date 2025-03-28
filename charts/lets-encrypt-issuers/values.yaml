@@ -1,5 +1,6 @@
 letsencrypt:
   email: "postmaster@m1k.cloud"
+  groupName: "acme.m1k.cloud"
+  zoneName: "m1k.cloud"
   existingSecret:
-    name: "cloudflare-api-token"
-    key: "api_token"
+    name: "hetzner-api-token"

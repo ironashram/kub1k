@@ -5,15 +5,18 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: {{ .Values.letsencrypt.email }}
+    email: { { .Values.letsencrypt.email } }
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
       - dns01:
-          cloudflare:
-            apiTokenSecretRef:
-              name: {{ .Values.letsencrypt.existingSecret.name }}
-              key: {{ .Values.letsencrypt.existingSecret.key }}
+          webhook:
+            groupName: { { .Values.letsencrypt.groupName } }
+            solverName: hetzner
+            config:
+              secretName: { { .Values.letsencrypt.existingSecret.name } }
+              zoneName: { { .Values.letsencrypt.zoneName } }
+              apiUrl: https://dns.hetzner.com/api/v1
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -22,12 +25,15 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: {{ .Values.letsencrypt.email }}
+    email: { { .Values.letsencrypt.email } }
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
       - dns01:
-          cloudflare:
-            apiTokenSecretRef:
-              name: {{ .Values.letsencrypt.existingSecret.name }}
-              key: {{ .Values.letsencrypt.existingSecret.key }}
+          webhook:
+            groupName: { { .Values.letsencrypt.groupName } }
+            solverName: hetzner
+            config:
+              secretName: { { .Values.letsencrypt.existingSecret.name } }
+              zoneName: { { .Values.letsencrypt.zoneName } }
+              apiUrl: https://dns.hetzner.com/api/v1

@@ -20,3 +20,25 @@ resource "helm_release" "cert_manager" {
     value = "true"
   }
 }
+
+resource "helm_release" "webhook_hetzner" {
+  depends_on = [helm_release.cert_manager]
+  name       = yamldecode(file("${path.module}/manifests/webhook-hetzner.yaml")).metadata.name
+
+  repository = yamldecode(file("${path.module}/manifests/webhook-hetzner.yaml")).spec.source.repoURL
+  chart      = yamldecode(file("${path.module}/manifests/webhook-hetzner.yaml")).spec.source.chart
+  version    = yamldecode(file("${path.module}/manifests/webhook-hetzner.yaml")).spec.source.targetRevision
+  namespace  = yamldecode(file("${path.module}/manifests/webhook-hetzner.yaml")).metadata.namespace
+
+  max_history = 0
+
+  set {
+    name  = "groupName"
+    value = "acme.m1k.cloud"
+  }
+
+  set {
+    name  = "image.tag"
+    value = yamldecode(file("${path.module}/manifests/webhook-hetzner.yaml")).spec.source.targetRevision
+  }
+}

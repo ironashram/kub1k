@@ -76,7 +76,7 @@ The Helm charts included in this project are:
 
 2. **Lets-Encrypt-Issuers**: Necessary resources for setting up Let's Encrypt issuers in cert-manager.
 
-3. **Secrets**: Secrets in your Kubernetes cluster, including the Cloudflare API key for cert-manager, ClusterSecretStore, and Synology CSI client info secret.
+3. **Secrets**: Secrets in your Kubernetes cluster, including the Hetzner API key for cert-manager, ClusterSecretStore, and Synology CSI client info secret.
 
 ## License
 

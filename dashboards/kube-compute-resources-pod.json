@@ -2773,8 +2773,8 @@
       {
         "current": {
           "selected": false,
-          "text": "gha-runner-scale-set-cloudflare-754b578d-listener",
-          "value": "gha-runner-scale-set-cloudflare-754b578d-listener"
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",

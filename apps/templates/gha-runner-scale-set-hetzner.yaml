@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gha-runner-scale-set-cloudflare
+  name: gha-runner-scale-set-m1k-cloud
   namespace: argocd
   labels:
     app.m1k.cloud/cluster: kub1k
@@ -21,7 +21,7 @@ spec:
     targetRevision: 0.10.1
     helm:
       values: |
-        githubConfigUrl: "https://github.com/ironashram/m1k.cloud"
+        githubConfigUrl: "https://github.com/ironashram/hetzner"
         githubConfigSecret: "github-config-secret"
         containerMode:
           type: "kubernetes"
