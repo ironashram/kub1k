@@ -79,6 +79,14 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
               trivy-operator-vulnerabilities:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
+              cilium-operator:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-operator.json
+              cilium-cluster-metrics:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-cluster-metrics.json
+              hubble:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-hubble.json
+              hubble-l7:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-hubble-l7.json
 
         prometheus:
           serviceMonitor:

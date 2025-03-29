@@ -20,6 +20,10 @@ k8sServicePort: 6443
 kubeProxyReplacement: true
 l2announcements:
   enabled: true
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
 externalIPs:
   enabled: true
 ipam:
@@ -27,6 +31,9 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["172.27.0.0/21"]
     clusterPoolIPv4MaskSize: 24
 hubble:
+  metrics:
+    serviceMonitor:
+      enabled: true
   relay:
     enabled: true
   ui:
