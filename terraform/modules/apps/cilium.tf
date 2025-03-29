@@ -21,9 +21,16 @@ kubeProxyReplacement: true
 l2announcements:
   enabled: true
 prometheus:
+  metricsService: true
   enabled: true
   serviceMonitor:
     enabled: true
+operator:
+  prometheus:
+    metricsService: true
+    enabled: true
+    serviceMonitor:
+      enabled: true
 externalIPs:
   enabled: true
 ipam:
@@ -32,10 +39,23 @@ ipam:
     clusterPoolIPv4MaskSize: 24
 hubble:
   metrics:
+    enabled:
+      - dns
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - httpV2
+    enableOpenMetrics: true
     serviceMonitor:
       enabled: true
   relay:
     enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
+        enabled: true
   ui:
     enabled: true
     ingress:
