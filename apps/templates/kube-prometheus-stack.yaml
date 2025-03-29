@@ -81,8 +81,8 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
               cilium-operator:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-operator.json
-              cilium-cluster-metrics:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-cluster-metrics.json
+              cilium:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium.json
               hubble:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-hubble.json
               hubble-l7:
