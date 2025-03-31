@@ -26,7 +26,7 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
-            ingressClassName: nginx
+            ingressClassName: haproxy
             hosts:
             - alertmanager.lab.m1k.cloud
             tls:
@@ -43,7 +43,7 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
-            ingressClassName: nginx
+            ingressClassName: haproxy
             hosts:
             - grafana.lab.m1k.cloud
             tls:
@@ -98,7 +98,7 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
-            ingressClassName: nginx
+            ingressClassName: haproxy
             hosts:
             - prometheus.lab.m1k.cloud
             tls:

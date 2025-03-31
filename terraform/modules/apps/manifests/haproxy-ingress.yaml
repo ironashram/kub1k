@@ -1,0 +1,10 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: haproxy-ingress
+  namespace: haproxy-ingress
+spec:
+  source:
+    chart: haproxy-ingress
+    repoURL: https://haproxy-ingress.github.io/charts
+    targetRevision: 0.14.8

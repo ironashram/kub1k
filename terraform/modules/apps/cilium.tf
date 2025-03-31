@@ -64,7 +64,7 @@ hubble:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       enabled: true
-      className: nginx
+      className: haproxy
       hosts:
         - hubble.lab.m1k.cloud
       tls:

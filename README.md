@@ -13,7 +13,7 @@ The Kub1k project aims to provide a scalable and reliable Kubernetes cluster usi
 - ArgoCD: A GitOps continuous delivery tool for Kubernetes.
 - External Secrets: A controller for managing secrets stored in external secret management systems.
 - Cilium: Networking and security layer, provides both networking capabilities, such as load balancing and routing, and security features like network policies and endpoint protection.
-- Nginx Ingress Controller: An Ingress controller for Kubernetes using Nginx.
+- HAProxy Ingress: Ingress controller implementation for HAProxy loadbalancer.
 - Vault: A secrets management tool for securely storing and accessing sensitive information.
 - Github Runners: Runner scale sets is a group of homogeneous runners that can be assigned jobs from GitHub Actions.
 
