@@ -23,6 +23,10 @@ controller:
     default: true
   replicaCount: 2
   minAvailable: 1
+  metrics:
+    enabled: true
+  serviceMonitor:
+    enabled: true
 EOF
   ]
 }
