@@ -45,7 +45,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -122,7 +122,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "max(rate(haproxyingress_haproxy_processing_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m]))",
@@ -205,7 +205,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": true,
           "expr": "count(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})-count(haproxy_process_start_time_seconds{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
@@ -278,7 +278,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": true,
           "expr": "max(sum(haproxy_frontend_current_sessions{cluster=~\"$cluster\",hostname=~\"$hostname\"}) by (hostname)/max(haproxy_process_max_connections{cluster=~\"$cluster\",hostname=~\"$hostname\"}) by (hostname))",
@@ -348,7 +348,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": true,
           "expr": "sum(rate(haproxy_frontend_connections_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"$pub_front_exclude\"}[1m]))",
@@ -411,7 +411,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "sum(haproxy_process_nbthread{cluster=~\"$cluster\",hostname=~\"$hostname\"}) / count(haproxy_process_nbthread{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
@@ -474,7 +474,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "time()-max(haproxy_process_start_time_seconds{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
@@ -555,7 +555,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": true,
           "expr": "1-min(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
@@ -628,7 +628,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "(min(haproxyingress_cert_expire_date_epoch)-time())/3600/24",
@@ -698,7 +698,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": true,
           "expr": "sum(rate(haproxy_frontend_http_responses_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"_front__auth.*\"}[1m]))",
@@ -761,7 +761,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "count(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
@@ -824,7 +824,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "time()-max(process_start_time_seconds{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
@@ -843,7 +843,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -939,7 +939,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "rate(haproxyingress_haproxy_processing_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m])",
@@ -956,7 +956,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -1046,7 +1046,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -1215,7 +1215,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "1-(increase(haproxyingress_haproxy_response_time_seconds_bucket{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\",le=\"0.01\"}[1m]) / ignoring (le) increase(haproxyingress_haproxy_response_time_seconds_count{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\"}[1m]))",
@@ -1237,7 +1237,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -1329,7 +1329,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "rate(process_cpu_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\",job=\"haproxy-ingress\"}[1m])",
@@ -1346,7 +1346,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -1441,7 +1441,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -1529,7 +1529,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "sum(rate(haproxy_frontend_connections_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"$pub_front_exclude\"}[1m])) by (hostname)",
@@ -1621,7 +1621,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "sum(rate(haproxy_frontend_http_responses_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"_front__auth.*\"}[1m])) by (hostname)",
@@ -1638,7 +1638,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -1811,7 +1811,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "sum(haproxy_frontend_current_sessions{cluster=~\"$cluster\",hostname=~\"$hostname\"}) by (hostname)/min(haproxy_process_max_connections{cluster=~\"$cluster\",hostname=~\"$hostname\"}) by (hostname)",
@@ -1901,7 +1901,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "sum(rate(haproxy_frontend_bytes_in_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"$pub_front_exclude\"}[1m]))",
@@ -1914,7 +1914,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "-sum(rate(haproxy_frontend_bytes_out_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"$pub_front_exclude\"}[1m]))",
@@ -2004,7 +2004,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "sum(rate(haproxy_frontend_bytes_in_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"$pub_front_exclude\"}[1m])) by (hostname)",
@@ -2017,7 +2017,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "-sum(rate(haproxy_frontend_bytes_out_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy!~\"$pub_front_exclude\"}[1m])) by (hostname)",
@@ -2039,7 +2039,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -2052,7 +2052,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -2141,7 +2141,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -2235,7 +2235,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -2248,7 +2248,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -2412,7 +2412,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "expr": "topk(5,sum(rate(haproxy_backend_bytes_in_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy=~\"$backend\"}[1m])) by (proxy))",
               "format": "time_series",
@@ -2423,7 +2423,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "-topk(5,sum(rate(haproxy_backend_bytes_out_total{cluster=~\"$cluster\",hostname=~\"$hostname\",proxy=~\"$backend\"}[1m])) by (proxy))",
@@ -2440,7 +2440,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -2530,7 +2530,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -2624,7 +2624,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -2727,7 +2727,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "min(1000*haproxyingress_cert_expire_date_epoch{cluster=~\"$cluster\",hostname=~\"$hostname\"}) by (cn)",
@@ -2752,7 +2752,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -2850,7 +2850,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -2952,7 +2952,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "prometheus"
         },
         "definition": "label_values(haproxy_frontend_sessions_total,cluster)",
         "hide": 0,
@@ -2975,7 +2975,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "prometheus"
         },
         "definition": "label_values(haproxy_frontend_sessions_total{cluster=~\"$cluster\"},hostname)",
         "hide": 0,
@@ -3001,7 +3001,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "prometheus"
         },
         "definition": "label_values(haproxy_backend_sessions_total{cluster=~\"$cluster\",hostname=~\"$hostname\"},proxy)",
         "hide": 0,
