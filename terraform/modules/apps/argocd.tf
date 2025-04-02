@@ -48,9 +48,9 @@ resource "helm_release" "argocd" {
 global:
   domain: argocd.lab.m1k.cloud
 redis-ha:
-  enabled: true
+  enabled: false
   auth:
-    enabled: true
+    enabled: false
     existingSecret: argocd-redis
 redisSecretInit:
   enabled: false
