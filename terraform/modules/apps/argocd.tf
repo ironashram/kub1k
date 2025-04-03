@@ -49,6 +49,8 @@ global:
   domain: argocd.lab.m1k.cloud
 redis:
   enabled: true
+  auth:
+    enabled: true
 redis-ha:
   enabled: false
   auth:
