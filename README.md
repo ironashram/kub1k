@@ -2,20 +2,30 @@
 [![Terraform Apply](https://github.com/ironashram/kub1k/actions/workflows/terraform-apply.yaml/badge.svg)](https://github.com/ironashram/kub1k/actions/workflows/terraform-apply.yaml)
 
 # kub1k
-The name comes from a silly portmanteau between kube and m1k (my nickname)
 
+<p align="left">
+  <img src="assets/kub1k.png" alt="kub1k ScreenShot" width="800">
+</p>
+
+
+The name comes from a silly portmanteau between kube and m1k (my nickname) <br>
 This repository contains the Terraform code for deploying and managing a homelab k8s infrastructure.
 
 ## Overview
 
-The Kub1k project aims to provide a scalable and reliable Kubernetes cluster using the K3s lightweight Kubernetes distribution. The infrastructure is provisioned using Terraform and includes the following components:
+The kub1k project aims to provide a scalable and reliable Kubernetes cluster using the K3s lightweight Kubernetes distribution. The infrastructure is provisioned using Terraform and includes the following components:
 
-- ArgoCD: A GitOps continuous delivery tool for Kubernetes.
-- External Secrets: A controller for managing secrets stored in external secret management systems.
-- Cilium: Networking and security layer, provides both networking capabilities, such as load balancing and routing, and security features like network policies and endpoint protection.
-- HAProxy Ingress: Ingress controller implementation for HAProxy loadbalancer.
-- Vault: A secrets management tool for securely storing and accessing sensitive information.
-- Github Runners: Runner scale sets is a group of homogeneous runners that can be assigned jobs from GitHub Actions.
+- ArgoCD
+- External Secrets
+- Cilium
+- HAProxy Ingress
+- Vault
+- Github Runners
+- Kube-Prometheus-Stack
+- Cert-Manager
+- External-Secrets-Operator
+- Synology-CSI
+- Custom Helm charts (deployed as ArgoCD applications)
 
 ## Prerequisites
 
@@ -49,34 +59,6 @@ In order to allow this i had to switch to OpenTofu which adds the `-exclude` pla
 make plan-custom kub1k OPTIONS='-exclude="module.provision_apps[0].kubernetes_manifest.cilium_lb_pool" -exclude="module.provision_apps[0].kubernetes_manifest.cilium_l2_policy"'
 make apply kub1k
 ```
-
-
-
-## ArgoCD Applications
-
-The ArgoCD applications included in this project are:
-
-1. **Cert-Manager**
-
-2. **External-Secrets-Operator**
-
-3. **Lets-Encrypt-Issuers**
-
-4. **Kube-Prometheus-Stack**
-
-5. **Secrets**
-
-6. **Synology-CSI**
-
-## Custom Helm Charts
-
-The Helm charts included in this project are:
-
-1. **ArgoCD-App-of-Apps**: Deploys an ArgoCD application that references other ArgoCD applications, allowing you to manage multiple applications in a centralized manner.
-
-2. **Lets-Encrypt-Issuers**: Necessary resources for setting up Let's Encrypt issuers in cert-manager.
-
-3. **Secrets**: Secrets in your Kubernetes cluster, including the Hetzner API key for cert-manager, ClusterSecretStore, and Synology CSI client info secret.
 
 ## License
 
