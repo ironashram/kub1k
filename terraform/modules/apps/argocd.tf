@@ -2,7 +2,7 @@
   ArgoCD
 *********/
 resource "helm_release" "argocd" {
-  depends_on       = [helm_release.cilium, helm_release.cert_manager, helm_release.haproxy_ingress, helm_release.coredns]
+  depends_on       = [helm_release.cilium, helm_release.cert_manager, helm_release.haproxy_ingress, helm_release.coredns, kubernetes_secret.argocd_redis]
   name             = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.name
   repository       = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.repoURL
   chart            = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.chart
@@ -48,9 +48,7 @@ resource "helm_release" "argocd" {
 global:
   domain: argocd.lab.m1k.cloud
 redis:
-  enabled: false
-  auth:
-    enabled: false
+  enabled: true
 redis-ha:
   enabled: false
   auth:
@@ -88,3 +86,15 @@ server:
 EOF
   ]
 }
+
+resource "kubernetes_secret" "argocd_redis" {
+  metadata {
+    name      = "argocd-redis"
+    namespace = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.namespace
+  }
+
+  data = {
+    "auth" = var.argocd_admin_password
+  }
+}
+
