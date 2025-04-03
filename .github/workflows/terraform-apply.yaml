@@ -12,7 +12,7 @@ jobs:
   apply:
     runs-on: gha-runner-scale-set-kub1k
     container:
-      image: quay.io/m1k_cloud/automation_docker_image:latest
+      image: quay.io/m1k_cloud/toolbox:latest
     defaults:
       run:
         shell: bash
