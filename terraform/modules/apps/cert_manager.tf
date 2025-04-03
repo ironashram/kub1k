@@ -32,13 +32,10 @@ resource "helm_release" "webhook_hetzner" {
 
   max_history = 0
 
-  set {
-    name  = "groupName"
-    value = "acme.m1k.cloud"
-  }
-
-  set {
-    name  = "image.tag"
-    value = yamldecode(file("${path.module}/manifests/webhook-hetzner.yaml")).spec.source.targetRevision
-  }
+  values = [<<EOF
+groupName: "acme.m1k.cloud"
+secretName:
+  - "hetzner-api-token"
+EOF
+  ]
 }
