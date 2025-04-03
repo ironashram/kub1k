@@ -88,16 +88,3 @@ server:
 EOF
   ]
 }
-
-/*
-resource "kubernetes_secret" "argocd_redis" {
-  metadata {
-    name      = "argocd-redis"
-    namespace = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.namespace
-  }
-
-  data = {
-    "auth" = var.argocd_admin_password
-  }
-}
-*/
