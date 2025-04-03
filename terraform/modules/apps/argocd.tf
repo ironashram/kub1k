@@ -50,7 +50,7 @@ global:
 redis-ha:
   enabled: false
   auth:
-    enabled: false
+    enabled: true
     existingSecret: argocd-redis
 redisSecretInit:
   enabled: false
