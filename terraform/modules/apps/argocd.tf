@@ -49,6 +49,10 @@ global:
   domain: argocd.lab.m1k.cloud
 redis:
   enabled: true
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
 redis-ha:
   enabled: false
   auth:
@@ -67,12 +71,20 @@ configs:
 controller:
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
 repoServer:
   replicas: 1
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
 server:
   replicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
   ingress:
     enabled: true
     ingressClassName: haproxy
