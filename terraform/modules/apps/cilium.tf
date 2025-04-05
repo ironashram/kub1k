@@ -42,13 +42,14 @@ hubble:
     enabled:
       - dns
       - drop
-      - tcp
       - flow
       - flows-to-world
-      - port-distribution
-      - icmp
       - http
-      - httpV2
+      - icmp
+      - kafka
+      - policy
+      - port-distribution
+      - tcp
     enableOpenMetrics: true
     serviceMonitor:
       enabled: true
