@@ -183,7 +183,11 @@ spec:
                 action: keep
 
         coreDns:
-          enabled: false
+          enabled: true
+          service:
+            enabled: false
+          serviceMonitor:
+            enabled: false
 
   ignoreDifferences:
     - group: "apps"
