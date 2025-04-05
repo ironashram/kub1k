@@ -50,13 +50,9 @@ global:
 redis:
   enabled: true
   metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
+    enabled: false
 redis-ha:
   enabled: false
-  auth:
-    enabled: false
 redisSecretInit:
   enabled: true
 dex:

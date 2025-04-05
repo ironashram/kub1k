@@ -182,6 +182,9 @@ spec:
                 regex: "(scheduler|rest_client|process|go)_(.+)"
                 action: keep
 
+        coreDns:
+          enabled: false
+
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
