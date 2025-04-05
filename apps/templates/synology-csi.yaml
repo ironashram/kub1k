@@ -16,8 +16,8 @@ spec:
       selfHeal: true
   source:
     chart: synology-csi
-    repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
-    targetRevision: 0.10.1
+    repoURL: https://zebernst.github.io/synology-csi-talos
+    targetRevision: 0.9.5-pre.4
     helm:
       values: |
         clientInfoSecret:
