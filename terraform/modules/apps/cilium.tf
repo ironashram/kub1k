@@ -25,12 +25,22 @@ prometheus:
   enabled: true
   serviceMonitor:
     enabled: true
+dashboards:
+  enabled: true
+  namespace: monitoring
+  annotations:
+    grafana_folder: "Cilium"
 operator:
   prometheus:
     metricsService: true
     enabled: true
     serviceMonitor:
       enabled: true
+  dashboards:
+    enabled: true
+    namespace: monitoring
+    annotations:
+      grafana_folder: "Cilium"
 externalIPs:
   enabled: true
 ipam:

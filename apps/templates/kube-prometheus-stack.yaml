@@ -81,10 +81,6 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
               trivy-operator-vulnerabilities:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
-              cilium-operator:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-operator.json
-              cilium:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium.json
               haproxy-ingress:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/haproxy-ingress.json
 
