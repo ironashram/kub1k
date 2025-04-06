@@ -44,7 +44,7 @@ hubble:
       - drop
       - flow
       - flows-to-world
-      - http
+      - httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction
       - icmp
       - kafka
       - policy
