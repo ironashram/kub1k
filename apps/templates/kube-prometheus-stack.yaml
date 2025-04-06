@@ -86,7 +86,7 @@ spec:
               cilium:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium.json
               hubble:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/cilium-hubble.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/hubble.json
               haproxy-ingress:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/haproxy-ingress.json
 
