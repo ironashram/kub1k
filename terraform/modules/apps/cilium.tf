@@ -42,15 +42,19 @@ hubble:
     enabled:
       - dns
       - drop
-      - flow
       - flows-to-world
-      - httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction
       - icmp
-      - kafka
       - policy
       - port-distribution
       - tcp
+      - "flow:sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
+      - "httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction;sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
     enableOpenMetrics: true
+    dashboards:
+      enabled: true
+      namespace: monitoring
+      annotations:
+        grafana_folder: "Hubble"
     serviceMonitor:
       enabled: true
   relay:
