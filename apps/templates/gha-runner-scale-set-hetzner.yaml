@@ -4,7 +4,7 @@ metadata:
   name: gha-runner-scale-set-hetzner
   namespace: argocd
   labels:
-    app.m1k.cloud/cluster: kub1k
+    app.m1k.cloud/cluster: "{{ .Values.environment }}"
     app.m1k.cloud/source: upstream
 spec:
   project: default
