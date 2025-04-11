@@ -20,7 +20,7 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 70.4.1
     helm:
-      values: |
+      values:
         alertmanager:
           ingress:
             annotations:
@@ -28,12 +28,11 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-            - alertmanager.lab.m1k.cloud
+              - alertmanager.lab.m1k.cloud
             tls:
-             - secretName: alertmanager-cert
-               hosts:
-               - alertmanager.lab.m1k.cloud
-
+              - secretName: alertmanager-cert
+                hosts:
+                  - alertmanager.lab.m1k.cloud
         grafana:
           admin:
             existingSecret: grafana-admin
@@ -45,11 +44,11 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-            - grafana.lab.m1k.cloud
+              - grafana.lab.m1k.cloud
             tls:
-             - secretName: grafana-cert
-               hosts:
-               - grafana.lab.m1k.cloud
+              - secretName: grafana-cert
+                hosts:
+                  - grafana.lab.m1k.cloud
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
@@ -57,14 +56,14 @@ spec:
             dashboardproviders.yaml:
               apiVersion: 1
               providers:
-              - name: 'custom-grafana-dashboards'
-                orgId: 1
-                folder: ''
-                type: file
-                disableDeletion: true
-                editable: true
-                options:
-                  path: /var/lib/grafana/dashboards/custom-grafana-dashboards
+                - name: "custom-grafana-dashboards"
+                  orgId: 1
+                  folder: ""
+                  type: file
+                  disableDeletion: true
+                  editable: true
+                  options:
+                    path: /var/lib/grafana/dashboards/custom-grafana-dashboards
           dashboards:
             custom-grafana-dashboards:
               argocd:
@@ -83,7 +82,6 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
               haproxy-ingress:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/haproxy-ingress.json
-
         prometheus:
           serviceMonitor:
             relabelings:
@@ -96,19 +94,19 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-            - prometheus.lab.m1k.cloud
+              - prometheus.lab.m1k.cloud
             tls:
-             - secretName: prometheus-cert
-               hosts:
-               - prometheus.lab.m1k.cloud
+              - secretName: prometheus-cert
+                hosts:
+                  - prometheus.lab.m1k.cloud
           prometheusSpec:
             enableFeatures:
               - exemplar-storage
             serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorNamespaceSelector:
               matchExpressions:
-              - key: kubernetes.io/metadata.name
-                operator: Exists
+                - key: kubernetes.io/metadata.name
+                  operator: Exists
             retention: 45d
             storageSpec:
               volumeClaimTemplate:
@@ -120,55 +118,48 @@ spec:
                       storage: 50Gi
             nodeSelector:
               node-role.kubernetes.io/worker: "true"
-
         prometheusOperator:
           tls:
             enabled: false
           admissionWebhooks:
             enabled: false
             failurePolicy: Ignore
-
         kubeApiServer:
           serviceMonitor:
             metricRelabelings:
-              - sourceLabels: [ "__name__" ]
+              - sourceLabels: ["__name__"]
                 regex: "(apiserver|workqueue|rest_client|process|go)_(.+)"
                 action: keep
-
         kubelet:
           serviceMonitor:
             metricRelabelings:
-              - sourceLabels: [ "__name__" ]
+              - sourceLabels: ["__name__"]
                 regex: "(kubelet|storage|rest_client|process|go)_(.+)"
                 action: keep
-
         kubeEtcd:
           endpoints:
             - 10.0.0.241
           serviceMonitor:
             metricRelabelings:
-              - sourceLabels: [ "__name__" ]
+              - sourceLabels: ["__name__"]
                 regex: "(etcd|grpc|rest_client|process|go)_(.+)"
                 action: keep
-
         kubeProxy:
           endpoints:
             - 10.0.0.241
           serviceMonitor:
             metricRelabelings:
-              - sourceLabels: [ "__name__" ]
+              - sourceLabels: ["__name__"]
                 regex: "(kubeproxy|rest_client|process|go)_(.+)"
                 action: keep
-
         kubeControllerManager:
           endpoints:
             - 10.0.0.241
           serviceMonitor:
             metricRelabelings:
-              - sourceLabels: [ "__name__" ]
+              - sourceLabels: ["__name__"]
                 regex: "(workqueue|rest_client|process|go)_(.+)"
                 action: keep
-
         kubeScheduler:
           endpoints:
             - 10.0.0.241
@@ -177,14 +168,12 @@ spec:
               - sourceLabels: ["__name__"]
                 regex: "(scheduler|rest_client|process|go)_(.+)"
                 action: keep
-
         coreDns:
           enabled: true
           service:
             enabled: false
           serviceMonitor:
             enabled: false
-
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
