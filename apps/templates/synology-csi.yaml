@@ -19,7 +19,7 @@ spec:
     repoURL: https://zebernst.github.io/synology-csi-talos
     targetRevision: 0.9.5-pre.4
     helm:
-      values: |
+      valuesObject:
         clientInfoSecret:
           name: client-info-secret
           create: false
