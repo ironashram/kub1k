@@ -14,22 +14,12 @@ resource "helm_release" "coredns" {
 
   max_history = 0
 
-  values = [<<EOF
-deployment:
-  enabled: true
-service:
-  clusterIP: "${var.k3s_cluster_dns}"
-replicaCount: 3
-podDisruptionBudget:
-  minAvailable: 1
-prometheus:
-  service:
-    enabled: true
-    annotations:
-      prometheus.io/scrape: "true"
-      prometheus.io/port: "9153"
-  monitor:
-    enabled: true
-EOF
+  set {
+    name  = "service.clusterIP"
+    value = var.k3s_cluster_dns
+  }
+
+  values = [
+    file("${path.module}/values/coredns.yaml"),
   ]
 }

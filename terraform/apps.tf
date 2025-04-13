@@ -11,6 +11,8 @@ module "provision_apps" {
   git_user              = data.vault_kv_secret_v2.github.data.username
   git_repo              = data.vault_kv_secret_v2.github.data.repo
   git_repo_name         = data.vault_kv_secret_v2.github.data.repo_name
+  internal_domain       = data.vault_kv_secret_v2.domain.data.internal
+  external_domain       = data.vault_kv_secret_v2.domain.data.external
   k3s_cluster_dns       = var.k3s_cluster_dns
 
   providers = {

@@ -32,10 +32,15 @@ resource "helm_release" "webhook_hetzner" {
 
   max_history = 0
 
-  values = [<<EOF
-groupName: "acme.m1k.cloud"
-secretName:
-  - "hetzner-api-token"
-EOF
-  ]
+  set {
+    name  = "groupName"
+    value = "acme.${var.external_domain}"
+  }
+
+  set_list {
+    name = "secretName"
+    value = [
+      "hetzner-cloud-token"
+    ]
+  }
 }

@@ -4,8 +4,8 @@ metadata:
   name: lets-encrypt-issuers
   namespace: argocd
   labels:
-    app.m1k.cloud/cluster: "{{ .Values.environment }}"
-    app.m1k.cloud/source: local
+    app/cluster: "{{ .Values.environment }}"
+    app/source: local
 spec:
   project: default
   syncPolicy:

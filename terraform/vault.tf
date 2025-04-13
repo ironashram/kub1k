@@ -23,3 +23,8 @@ data "vault_kv_secret_v2" "argocd" {
   mount = "kv"
   name  = "${terraform.workspace}/argocd"
 }
+
+data "vault_kv_secret_v2" "domain" {
+  mount = "kv"
+  name  = "${terraform.workspace}/domain"
+}

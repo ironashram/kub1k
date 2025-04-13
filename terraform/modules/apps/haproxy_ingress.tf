@@ -15,18 +15,7 @@ resource "helm_release" "haproxy_ingress" {
 
   max_history = 0
 
-  values = [<<EOF
-controller:
-  ingressClass: haproxy
-  ingressClassResource:
-    enabled: true
-    default: true
-  replicaCount: 2
-  minAvailable: 1
-  metrics:
-    enabled: true
-  serviceMonitor:
-    enabled: true
-EOF
+  values = [
+    file("${path.module}/values/haproxy-ingress.yaml"),
   ]
 }

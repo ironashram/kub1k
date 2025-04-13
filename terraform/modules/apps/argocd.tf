@@ -44,53 +44,12 @@ resource "helm_release" "argocd" {
     value = "git"
   }
 
-  values = [<<EOF
-global:
-  domain: argocd.lab.m1k.cloud
-redis:
-  enabled: true
-  metrics:
-    enabled: false
-redis-ha:
-  enabled: false
-redisSecretInit:
-  enabled: true
-dex:
-  enabled: false
-notifications:
-  enabled: false
-configs:
-  cm:
-    application.resourceTrackingMethod: annotation
-  params:
-    server.insecure: true
-controller:
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-repoServer:
-  replicas: 1
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-server:
-  replicas: 1
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-  ingress:
-    enabled: true
-    ingressClassName: haproxy
-    tls: true
-  certificate:
-    enabled: true
-    issuer:
-      group: cert-manager.io
-      kind: ClusterIssuer
-      name: letsencrypt-prod
-EOF
+  set {
+    name  = "global.domain"
+    value = "argocd.${var.internal_domain}"
+  }
+
+  values = [
+    file("${path.module}/values/argocd.yaml"),
   ]
 }

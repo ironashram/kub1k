@@ -23,3 +23,7 @@ variable "argocd_admin_password" {
 }
 
 variable "k3s_cluster_dns" {}
+
+variable "internal_domain" {}
+
+variable "external_domain" {}

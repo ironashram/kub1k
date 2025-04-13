@@ -1,0 +1,67 @@
+k8sServiceHost: 10.0.0.241
+k8sServicePort: 6443
+kubeProxyReplacement: true
+l2announcements:
+  enabled: true
+prometheus:
+  metricsService: true
+  enabled: true
+  serviceMonitor:
+    enabled: true
+dashboards:
+  enabled: true
+  namespace: monitoring
+  annotations:
+    grafana_folder: "Cilium"
+operator:
+  prometheus:
+    metricsService: true
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  dashboards:
+    enabled: true
+    namespace: monitoring
+    annotations:
+      grafana_folder: "Cilium"
+externalIPs:
+  enabled: true
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList: ["172.27.0.0/21"]
+    clusterPoolIPv4MaskSize: 24
+hubble:
+  metrics:
+    enabled:
+      - dns
+      - drop
+      - flows-to-world
+      - icmp
+      - policy
+      - port-distribution
+      - tcp
+      - "flow:sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
+      - "httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction;sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
+    enableOpenMetrics: true
+    dashboards:
+      enabled: true
+      namespace: monitoring
+      annotations:
+        grafana_folder: "Hubble"
+    serviceMonitor:
+      enabled: true
+  relay:
+    enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+  ui:
+    enabled: true
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      enabled: true
+      className: haproxy
+      tls:
+        - secretName: hubble-cert

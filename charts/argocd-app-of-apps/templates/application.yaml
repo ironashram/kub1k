@@ -4,8 +4,8 @@ metadata:
   name: argocd-app-of-apps
   namespace: argocd
   labels:
-    app.m1k.cloud/cluster: {{ .Values.environment }}
-    app.m1k.cloud/source: local
+    app/cluster: { { .Values.environment } }
+    app/source: local
 spec:
   project: default
   syncPolicy:
@@ -18,6 +18,6 @@ spec:
     helm:
       parameters:
         - name: environment
-          value: {{ .Values.environment }}
+          value: { { .Values.environment } }
   destination:
     name: in-cluster
