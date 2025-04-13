@@ -20,6 +20,9 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 70.4.2
     helm:
+      values:
+        - name: domain
+          value: "{{ .Values.domain }}"
       valuesObject:
         alertmanager:
           ingress:
@@ -28,11 +31,11 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-              - alertmanager."{{ .Values.domain }}"
+              - alertmanager.{{ .Values.domain }}
             tls:
               - secretName: alertmanager-cert
                 hosts:
-                  - alertmanager."{{ .Values.domain }}"
+                  - alertmanager.{{ .Values.domain }}
         grafana:
           admin:
             existingSecret: grafana-admin
@@ -44,11 +47,11 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-              - grafana."{{ .Values.domain }}"
+              - grafana.{{ .Values.domain }}
             tls:
               - secretName: grafana-cert
                 hosts:
-                  - grafana."{{ .Values.domain }}"
+                  - grafana.{{ .Values.domain }}
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
