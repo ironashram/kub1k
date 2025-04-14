@@ -1,6 +1,23 @@
 # This file is maintained automatically by "tofu init".
 # Manual edits may be lost in future updates.
 
+provider "registry.opentofu.org/hashicorp/archive" {
+  version = "2.7.0"
+  hashes = [
+    "h1:54u+Kfg2ITHB1k/6tC2Y/0//J66lseBIz2ydMJHvAB8=",
+    "zh:351318d6caad0b03c28b30362e9d8b801f94b0bfd11b08566ad2b37f63671f8a",
+    "zh:56b70c49a2b60cb6a4f42bed921c30863481eb0422bb180e50dde271104731d9",
+    "zh:7781aac1366a5ac0226f83331f152921c58b155fb91f506b0854b8267b870432",
+    "zh:7aabcaccacfcaa2fb84fdea93453552617e0efecc9869e88b63607c459fb99aa",
+    "zh:7bcd07d40cf33f64c19f033d3ee64a243f09e039a2516ab3707aceb51669a532",
+    "zh:a423791fae7a51f1235f47ba13baa61d50714b10d84bbf391a6c0b55fe2e1a9a",
+    "zh:c8af7913de581bf2ca2dbf0906e604123a2a8f86a087c3b40a79cdacd5e867f5",
+    "zh:ee6c2995e7d462a0e769d62e5345e04acddff8af38422e7dd3925d1769408e7b",
+    "zh:f5c2311af4ee6ad8f1bd7eb4a1d38e371d1cbe90abf812797f6863e420f1c463",
+    "zh:fb3c41fa9fe5181db85c58d4893474082a2c7f14ba5a69e38c609b1fda9ba741",
+  ]
+}
+
 provider "registry.opentofu.org/hashicorp/helm" {
   version     = "2.17.0"
   constraints = ">= 2.10.1"

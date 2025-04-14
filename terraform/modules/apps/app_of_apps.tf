@@ -21,4 +21,21 @@ resource "helm_release" "argocd_app_of_apps" {
     name  = "externalDomain"
     value = var.external_domain
   }
+
+  lifecycle {
+    replace_triggered_by = [null_resource.src_argocd_app_of_apps]
+  }
+}
+
+data "archive_file" "argocd_app_of_apps" {
+
+  type        = "zip"
+  source_dir  = "${path.root}/../charts/argocd-app-of-apps"
+  output_path = "${path.root}/.terraform/argocd-app-of-apps.zip"
+}
+
+resource "null_resource" "src_argocd_app_of_apps" {
+  triggers = {
+    src_sha = data.archive_file.argocd_app_of_apps.output_sha
+  }
 }
