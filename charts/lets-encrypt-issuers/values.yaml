@@ -1,6 +1,4 @@
+# domain: "example.com"
 letsencrypt:
-  email: "postmaster@m1k.cloud"
-  groupName: "acme.m1k.cloud"
-  zoneName: "m1k.cloud"
   existingSecret:
     name: "hetzner-api-token"
