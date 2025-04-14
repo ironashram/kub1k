@@ -19,7 +19,7 @@ spec:
       parameters:
         - name: environment
           value: "{{ .Values.environment }}"
-        - name: interrnalDomain
+        - name: internalDomain
           value: "{{ .Values.internalDomain }}"
         - name: externalDomain
           value: "{{ .Values.externalDomain }}"

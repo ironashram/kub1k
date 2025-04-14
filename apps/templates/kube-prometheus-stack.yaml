@@ -20,19 +20,6 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 70.4.2
     helm:
-      parameters:
-        - name: alertmanager.ingress.hosts[0]
-          value: "alertmanager.{{ .Values.internalDomain }}"
-        - name: alertmanager.ingress.tls[0].hosts[0]
-          value: "alertmanager.{{ .Values.internalDomain }}"
-        - name: grafana.ingress.hosts[0]
-          value: "grafana.{{ .Values.internalDomain }}"
-        - name: grafana.ingress.tls[0].hosts[0]
-          value: "grafana.{{ .Values.internalDomain }}"
-        - name: prometheus.ingress.hosts[0]
-          value: "prometheus.{{ .Values.internalDomain }}"
-        - name: prometheus.ingress.tls[0].hosts[0]
-          value: "prometheus.{{ .Values.internalDomain }}"
       valuesObject:
         alertmanager:
           ingress:
@@ -40,8 +27,12 @@ spec:
               cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             ingressClassName: haproxy
+            hosts:
+              - alertmanager.{{ .Values.internalDomain }}
             tls:
               - secretName: alertmanager-cert
+                hosts:
+                  - alertmanager.{{ .Values.internalDomain }}
         grafana:
           admin:
             existingSecret: grafana-admin
@@ -52,8 +43,12 @@ spec:
               cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             ingressClassName: haproxy
+            hosts:
+              - grafana.{{ .Values.internalDomain }}
             tls:
               - secretName: grafana-cert
+                hosts:
+                  - grafana.{{ .Values.internalDomain }}
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
@@ -98,8 +93,12 @@ spec:
               cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             ingressClassName: haproxy
+            hosts:
+              - prometheus.{{ .Values.internalDomain }}
             tls:
               - secretName: prometheus-cert
+                hosts:
+                  - prometheus.{{ .Values.internalDomain }}
           prometheusSpec:
             enableFeatures:
               - exemplar-storage
