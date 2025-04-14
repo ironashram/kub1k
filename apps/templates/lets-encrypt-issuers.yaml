@@ -19,8 +19,13 @@ spec:
     path: charts/lets-encrypt-issuers
     targetRevision: main
     helm:
-      valuesObject:
-        environment: "{{ .Values.environment }}"
+      parameters:
+        - name: environment
+          value: "{{ .Values.environment }}"
+        - name: internalDomain
+          value: "{{ .Values.internalDomain }}"
+        - name: externalDomain
+          value: "{{ .Values.externalDomain }}"
   destination:
     name: in-cluster
     namespace: cert-manager
