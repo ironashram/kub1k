@@ -4,7 +4,7 @@ metadata:
   name: argocd-app-of-apps
   namespace: argocd
   labels:
-    app/cluster: { { .Values.environment } }
+    app/cluster: "{{ .Values.environment }}"
     app/source: local
 spec:
   project: default
@@ -18,6 +18,10 @@ spec:
     helm:
       parameters:
         - name: environment
-          value: { { .Values.environment } }
+          value: "{{ .Values.environment }}"
+        - name: interrnalDomain
+          value: "{{ .Values.internalDomain }}"
+        - name: externalDomain
+          value: "{{ .Values.externalDomain }}"
   destination:
     name: in-cluster

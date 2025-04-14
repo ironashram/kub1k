@@ -28,11 +28,11 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-              - alertmanager.{{ .Values.internalDomain }}
+              - "alertmanager.{{ .Values.internalDomain }}"
             tls:
               - secretName: alertmanager-cert
                 hosts:
-                  - alertmanager.{{ .Values.internalDomain }}
+                  - "alertmanager.{{ .Values.internalDomain }}"
         grafana:
           admin:
             existingSecret: grafana-admin
@@ -44,11 +44,11 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-              - grafana.{{ .Values.internalDomain }}
+              - "grafana.{{ .Values.internalDomain }}"
             tls:
               - secretName: grafana-cert
                 hosts:
-                  - grafana.{{ .Values.internalDomain }}
+                  - "grafana.{{ .Values.internalDomain }}"
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
@@ -94,11 +94,11 @@ spec:
             enabled: true
             ingressClassName: haproxy
             hosts:
-              - prometheus.{{ .Values.internalDomain }}
+              - "prometheus.{{ .Values.internalDomain }}"
             tls:
               - secretName: prometheus-cert
                 hosts:
-                  - prometheus.{{ .Values.internalDomain }}
+                  - "prometheus.{{ .Values.internalDomain }}"
           prometheusSpec:
             enableFeatures:
               - exemplar-storage

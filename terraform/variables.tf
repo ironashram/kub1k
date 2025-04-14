@@ -13,16 +13,20 @@ variable "k3s_version" {
 variable "control" {
   default = [{
     name = "kub1k-control-01"
-    ip = "10.0.0.241"
+    ip   = "10.0.0.241"
   }]
 }
 
 variable "worker" {
   default = [{
     name = "kub1k-worker-01"
-    ip = "10.0.0.242"
-  },{
+    ip   = "10.0.0.242"
+    }, {
     name = "kub1k-worker-02"
-    ip = "10.0.0.243"
+    ip   = "10.0.0.243"
   }]
+}
+
+variable "remote_state_s3_endpoint" {
+  description = "url for s3 backend"
 }

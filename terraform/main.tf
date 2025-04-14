@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     region = "s3-m1k-cloud"
     endpoints = {
-      s3 = "https://s3.${var.external_domain}"
+      s3 = "https://${var.remote_state_s3_endpoint}"
     }
     bucket                      = "tfdata-v2"
     key                         = "terraform.tfstate"
