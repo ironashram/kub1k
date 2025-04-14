@@ -1,7 +1,3 @@
-/*********
-  Nginx
-*********/
-
 resource "helm_release" "haproxy_ingress" {
   depends_on = [helm_release.cilium, helm_release.cert_manager]
   name       = yamldecode(file("${path.module}/manifests/haproxy-ingress.yaml")).metadata.name

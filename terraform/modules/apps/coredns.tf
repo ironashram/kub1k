@@ -1,7 +1,3 @@
-/*********
-  CoreDNS
-*********/
-
 resource "helm_release" "coredns" {
   name = yamldecode(file("${path.module}/manifests/coredns.yaml")).metadata.name
 

@@ -1,7 +1,3 @@
-/*********
-  Cilium
-*********/
-
 resource "helm_release" "cilium" {
   name = "cilium"
 
@@ -36,11 +32,6 @@ resource "helm_release" "cilium" {
     command = "sleep 60"
   }
 }
-
-
-/*******************
-  Cilium Resources
-*******************/
 
 resource "kubernetes_manifest" "cilium_lb_pool" {
   manifest = {

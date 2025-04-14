@@ -1,11 +1,8 @@
-/*****************************
-  S3 State Configuration
-*****************************/
 terraform {
   backend "s3" {
     region = "s3-m1k-cloud"
     endpoints = {
-      s3 = "https://s3.m1k.cloud"
+      s3 = "https://s3.${var.external_domain}"
     }
     bucket                      = "tfdata-v2"
     key                         = "terraform.tfstate"

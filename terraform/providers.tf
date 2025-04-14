@@ -1,7 +1,3 @@
-/*************************
-  Provider Configuration
-*************************/
-
 provider "vault" {}
 
 provider "helm" {

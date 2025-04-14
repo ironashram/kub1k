@@ -1,7 +1,3 @@
-/***************
-  Cert Manager
-***************/
-
 resource "helm_release" "cert_manager" {
   depends_on = [helm_release.cilium]
   name       = yamldecode(file("${path.module}/manifests/cert-manager.yaml")).metadata.name

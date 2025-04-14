@@ -1,6 +1,3 @@
-/*********
-  ArgoCD
-*********/
 resource "helm_release" "argocd" {
   depends_on       = [helm_release.cilium, helm_release.cert_manager, helm_release.haproxy_ingress, helm_release.coredns]
   name             = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.name

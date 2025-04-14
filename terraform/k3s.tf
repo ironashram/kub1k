@@ -1,6 +1,3 @@
-/*****************
-  Provision K3S
-*****************/
 module "provision_k3s" {
   source = "./modules/k3s"
 

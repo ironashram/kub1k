@@ -1,6 +1,3 @@
-/*****************
-  Provision Apps
-*****************/
 module "provision_apps" {
   count  = local.cluster_host != null ? 1 : 0
   source = "./modules/apps"
