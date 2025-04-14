@@ -41,3 +41,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
           VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+          TF_VAR_remote_state_s3_endpoint: ${{ secrets.TF_VAR_REMOTE_STATE_S3_ENDPOINT }}
