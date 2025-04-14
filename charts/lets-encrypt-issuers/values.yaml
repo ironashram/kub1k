@@ -1,4 +1,4 @@
-# domain: "example.com"
+# externalDomain: "example.com"
 letsencrypt:
   existingSecret:
     name: "hetzner-api-token"

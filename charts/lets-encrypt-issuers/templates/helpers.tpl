@@ -1,11 +1,11 @@
 {{- define "letsencrypt.email" -}}
-postmaster@{{ .Values.domain }}
+postmaster@{{ .Values.externalDomain }}
 {{- end -}}
 
 {{- define "letsencrypt.groupName" -}}
-acme.{{ .Values.domain }}
+acme.{{ .Values.externalDomain }}
 {{- end -}}
 
 {{- define "letsencrypt.zoneName" -}}
-{{ .Values.domain }}
+{{ .Values.externalDomain }}
 {{- end -}}

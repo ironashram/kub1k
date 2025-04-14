@@ -22,8 +22,6 @@ spec:
       parameters:
         - name: environment
           value: "{{ .Values.environment }}"
-        - name: internalDomain
-          value: "{{ .Values.internalDomain }}"
         - name: externalDomain
           value: "{{ .Values.externalDomain }}"
   destination:
