@@ -41,7 +41,7 @@ resource "helm_release" "argocd" {
     value = "git"
   }
 
-  set {
+  set_sensitive {
     name  = "global.domain"
     value = "argocd.${var.internal_domain}"
   }

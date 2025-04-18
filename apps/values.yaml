@@ -1,3 +1,4 @@
 # environment: example
 # internalDomain: lab.example.com
 # externalDomain: example.com
+# k8sEndpoint: k8s.example.com

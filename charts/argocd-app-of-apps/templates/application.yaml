@@ -23,5 +23,7 @@ spec:
           value: "{{ .Values.internalDomain }}"
         - name: externalDomain
           value: "{{ .Values.externalDomain }}"
+        - name: k8sEndpoint
+          value: "{{ .Values.k8sEndpoint }}"
   destination:
     name: in-cluster

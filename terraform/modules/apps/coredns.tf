@@ -10,7 +10,7 @@ resource "helm_release" "coredns" {
 
   max_history = 0
 
-  set {
+  set_sensitive {
     name  = "service.clusterIP"
     value = var.k3s_cluster_dns
   }

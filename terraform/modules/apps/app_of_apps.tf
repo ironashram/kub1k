@@ -7,19 +7,24 @@ resource "helm_release" "argocd_app_of_apps" {
 
   create_namespace = true
 
-  set {
+  set_sensitive {
     name  = "environment"
     value = terraform.workspace
   }
 
-  set {
+  set_sensitive {
     name  = "internalDomain"
     value = var.internal_domain
   }
 
-  set {
+  set_sensitive {
     name  = "externalDomain"
     value = var.external_domain
+  }
+
+  set_sensitive {
+    name  = "k8sEndpoint"
+    value = var.k8s_endpoint
   }
 
   lifecycle {

@@ -22,8 +22,18 @@ variable "argocd_admin_password" {
   sensitive = true
 }
 
-variable "k3s_cluster_dns" {}
+variable "k3s_cluster_dns" {
+  sensitive = true
+}
 
-variable "internal_domain" {}
+variable "internal_domain" {
+  sensitive = true
+}
 
-variable "external_domain" {}
+variable "external_domain" {
+  sensitive = true
+}
+
+variable "k8s_endpoint" {
+  sensitive = true
+}

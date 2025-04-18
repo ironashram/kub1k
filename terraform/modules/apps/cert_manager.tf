@@ -28,7 +28,7 @@ resource "helm_release" "webhook_hetzner" {
 
   max_history = 0
 
-  set {
+  set_sensitive {
     name  = "groupName"
     value = "acme.${var.external_domain}"
   }
