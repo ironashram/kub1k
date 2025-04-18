@@ -12,7 +12,7 @@ spec:
     automated:
       selfHeal: true
   source:
-    repoURL: https://github.com/ironashram/kub1k.git
+    repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
     path: apps
     targetRevision: main
     helm:
