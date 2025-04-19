@@ -3,3 +3,4 @@
 kubeconfig
 terraform.tfstate*
 terraform.tfplan
+.terraform.lock.hcl
