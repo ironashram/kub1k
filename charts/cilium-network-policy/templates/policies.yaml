@@ -23,7 +23,7 @@ spec:
 apiVersion: "cilium.io/v2"
 kind: CiliumClusterwideNetworkPolicy
 metadata:
-  name: "l7-egress-visibility"
+  name: "world-egress"
 spec:
   description: "L7 policy"
   endpointSelector: {}
@@ -36,6 +36,8 @@ spec:
               protocol: "TCP"
             - port: "443"
               protocol: "TCP"
+            - port: "53"
+              protocol: "ANY"
           rules:
             http:
               - {}
@@ -43,7 +45,7 @@ spec:
 apiVersion: "cilium.io/v2"
 kind: CiliumClusterwideNetworkPolicy
 metadata:
-  name: "
+  name: "world-ingress"
 spec:
   description: "L7 policy"
   endpointSelector: {}
@@ -71,22 +73,4 @@ spec:
   egress:
     - toEndpoints:
       - {}
----
-apiVersion: "cilium.io/v2"
-kind: CiliumClusterwideNetworkPolicy
-metadata:
-  name: "all-pods-egress-world"
-spec:
-  endpointSelector: {}
-  egress:
-    - toEntities:
-        - world
-      toPorts:
-        - ports:
-            - port: "80"
-              protocol: "TCP"
-            - port: "443"
-              protocol: "TCP"
-            - port: "53"
-              protocol: "ANY"
 {{- end }}
