@@ -1,6 +1,6 @@
 {{ if .Values.networkPolicy.enabled }}
 apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
+kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: dns-visibility
 spec:
@@ -24,7 +24,7 @@ spec:
         - all
 ---
 apiVersion: "cilium.io/v2"
-kind: CiliumNetworkPolicy
+kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: "l7-egress-visibility"
 spec:
@@ -44,7 +44,7 @@ spec:
               - {}
 ---
 apiVersion: "cilium.io/v2"
-kind: CiliumNetworkPolicy
+kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: "l7-ingress-visibility"
 spec:
@@ -60,19 +60,4 @@ spec:
           rules:
             http:
               - {}
----
-apiVersion: "cilium.io/v2"
-kind: CiliumNetworkPolicy
-metadata:
-  name: "allow-all-within-namespace"
-spec:
-  description: "Allow all within namespace"
-  endpointSelector: {}
-  ingress:
-    - fromEndpoints:
-        - {}
-  egress:
-    - toEndpoints:
-        - {}
-
 {{- end }}
