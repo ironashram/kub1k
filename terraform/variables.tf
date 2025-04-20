@@ -21,17 +21,17 @@ variable "k3s_version" {
 variable "control_nodes" {
   default = [{
     name = "control-01"
-    ip   = "10.0.0.241"
+    ip = "10.0.0.241"
   }]
 }
 
 variable "worker_nodes" {
   default = [{
     name = "worker-01"
-    ip   = "10.0.0.242"
-    }, {
+    ip = "10.0.0.242"
+  },{
     name = "worker-02"
-    ip   = "10.0.0.243"
+    ip = "10.0.0.243"
   }]
 }
 
