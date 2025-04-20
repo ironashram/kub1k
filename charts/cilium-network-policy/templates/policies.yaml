@@ -1,0 +1,78 @@
+{{ if .Values.networkPolicy.enabled }}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: dns-visibility
+spec:
+  endpointSelector:
+    matchLabels: {}
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: coredns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchPattern: "*"
+    - toEntities:
+        - all
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "l7-egress-visibility"
+spec:
+  description: "L7 policy"
+  endpointSelector: {}
+  egress:
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: "TCP"
+            - port: "443"
+              protocol: "TCP"
+          rules:
+            http:
+              - {}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "l7-ingress-visibility"
+spec:
+  description: "L7 policy"
+  endpointSelector: {}
+  ingress:
+    - toPorts:
+        - ports:
+            - port: "80"
+              protocol: "TCP"
+            - port: "443"
+              protocol: "TCP"
+          rules:
+            http:
+              - {}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "allow-all-within-namespace"
+spec:
+  description: "Allow all within namespace"
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - {}
+  egress:
+    - toEndpoints:
+        - {}
+
+{{- end }}
