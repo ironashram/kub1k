@@ -21,7 +21,7 @@ spec:
     helm:
       parameters:
         - name: networkPolicy.enabled
-          value: false
+          value: "false"
   destination:
     name: in-cluster
     namespace: cilium-network-policy
