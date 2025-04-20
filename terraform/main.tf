@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    region = "s3-m1k-cloud"
+    region = "custom"
     endpoints = {
       s3 = "https://${var.remote_state_s3_endpoint}"
     }
