@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lets-encrypt-issuers
+  name: secrets
   namespace: argocd
   labels:
     app/cluster: "{{ .Values.environment }}"
@@ -16,14 +16,12 @@ spec:
       selfHeal: true
   source:
     repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
-    path: charts/lets-encrypt-issuers
+    path: charts/ciulium-network-policy
     targetRevision: main
     helm:
       parameters:
-        - name: environment
-          value: "{{ .Values.environment }}"
-        - name: externalDomain
-          value: "{{ .Values.externalDomain }}"
+        - name: networkPolicy.enabled
+          value: false
   destination:
     name: in-cluster
-    namespace: cert-manager
+    namespace:
