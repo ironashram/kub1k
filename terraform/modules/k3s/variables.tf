@@ -6,7 +6,7 @@ variable "k3s_extra_args" {}
 
 variable "k3s_version" {}
 
-variable "control" {}
+variable "control_nodes" {}
 
-variable "worker" {}
+variable "worker_nodes" {}
 

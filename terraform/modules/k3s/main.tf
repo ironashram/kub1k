@@ -4,7 +4,7 @@ resource "null_resource" "k3s_control" {
     md5_vars = md5(file("${path.root}/variables.tf"))
   }
 
-  for_each = { for master in var.control : master.name => master }
+  for_each = { for i in var.control_nodes : i.name => i }
   provisioner "local-exec" {
     command = <<EOT
             k3sup install \
@@ -13,7 +13,7 @@ resource "null_resource" "k3s_control" {
             --user ${var.ssh_user} \
             --local-path ${var.kube_config_output} \
             --k3s-version ${var.k3s_version} \
-            --k3s-extra-args '${local.k3s_extra_args}'
+            --k3s-extra-args '${var.k3s_extra_args}'
         EOT
   }
 }
@@ -25,12 +25,12 @@ resource "null_resource" "k3s_worker" {
     md5_vars = md5(file("${path.root}/variables.tf"))
   }
 
-  for_each = { for worker in var.worker : worker.name => worker }
+  for_each = { for i in var.worker_nodes : i.name => i }
   provisioner "local-exec" {
     command = <<EOT
             k3sup join \
             --ip ${each.value.ip} \
-            --server-ip ${var.control[0].ip} \
+            --server-ip ${var.control_nodes[0].ip} \
             --user ${var.ssh_user} \
             --k3s-version ${var.k3s_version}
         EOT
@@ -44,7 +44,7 @@ resource "null_resource" "k3s_kubeconfig" {
     command = <<EOT
             k3sup install \
             --skip-install \
-            --ip ${var.control[0].ip} \
+            --ip ${var.control_nodes[0].ip} \
             --context ${terraform.workspace} \
             --user ${var.ssh_user} \
             --local-path ${var.kube_config_output}

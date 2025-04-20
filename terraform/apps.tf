@@ -11,7 +11,7 @@ module "provision_apps" {
   internal_domain       = data.vault_kv_secret_v2.domain.data.internal
   external_domain       = data.vault_kv_secret_v2.domain.data.external
   k3s_cluster_dns       = var.k3s_cluster_dns
-  k8s_endpoint          = var.control[0].ip
+  k8s_endpoint          = local.control_nodes[0].ip
 
   providers = {
     helm       = helm
