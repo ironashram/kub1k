@@ -2,7 +2,7 @@
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
-  name: dns-visibility
+  name: coredns
 spec:
   endpointSelector:
     matchLabels: {}
@@ -18,10 +18,7 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toFQDNs:
-        - matchPattern: "*"
-    - toEntities:
-        - all
+  ing
 ---
 apiVersion: "cilium.io/v2"
 kind: CiliumClusterwideNetworkPolicy
@@ -46,11 +43,13 @@ spec:
 apiVersion: "cilium.io/v2"
 kind: CiliumClusterwideNetworkPolicy
 metadata:
-  name: "l7-ingress-visibility"
+  name: "
 spec:
   description: "L7 policy"
   endpointSelector: {}
   ingress:
+    - fromEntities:
+        - world
     - toPorts:
         - ports:
             - port: "80"
@@ -60,4 +59,34 @@ spec:
           rules:
             http:
               - {}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: "haproxy-controller-egress-all"
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: haproxy-ingress
+  egress:
+    - toEndpoints:
+      - {}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: "all-pods-egress-world"
+spec:
+  endpointSelector: {}
+  egress:
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: "TCP"
+            - port: "443"
+              protocol: "TCP"
+            - port: "53"
+              protocol: "ANY"
 {{- end }}
