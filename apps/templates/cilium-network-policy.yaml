@@ -24,4 +24,4 @@ spec:
           value: false
   destination:
     name: in-cluster
-    namespace:
+    namespace: cilium-network-policy
