@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: secrets
+  name: cilium-network-policy
   namespace: argocd
   labels:
     app/cluster: "{{ .Values.environment }}"
@@ -16,7 +16,7 @@ spec:
       selfHeal: true
   source:
     repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
-    path: charts/ciulium-network-policy
+    path: charts/cilium-network-policy
     targetRevision: main
     helm:
       parameters:
