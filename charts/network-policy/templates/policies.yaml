@@ -480,4 +480,28 @@ spec:
       rules:
         dns:
         - matchPattern: "*"
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-all-kube-system
+  namespace: kube-system
+spec:
+  endpointSelector: {}
+  ingress:
+  - {}
+  egress:
+  - {}
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-all-haproxy-ingress
+  namespace: haproxy-ingress
+spec:
+  endpointSelector: {}
+  ingress:
+  - {}
+  egress:
+  - {}
 {{- end }}
