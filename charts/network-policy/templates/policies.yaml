@@ -8,7 +8,15 @@ spec:
   description: "Allow all cluster-wide traffic"
   endpointSelector: {}
   ingress:
-    - {}
+    - fromEntities:
+        - cluster
+        - world
+        - host
+        - unmanaged
   egress:
-    - {}
+    - toEntities:
+        - cluster
+        - world
+        - host
+        - unmanaged
 {{- end }}
