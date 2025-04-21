@@ -118,6 +118,11 @@ spec:
                       storage: 50Gi
             nodeSelector:
               node-role.kubernetes.io/worker: "true"
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
+              runAsGroup: 0
+              fsGroup: 0
         prometheusOperator:
           tls:
             enabled: false
