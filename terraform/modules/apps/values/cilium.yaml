@@ -1,5 +1,6 @@
 k8sServicePort: 6443
 kubeProxyReplacement: true
+policyAuditMode: true
 l2announcements:
   enabled: true
 prometheus:
