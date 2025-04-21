@@ -8,9 +8,7 @@ spec:
   description: "Allow all cluster-wide traffic"
   endpointSelector: {}
   ingress:
-    - fromEndpoints: {}
-      toPorts: []
+    - {}
   egress:
-    - toPorts: []
-      toCIDRs: []
+    - {}
 {{- end }}
