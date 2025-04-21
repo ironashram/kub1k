@@ -19,8 +19,6 @@ spec:
               protocol: TCP
             - port: "3000"
               protocol: TCP
-            - port: "8080"
-              protocol: TCP
             - port: "8081"
               protocol: TCP
             - port: "8082"
@@ -54,8 +52,6 @@ spec:
             - port: "80"
               protocol: TCP
             - port: "3000"
-              protocol: TCP
-            - port: "8080"
               protocol: TCP
             - port: "8081"
               protocol: TCP
