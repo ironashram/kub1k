@@ -10,6 +10,11 @@ resource "helm_release" "cilium" {
 
   max_history = 0
 
+  set {
+    name  = "k8sServiceHost"
+    value = var.k8s_endpoint
+  }
+
   set_list {
     name = "hubble.ui.ingress.hosts"
     value = [
