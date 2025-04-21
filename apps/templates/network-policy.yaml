@@ -21,7 +21,7 @@ spec:
     helm:
       parameters:
         - name: networkPolicy.enabled
-          value: "false"
+          value: "true"
   destination:
     name: in-cluster
     namespace: kube-system
