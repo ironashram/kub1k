@@ -65,3 +65,7 @@ hubble:
       className: haproxy
       tls:
         - secretName: hubble-cert
+  export:
+    static:
+      enabled: false
+      filePath: /var/run/cilium/hubble/events.log
