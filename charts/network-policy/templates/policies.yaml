@@ -3,9 +3,9 @@
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
-  name: "allow-all-traffic"
+  name: "allow-all-with-l7-visibility"
 spec:
-  description: "Allow all cluster-wide traffic"
+  description: "Allow all cluster-wide traffic and enable L7 visibility for DNS/HTTP"
   endpointSelector: {}
   ingress:
     - fromEntities:
@@ -14,6 +14,26 @@ spec:
         - host
         - unmanaged
   egress:
+    - toEntities:
+        - cluster
+        - world
+        - host
+        - unmanaged
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
+              protocol: TCP
+          rules:
+            http:
+              - {}
     - toEntities:
         - cluster
         - world
