@@ -16,8 +16,8 @@ spec:
       selfHeal: true
   source:
     chart: synology-csi
-    repoURL: https://zebernst.github.io/synology-csi-talos
-    targetRevision: 0.9.5-pre.4
+    repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
+    targetRevision: 0.10.1
     helm:
       valuesObject:
         clientInfoSecret:
@@ -29,6 +29,7 @@ spec:
             parameters:
               fsType: ext4
               location: /volume2
+              protocol: iscsi
   destination:
     name: in-cluster
     namespace: synology-csi
