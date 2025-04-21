@@ -111,7 +111,7 @@ spec:
             storageSpec:
               volumeClaimTemplate:
                 spec:
-                  storageClassName: default
+                  storageClassName: synology-csi-iscsi-delete
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
