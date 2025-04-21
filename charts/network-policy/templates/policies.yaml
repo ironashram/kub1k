@@ -72,4 +72,15 @@ spec:
   egress:
     - toEndpoints:
       - {}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: "allow-all-traffic"
+spec:
+  endpointSelector: {}
+  ingress:
+  - {}
+  egress:
+  - {}
 {{- end }}
