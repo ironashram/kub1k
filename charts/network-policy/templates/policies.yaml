@@ -3,11 +3,14 @@
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
-  name: allow-all
+  name: "allow-all-traffic"
 spec:
+  description: "Allow all cluster-wide traffic"
   endpointSelector: {}
   ingress:
-  - {}
+    - fromEndpoints: {}
+      toPorts: []
   egress:
-  - {}
+    - toPorts: []
+      toCIDRs: []
 {{- end }}
