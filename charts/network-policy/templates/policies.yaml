@@ -24,7 +24,6 @@ kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: "world-egress"
 spec:
-  description: "L7 policy"
   endpointSelector: {}
   egress:
     - toEntities:
@@ -35,11 +34,12 @@ spec:
               protocol: "TCP"
             - port: "443"
               protocol: "TCP"
-            - port: "53"
-              protocol: "ANY"
           rules:
             http:
               - {}
+        - ports:
+            - port: "53"
+              protocol: "ANY"
 ---
 apiVersion: "cilium.io/v2"
 kind: CiliumClusterwideNetworkPolicy
