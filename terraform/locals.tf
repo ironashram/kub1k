@@ -40,5 +40,4 @@ locals {
     "--disable=servicelb",
     "--disable=coredns"
   ])
-
 }
