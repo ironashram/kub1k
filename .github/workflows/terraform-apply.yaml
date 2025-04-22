@@ -1,11 +1,11 @@
 name: Terraform Apply
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [closed]
     paths:
       - 'terraform/**'
+      - 'terraform/**/*.yaml'
   workflow_dispatch:
 
 jobs:
@@ -33,6 +33,15 @@ jobs:
           ssh-add -q ~/.ssh/id_rsa
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Download plan artifact
+        run: aws s3 cp s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan terraform/terraform.tfplan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL:  ${{ secrets.AWS_ENDPOINT_URL }}
+          S3_BUCKET: github-artifacts
+          S3_PREFIX: ${{ github.event.repository.name }}/pulls/${{ github.event.number }}/terraform-plan
 
       - name: terraform apply
         run: make plan kub1k && make apply kub1k

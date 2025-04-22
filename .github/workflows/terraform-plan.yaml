@@ -2,10 +2,10 @@ name: Terraform Plan
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'terraform/**'
       - 'terraform/**/*.yaml'
-  workflow_dispatch:
 
 jobs:
   plan:
@@ -47,3 +47,13 @@ jobs:
         run: make comment-pr kub1k
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload plan artifact
+        if: github.event_name == 'pull_request'
+        run: aws s3 cp terraform/terraform.tfplan s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL:  ${{ secrets.AWS_ENDPOINT_URL }}
+          S3_BUCKET: github-artifacts
+          S3_PREFIX: ${{ github.event.repository.name }}/pulls/${{ github.event.number }}/terraform-plan
