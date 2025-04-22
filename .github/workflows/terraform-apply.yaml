@@ -6,7 +6,6 @@ on:
     paths:
       - 'terraform/**'
       - 'terraform/**/*.yaml'
-  workflow_dispatch:
 
 jobs:
   apply:
