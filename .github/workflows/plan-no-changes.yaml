@@ -1,5 +1,5 @@
 
-name: Terraform Plan (No Changes)
+name: Skip Terraform Plan (No Changed Terraform Files)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
