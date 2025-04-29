@@ -1,0 +1,11 @@
+
+name: Dummy PR Check
+on:
+  pull_request:
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pass check since terraform code is unchanged
+        run: echo "No changes in terraform files, skipping plan step"
