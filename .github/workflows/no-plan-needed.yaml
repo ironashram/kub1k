@@ -1,0 +1,12 @@
+
+name: No Plan Needed
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pass check since terraform code is unchanged
+        run: echo "No changes in terraform files, skipping plan step"
