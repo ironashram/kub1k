@@ -1,5 +1,5 @@
 
-name: Dummy PR Check
+name: No Plan Needed
 on:
   pull_request:
     types: [opened, synchronize, reopened]
