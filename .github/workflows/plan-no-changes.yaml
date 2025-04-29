@@ -3,6 +3,9 @@ name: Terraform Plan (No Changes)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - '!terraform/**'
+      - '!terraform/**/*.yaml'
 
 jobs:
   plan:
