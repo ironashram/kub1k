@@ -1,5 +1,5 @@
 
-name: No Plan Needed
+name: Terraform Plan
 on:
   pull_request:
     types: [opened, synchronize, reopened]
