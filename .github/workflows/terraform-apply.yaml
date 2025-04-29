@@ -9,6 +9,7 @@ on:
 
 jobs:
   apply:
+    if: github.event.pull_request.merged == true
     runs-on: gha-runner-scale-set-kub1k
     container:
       image: quay.io/m1k_cloud/toolbox:latest
