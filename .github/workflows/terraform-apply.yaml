@@ -19,7 +19,6 @@ jobs:
       contents: read
       pull-requests: write
 
-    name: Terraform Apply
     steps:
       - name: Checkout
         uses: actions/checkout@v4
