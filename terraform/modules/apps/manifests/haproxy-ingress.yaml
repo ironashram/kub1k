@@ -7,4 +7,4 @@ spec:
   source:
     chart: haproxy-ingress
     repoURL: https://haproxy-ingress.github.io/charts
-    targetRevision: 0.14.7
+    targetRevision: 0.14.8
