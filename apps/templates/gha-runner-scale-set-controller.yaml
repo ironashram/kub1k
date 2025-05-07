@@ -28,5 +28,6 @@ spec:
       kind: CustomResourceDefinition
       jsonPointers:
         - /spec/preserveUnknownFields
+  destination:
     name: in-cluster
     namespace: arc-runners
