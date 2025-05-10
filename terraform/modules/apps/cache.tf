@@ -43,7 +43,7 @@ resource "kubernetes_cron_job_v1" "image_cache" {
               name              = "toolbox-cache"
               image             = "quay.io/m1k_cloud/toolbox:latest"
               image_pull_policy = "Always"
-              command           = ["/bin/sh", "-c", "date; echo 'Toolbox Image Cached'"]
+              command           = ["date", "+%Y-%m-%d %H:%M:%S toolbox image cached"]
             }
             restart_policy = "OnFailure"
           }

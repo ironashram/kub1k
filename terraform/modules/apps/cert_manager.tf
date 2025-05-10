@@ -36,7 +36,7 @@ resource "helm_release" "webhook_hetzner" {
   set_list {
     name = "secretName"
     value = [
-      "hetzner-cloud-token"
+      "hetzner-api-token"
     ]
   }
 }
