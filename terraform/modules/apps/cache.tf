@@ -41,7 +41,7 @@ resource "kubernetes_cron_job_v1" "image_cache" {
             }
             container {
               name              = "toolbox-cache"
-              image             = "quay.io/m1k_cloud/toolbox:latest"
+              image             = "ghcr.io/ironashram/toolbox:latest"
               image_pull_policy = "Always"
               command           = ["date", "+%Y-%m-%d %H:%M:%S toolbox image cached"]
             }
