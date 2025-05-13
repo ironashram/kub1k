@@ -12,7 +12,7 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: gha-runner-scale-set-kub1k
     container:
-      image: quay.io/m1k_cloud/toolbox:latest
+      image: ghcr.io/ironashram/toolbox:latest
     defaults:
       run:
         shell: bash
