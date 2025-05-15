@@ -1,8 +1,8 @@
 ENV := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 TERRAFORM_GLOBAL_OPTIONS := "-chdir=terraform"
 
-CYAN := $(shell tput setaf 6)
-RESET := $(shell tput sgr0)
+CYAN := \033[36m
+RESET := \033[0m
 
 .PHONY: help
 help:
