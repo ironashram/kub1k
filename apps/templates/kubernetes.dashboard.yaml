@@ -32,6 +32,8 @@ spec:
             issuer:
               name: letsencrypt-prod
               scope: cluster
+            annotations:
+              haproxy-ingress.github.io/secure-backends: "true"
   destination:
     name: in-cluster
     namespace: kubernetes-dashboard
