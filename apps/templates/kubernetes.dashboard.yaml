@@ -27,9 +27,8 @@ spec:
             hosts:
               - k8s.{{ .Values.internalDomain }}
             tls:
-              - secretName: k8s-dashboard-cert
-                hosts:
-                  - k8s.{{ .Values.internalDomain }}
+              enabled: true
+              secretName: k8s-dashboard-cert
             issuer:
               name: letsencrypt-prod
               scope: cluster
