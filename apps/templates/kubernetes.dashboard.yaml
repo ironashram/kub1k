@@ -27,6 +27,7 @@ spec:
             hosts:
               - k8s.{{ .Values.internalDomain }}
             issuer:
+              name: letsencrypt-prod
               scope: cluster
   destination:
     name: in-cluster
