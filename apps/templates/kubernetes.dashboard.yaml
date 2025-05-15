@@ -26,6 +26,10 @@ spec:
             useDefaultAnnotations: false
             hosts:
               - k8s.{{ .Values.internalDomain }}
+            tls:
+              - secretName: k8s-dashboard-cert
+                hosts:
+                  - k8s.{{ .Values.internalDomain }}
             issuer:
               name: letsencrypt-prod
               scope: cluster
