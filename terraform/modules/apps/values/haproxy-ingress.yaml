@@ -9,3 +9,5 @@ controller:
     enabled: true
   serviceMonitor:
     enabled: true
+  logs:
+    enabled: true
