@@ -8,3 +8,7 @@ spec:
     chart: cert-manager
     repoURL: https://charts.jetstack.io
     targetRevision: 1.17.2
+  destination:
+    name: in-cluster
+    namespace: cert-manager
+  project: default

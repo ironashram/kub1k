@@ -8,3 +8,7 @@ spec:
     chart: cert-manager-webhook-hetzner
     repoURL: https://vadimkim.github.io/cert-manager-webhook-hetzner
     targetRevision: 1.3.3
+  destination:
+    name: in-cluster
+    namespace: cert-manager
+  project: default

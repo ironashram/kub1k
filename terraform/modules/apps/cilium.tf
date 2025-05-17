@@ -40,7 +40,7 @@ resource "helm_release" "cilium" {
 
 resource "kubernetes_manifest" "cilium_lb_pool" {
   manifest = {
-    apiVersion = "cilium.io/v2alpha1"
+    apiVersion = "cilium.io/v2"
     kind       = "CiliumLoadBalancerIPPool"
     metadata = {
       name = "lb-pool"

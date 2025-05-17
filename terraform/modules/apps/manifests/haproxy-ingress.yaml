@@ -7,4 +7,8 @@ spec:
   source:
     chart: haproxy-ingress
     repoURL: https://haproxy-ingress.github.io/charts
-    targetRevision: 0.14.8
+    targetRevision: v0.15.0-beta.1
+  destination:
+    name: in-cluster
+    namespace: haproxy-ingress
+  project: default
