@@ -41,8 +41,9 @@ spec:
         - .spec.template.metadata.annotations."checksum/config"
     - group: "core"
       kind: "Secret"
-      jqPathExpressions:
-        - .data
+      name: "kubernetes-dashboard-csrf"
+      jsonPointers:
+        - /data
   destination:
     name: in-cluster
     namespace: kubernetes-dashboard
