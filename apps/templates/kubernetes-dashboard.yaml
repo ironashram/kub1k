@@ -34,6 +34,15 @@ spec:
               scope: cluster
             annotations:
               haproxy-ingress.github.io/secure-backends: "true"
+  ignoreDifferences:
+    - group: "apps"
+      kind: "Deployment"
+      jqPathExpressions:
+        - .spec.template.metadata.annotations.checksum/config
+    - group: "core"
+      kind: "Secret"
+      jqPathExpressions:
+        - .data.private.key
   destination:
     name: in-cluster
     namespace: kubernetes-dashboard
