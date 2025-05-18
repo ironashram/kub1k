@@ -25,6 +25,8 @@ spec:
           create: false
         storageClasses:
           iscsi-custom:
+            enabled: true
+            isDefault: true
             reclaimPolicy: Delete
             parameters:
               fsType: ext4
