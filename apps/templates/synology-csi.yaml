@@ -24,12 +24,24 @@ spec:
           name: client-info-secret
           create: false
         storageClasses:
-          default:
+          iscsi-custom:
             reclaimPolicy: Delete
             parameters:
               fsType: ext4
               location: /volume2
               protocol: iscsi
+          iscsi-delete:
+            enabled: false
+          iscsi-retain:
+            enabled: false
+          nfs-delete:
+            enabled: false
+          nfs-retain:
+            enabled: false
+          smb-delete:
+            enabled: false
+          smb-retain:
+            enabled: false
   destination:
     name: in-cluster
     namespace: synology-csi
