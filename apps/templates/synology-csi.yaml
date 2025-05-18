@@ -27,21 +27,21 @@ spec:
           iscsi-custom:
             reclaimPolicy: Delete
             parameters:
-              fsType: ext4
+              fsType: xfs
               location: /volume2
               protocol: iscsi
           iscsi-delete:
-            disabled: false
+            disabled: true
           iscsi-retain:
-            disabled: false
+            disabled: true
           nfs-delete:
-            disabled: false
+            disabled: true
           nfs-retain:
-            disabled: false
+            disabled: true
           smb-delete:
-            disabled: false
+            disabled: true
           smb-retain:
-            disabled: false
+            disabled: true
   destination:
     name: in-cluster
     namespace: synology-csi
