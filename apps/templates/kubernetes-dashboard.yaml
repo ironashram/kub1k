@@ -42,7 +42,7 @@ spec:
     - group: "core"
       kind: "Secret"
       jqPathExpressions:
-        - .data.private.key
+        - .data
   destination:
     name: in-cluster
     namespace: kubernetes-dashboard
