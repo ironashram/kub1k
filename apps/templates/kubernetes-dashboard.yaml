@@ -39,7 +39,7 @@ spec:
       kind: "Deployment"
       jqPathExpressions:
         - .spec.template.metadata.annotations."checksum/config"
-    - group: "core"
+    - group: ""
       kind: "Secret"
       name: "kubernetes-dashboard-csrf"
       jsonPointers:
