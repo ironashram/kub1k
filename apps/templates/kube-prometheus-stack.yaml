@@ -144,6 +144,7 @@ spec:
                 regex: "(kubelet|storage|rest_client|process|go)_(.+)"
                 action: keep
         kubeEtcd:
+          enabled: true
           endpoints:
             - "{{ .Values.k8sEndpoint }}"
           service:
