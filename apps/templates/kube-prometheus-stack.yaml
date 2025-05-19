@@ -153,7 +153,7 @@ spec:
                 bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
                 metric_relabel_configs:
                   - source_labels: [__name__]
-                    regex: (controller_manager|workqueue|rest_client|process|go)_(.+)
+                    regex: (workqueue|rest_client|process|go)_(.+)
                     action: keep
                 relabel_configs:
                   - source_labels: []
