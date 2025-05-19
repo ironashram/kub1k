@@ -1,5 +1,6 @@
 resource "helm_release" "coredns" {
-  name = yamldecode(file("${path.module}/manifests/coredns.yaml")).metadata.name
+  depends_on = [helm_release.cilium]
+  name       = yamldecode(file("${path.module}/manifests/coredns.yaml")).metadata.name
 
   repository = yamldecode(file("${path.module}/manifests/coredns.yaml")).spec.source.repoURL
   chart      = yamldecode(file("${path.module}/manifests/coredns.yaml")).spec.source.chart
