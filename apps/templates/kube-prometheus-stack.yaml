@@ -21,6 +21,8 @@ spec:
     targetRevision: 72.5.0
     helm:
       valuesObject:
+        kubernetesServiceMonitors:
+          enabled: true
         alertmanager:
           ingress:
             annotations:
