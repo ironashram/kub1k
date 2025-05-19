@@ -125,6 +125,65 @@ spec:
               runAsNonRoot: false
               runAsGroup: 0
               fsGroup: 0
+            additionalScrapeConfigs:
+              - job_name: 'kube-etcd'
+                scheme: http
+                static_configs:
+                  - targets: ['{{ .Values.k8sEndpoint }}:2381']
+                metric_relabel_configs:
+                  - source_labels: [__name__]
+                    regex: (etcd|grpc|rest_client|process|go)_(.+)
+                    action: keep
+                relabel_configs:
+                  - source_labels: []
+                    target_label: endpoint
+                    replacement: http-metrics
+                  - source_labels: []
+                    target_label: service
+                    replacement: kube-prometheus-stack-kube-etcd
+                  - source_labels: []
+                    target_label: namespace
+                    replacement: kube-system
+              - job_name: 'kube-controller-manager'
+                scheme: https
+                static_configs:
+                  - targets: ['{{ .Values.k8sEndpoint }}:10257']
+                tls_config:
+                  insecure_skip_verify: true
+                metric_relabel_configs:
+                  - source_labels: [__name__]
+                    regex: (controller_manager|workqueue|rest_client|process|go)_(.+)
+                    action: keep
+                relabel_configs:
+                  - source_labels: []
+                    target_label: endpoint
+                    replacement: https-metrics
+                  - source_labels: []
+                    target_label: service
+                    replacement: kube-prometheus-stack-kube-controller-manager
+                  - source_labels: []
+                    target_label: namespace
+                    replacement: kube-system
+              - job_name: 'kube-scheduler'
+                scheme: https
+                static_configs:
+                  - targets: ['{{ .Values.k8sEndpoint }}:10259']
+                tls_config:
+                  insecure_skip_verify: true
+                metric_relabel_configs:
+                  - source_labels: [__name__]
+                    regex: (scheduler|rest_client|process|go)_(.+)
+                    action: keep
+                relabel_configs:
+                  - source_labels: []
+                    target_label: endpoint
+                    replacement: https-metrics
+                  - source_labels: []
+                    target_label: service
+                    replacement: kube-prometheus-stack-kube-scheduler
+                  - source_labels: []
+                    target_label: namespace
+                    replacement: kube-system
         prometheusOperator:
           tls:
             enabled: false
@@ -144,55 +203,22 @@ spec:
                 regex: "(kubelet|storage|rest_client|process|go)_(.+)"
                 action: keep
         kubeEtcd:
-          enabled: true
-          endpoints:
-            - "{{ .Values.k8sEndpoint }}"
           service:
-            enabled: true
-            port: 2381
-            targetPort: 2381
+            enabled: false
           serviceMonitor:
-            enabled: true
-            metricRelabelings:
-              - sourceLabels: ["__name__"]
-                regex: "(etcd|grpc|rest_client|process|go)_(.+)"
-                action: keep
-        kubeProxy:
-          endpoints:
-            - "{{ .Values.k8sEndpoint }}"
-          serviceMonitor:
-            metricRelabelings:
-              - sourceLabels: ["__name__"]
-                regex: "(kubeproxy|rest_client|process|go)_(.+)"
-                action: keep
+            enabled: false
         kubeControllerManager:
-          endpoints:
-            - "{{ .Values.k8sEndpoint }}"
           service:
-            enabled: true
-            port: 10257
-            targetPort: 10257
+            enabled: false
           serviceMonitor:
-            metricRelabelings:
-              - sourceLabels: ["__name__"]
-                regex: "(workqueue|rest_client|process|go)_(.+)"
-                action: keep
-            https: true
-            insecureSkipVerify: true
+            enabled: false
         kubeScheduler:
-          endpoints:
-            - "{{ .Values.k8sEndpoint }}"
           service:
-            enabled: true
-            port: 10259
-            targetPort: 10259
+            enabled: false
           serviceMonitor:
-            metricRelabelings:
-              - sourceLabels: ["__name__"]
-                regex: "(scheduler|rest_client|process|go)_(.+)"
-                action: keep
-            https: true
-            insecureSkipVerify: true
+            enabled: false
+        kubeProxy:
+          enabled: false
         coreDns:
           enabled: true
           service:
