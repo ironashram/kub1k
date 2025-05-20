@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-webhook-hetzner
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: cert-manager-webhook-hetzner
+    repoURL: https://vadimkim.github.io/cert-manager-webhook-hetzner
+    targetRevision: 1.3.3
+    helm:
+      valuesObject:
+        groupName: acme.{{ .Values.externalDomain }}
+        secretName:
+          - hetzner-api-token
+  destination:
+    name: in-cluster
+    namespace: cert-manager

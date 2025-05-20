@@ -49,7 +49,8 @@ To deploy the infrastructure, follow these steps:
 
 For more detailed instructions, please refer to the [Terraform documentation](https://www.terraform.io/docs/index.html).
 
-## First Deploy Caveats
+<details>
+<summary>First Deploy Caveats (Deprecated)</summary>
 
 During the first deploy of the cluster we need to overcome a [limitation](https://github.com/hashicorp/terraform-provider-kubernetes/issues/2597) of the kubernetes provider.
 
@@ -59,6 +60,7 @@ In order to allow this i had to switch to OpenTofu which adds the `-exclude` pla
 make plan-custom kub1k OPTIONS='-exclude="module.provision_apps[0].kubernetes_manifest.cilium_lb_pool" -exclude="module.provision_apps[0].kubernetes_manifest.cilium_l2_policy"'
 make apply kub1k
 ```
+</details>
 
 ## License
 
