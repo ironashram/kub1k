@@ -21,7 +21,8 @@ spec:
     helm:
       valuesObject:
         groupName: acme.{{ .Values.externalDomain }}
-        secretName: hetzner-api-token
+        secretName:
+          - hetzner-api-token
   destination:
     name: in-cluster
     namespace: cert-manager
