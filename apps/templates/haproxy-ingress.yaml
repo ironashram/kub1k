@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: haproxy-ingress
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: haproxy-ingress
+    repoURL: https://haproxy-ingress.github.io/charts
+    targetRevision: 0.15.0-beta.1
+    helm:
+      valuesObject:
+        controller:
+          ingressClass: haproxy
+          ingressClassResource:
+            enabled: true
+            default: true
+          replicaCount: 2
+          minAvailable: 1
+          metrics:
+            enabled: true
+          serviceMonitor:
+            enabled: true
+          logs:
+            enabled: true
+  destination:
+    name: in-cluster
+    namespace: haproxy-ingress

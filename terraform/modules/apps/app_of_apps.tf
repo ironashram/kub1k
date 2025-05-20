@@ -27,6 +27,11 @@ resource "helm_release" "argocd_app_of_apps" {
     value = var.k8s_endpoint
   }
 
+  set_sensitive {
+    name  = "k8sClusterDNS"
+    value = var.k3s_cluster_dns
+  }
+
   lifecycle {
     replace_triggered_by = [null_resource.src_argocd_app_of_apps]
   }
