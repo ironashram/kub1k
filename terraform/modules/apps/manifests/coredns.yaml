@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-coredns
+  namespace: kube-system
+spec:
+  source:
+    chart: coredns
+    repoURL: https://coredns.github.io/helm
+    targetRevision: 1.42.1
+  destination:
+    name: in-cluster
+    namespace: kube-system
+  project: default

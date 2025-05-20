@@ -37,3 +37,7 @@ variable "external_domain" {
 variable "k8s_endpoint" {
   sensitive = true
 }
+
+variable "worker_nodes" {
+  sensitive = false
+}

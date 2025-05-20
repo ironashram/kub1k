@@ -1,5 +1,6 @@
 resource "helm_release" "cilium" {
-  name = "cilium"
+  depends_on = [helm_release.crds, kubernetes_namespace.monitoring]
+  name       = "cilium"
 
   repository = yamldecode(file("${path.module}/manifests/cilium.yaml")).spec.source.repoURL
   chart      = yamldecode(file("${path.module}/manifests/cilium.yaml")).spec.source.chart
@@ -38,36 +39,40 @@ resource "helm_release" "cilium" {
   }
 }
 
-resource "kubernetes_manifest" "cilium_lb_pool" {
-  manifest = {
-    apiVersion = "cilium.io/v2"
-    kind       = "CiliumLoadBalancerIPPool"
-    metadata = {
-      name = "lb-pool"
-    }
-    spec = {
-      blocks = [
-        {
-          cidr = "10.0.0.230/32"
-        }
-      ]
-    }
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    name = "monitoring"
+  }
+
+  lifecycle {
+    ignore_changes = [metadata[0].annotations]
   }
 }
 
-resource "kubernetes_manifest" "cilium_l2_policy" {
-  manifest = {
-    apiVersion = "cilium.io/v2alpha1"
-    kind       = "CiliumL2AnnouncementPolicy"
-    metadata = {
-      name = "l2-policy"
-    }
-    spec = {
-      externalIPs     = true
-      loadBalancerIPs = true
-      interfaces = [
-        "ens3"
-      ]
-    }
-  }
+resource "kubectl_manifest" "cilium_lb_pool" {
+  depends_on = [helm_release.crds]
+  yaml_body  = <<-EOT
+    apiVersion: cilium.io/v2
+    kind: CiliumLoadBalancerIPPool
+    metadata:
+      name: lb-pool
+    spec:
+      blocks:
+        - cidr: "10.0.0.230/32"
+  EOT
+}
+
+resource "kubectl_manifest" "cilium_l2_policy" {
+  depends_on = [helm_release.crds]
+  yaml_body  = <<-EOT
+    apiVersion: cilium.io/v2alpha1
+    kind: CiliumL2AnnouncementPolicy
+    metadata:
+      name: l2-policy
+    spec:
+      externalIPs: true
+      loadBalancerIPs: true
+      interfaces:
+        - "ens3"
+  EOT
 }
