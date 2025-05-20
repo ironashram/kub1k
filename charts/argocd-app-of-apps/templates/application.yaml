@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
     path: apps
-    targetRevision: main
+    targetRevision: refactor
     helm:
       parameters:
         - name: environment
