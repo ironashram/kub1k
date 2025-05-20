@@ -18,20 +18,28 @@ variable "k3s_version" {
   default = "v1.33.0+k3s1"
 }
 
+variable "lb_pool_cidr" {
+  default = "10.0.0.230/32"
+}
+
+variable "l2_interface" {
+  default = "ens3"
+}
+
 variable "control_nodes" {
   default = [{
     name = "control-01"
-    ip = "10.0.0.241"
+    ip   = "10.0.0.241"
   }]
 }
 
 variable "worker_nodes" {
   default = [{
     name = "worker-01"
-    ip = "10.0.0.242"
-  },{
+    ip   = "10.0.0.242"
+    }, {
     name = "worker-02"
-    ip = "10.0.0.243"
+    ip   = "10.0.0.243"
   }]
 }
 

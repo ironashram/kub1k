@@ -58,7 +58,7 @@ resource "kubectl_manifest" "cilium_lb_pool" {
       name: lb-pool
     spec:
       blocks:
-        - cidr: "10.0.0.230/32"
+        - cidr: "${var.lb_pool_cidr}"
   EOT
 }
 
@@ -73,6 +73,6 @@ resource "kubectl_manifest" "cilium_l2_policy" {
       externalIPs: true
       loadBalancerIPs: true
       interfaces:
-        - "ens3"
+        - "${var.l2_interface}"
   EOT
 }

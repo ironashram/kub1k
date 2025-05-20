@@ -41,3 +41,11 @@ variable "k8s_endpoint" {
 variable "worker_nodes" {
   sensitive = false
 }
+
+variable "lb_pool_cidr" {
+  sensitive = false
+}
+
+variable "l2_interface" {
+  sensitive = false
+}
