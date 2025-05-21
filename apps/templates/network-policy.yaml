@@ -19,9 +19,8 @@ spec:
     path: charts/network-policy
     targetRevision: main
     helm:
-      parameters:
-        - name: networkPolicy.enabled
-          value: "true"
-  destination:
+      valuesObject:
+        networkPolicy:
+          enabled: false
     name: in-cluster
     namespace: kube-system
