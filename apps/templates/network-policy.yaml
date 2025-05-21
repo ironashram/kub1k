@@ -22,5 +22,6 @@ spec:
       valuesObject:
         networkPolicy:
           enabled: false
+  destination:
     name: in-cluster
     namespace: kube-system
