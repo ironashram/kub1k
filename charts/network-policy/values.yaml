@@ -1,2 +1,2 @@
 networkPolicy:
-  enabled: true
+  enabled: false
