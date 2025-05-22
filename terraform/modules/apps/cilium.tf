@@ -33,10 +33,6 @@ resource "helm_release" "cilium" {
   values = [
     file("${path.module}/values/cilium.yaml"),
   ]
-
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
 }
 
 resource "kubernetes_namespace" "monitoring" {
@@ -47,12 +43,16 @@ resource "kubernetes_namespace" "monitoring" {
   lifecycle {
     ignore_changes = [metadata[0].annotations]
   }
+
+  timeouts {
+    delete = "30s"
+  }
 }
 
 resource "kubectl_manifest" "cilium_lb_pool" {
   depends_on = [helm_release.crds]
   yaml_body  = <<-EOT
-    apiVersion: cilium.io/v2
+    apiVersion: cilium.io/v2alpha1
     kind: CiliumLoadBalancerIPPool
     metadata:
       name: lb-pool
@@ -75,4 +75,38 @@ resource "kubectl_manifest" "cilium_l2_policy" {
       interfaces:
         - "${var.l2_interface}"
   EOT
+}
+
+resource "null_resource" "clean_monitoring_finalizer" {
+  depends_on = [kubernetes_namespace.monitoring]
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<-EOT
+      kubectl get namespace "monitoring" -o json \
+        | tr -d "\n" | sed "s/\"finalizers\": \[[^]]\+\]/\"finalizers\": []/" \
+        | kubectl replace --raw /api/v1/namespaces/monitoring/finalize -f -
+    EOT
+  }
+
+  triggers = {
+    monitoring_ns = kubernetes_namespace.monitoring.id
+  }
+}
+
+resource "null_resource" "clean_cilium_secrets_finalizer" {
+  depends_on = [helm_release.cilium]
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<-EOT
+      kubectl get namespace "cilium-secrets" -o json \
+        | tr -d "\n" | sed "s/\"finalizers\": \[[^]]\+\]/\"finalizers\": []/" \
+        | kubectl replace --raw /api/v1/namespaces/cilium-secrets/finalize -f -
+    EOT
+  }
+
+  triggers = {
+    cilium_secrets_ns = helm_release.cilium.status
+  }
 }
