@@ -15,7 +15,7 @@ variable "k3s_kube_bind_address" {
 }
 
 variable "k3s_version" {
-  default = "v1.33.0+k3s1"
+  default = "v1.33.1+k3s1"
 }
 
 variable "lb_pool_cidr" {
@@ -29,17 +29,17 @@ variable "l2_interface" {
 variable "control_nodes" {
   default = [{
     name = "control-01"
-    ip   = "10.0.0.241"
+    ip = "10.0.0.241"
   }]
 }
 
 variable "worker_nodes" {
   default = [{
     name = "worker-01"
-    ip   = "10.0.0.242"
-    }, {
+    ip = "10.0.0.242"
+  },{
     name = "worker-02"
-    ip   = "10.0.0.243"
+    ip = "10.0.0.243"
   }]
 }
 
