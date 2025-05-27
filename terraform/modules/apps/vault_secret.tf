@@ -41,7 +41,7 @@ resource "null_resource" "clean_external_secrets_finalizer" {
     when    = destroy
     command = <<-EOT
       kubectl get namespace "external-secrets" -o json \
-        | jq '.metadata.finalizers = []' \
+        | jq '.spec.finalizers = []' \
         | kubectl replace --raw /api/v1/namespaces/external-secrets/finalize -f -
     EOT
   }

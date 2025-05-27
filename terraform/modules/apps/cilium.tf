@@ -56,7 +56,7 @@ resource "null_resource" "clean_monitoring_finalizer" {
     when    = destroy
     command = <<-EOT
       kubectl get namespace "monitoring" -o json \
-        | jq '.metadata.finalizers = []' \
+        | jq '.spec.finalizers = []' \
         | kubectl replace --raw /api/v1/namespaces/monitoring/finalize -f -
     EOT
   }
@@ -73,7 +73,7 @@ resource "null_resource" "clean_cilium_secrets_finalizer" {
     when    = destroy
     command = <<-EOT
       kubectl get namespace "cilium-secrets" -o json \
-        | jq '.metadata.finalizers = []' \
+        | jq '.spec.finalizers = []' \
         | kubectl replace --raw /api/v1/namespaces/cilium-secrets/finalize -f -
     EOT
   }
