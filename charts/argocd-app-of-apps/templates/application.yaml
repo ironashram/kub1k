@@ -26,7 +26,7 @@ spec:
         - name: k8sEndpoint
           value: "{{ .Values.k8sEndpoint }}"
         - name: k8sClusterDNS
-          value: "{{ .Values.k8sClusterName }}"
+          value: "{{ .Values.k8sClusterDNS }}"
         - name: l2AnnouncementInterface
           value: "{{ .Values.l2AnnouncementInterface }}"
         - name: lbIpPool
