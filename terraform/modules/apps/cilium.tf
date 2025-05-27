@@ -49,34 +49,6 @@ resource "kubernetes_namespace" "monitoring" {
   }
 }
 
-resource "kubectl_manifest" "cilium_lb_pool" {
-  depends_on = [helm_release.crds]
-  yaml_body  = <<-EOT
-    apiVersion: cilium.io/v2alpha1
-    kind: CiliumLoadBalancerIPPool
-    metadata:
-      name: lb-pool
-    spec:
-      blocks:
-        - cidr: "${var.lb_pool_cidr}"
-  EOT
-}
-
-resource "kubectl_manifest" "cilium_l2_policy" {
-  depends_on = [helm_release.crds]
-  yaml_body  = <<-EOT
-    apiVersion: cilium.io/v2alpha1
-    kind: CiliumL2AnnouncementPolicy
-    metadata:
-      name: l2-policy
-    spec:
-      externalIPs: true
-      loadBalancerIPs: true
-      interfaces:
-        - "${var.l2_interface}"
-  EOT
-}
-
 resource "null_resource" "clean_monitoring_finalizer" {
   depends_on = [kubernetes_namespace.monitoring]
 

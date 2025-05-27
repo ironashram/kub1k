@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: l2-announcement-lb
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: local
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
+    path: charts/l2-announcement-lb
+    targetRevision: main
+    helm:
+      valuesObject:
+        l2AnnouncementInterface: "{{ .Values.l2AnnouncementInterface }}"
+        lbIpPool: "{{ .Values.lbIpPool }}"
+  destination:
+    name: in-cluster
+    namespace: kube-system

@@ -32,6 +32,16 @@ resource "helm_release" "argocd_app_of_apps" {
     value = var.k3s_cluster_dns
   }
 
+  set_sensitive {
+    name  = "l2AnnouncementInterface"
+    value = var.l2_interface
+  }
+
+  set_sensitive {
+    name  = "lbIpPool"
+    value = var.lb_pool_cidr
+  }
+
   lifecycle {
     replace_triggered_by = [null_resource.src_argocd_app_of_apps]
   }
