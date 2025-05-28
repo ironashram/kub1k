@@ -1,12 +1,7 @@
 k8sServicePort: 6443
 kubeProxyReplacement: true
-loadBalancer:
-  algorithm: maglev
 routingMode: tunnel
 bpf:
-  tproxy: true
-  vlanBypass:
-    - 99
   datapathMode: netkit
   masquerade: true
   distributedLRU:
