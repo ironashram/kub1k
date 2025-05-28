@@ -21,7 +21,7 @@ spec:
     helm:
       valuesObject:
         networkPolicy:
-          enabled: false
+          enabled: true
   destination:
     name: in-cluster
     namespace: kube-system

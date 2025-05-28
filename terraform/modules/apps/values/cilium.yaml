@@ -1,24 +1,29 @@
 k8sServicePort: 6443
-policyAuditMode: true
+kubeProxyReplacement: true
+loadBalancer:
+  algorithm: maglev
 routingMode: tunnel
 bpf:
+  tproxy: true
+  vlanBypass:
+    - 99
   datapathMode: netkit
   masquerade: true
   distributedLRU:
     enabled: true
-  mapDynamicSizeRatio: 0.08
-ipv6:
-  enabled: false
-enableIPv6BIGTCP: false
-ipv4:
-  enabled: true
-enableIPv4BIGTCP: false
-kubeProxyReplacement: true
 bpfClockProbe: true
-ipMasqAgent:
+k8sNetworkPolicy:
   enabled: false
 l2announcements:
   enabled: true
+externalIPs:
+  enabled: true
+ipam:
+  mode: cluster-pool
+  operator:
+    clusterPoolIPv4PodCIDRList: ["172.27.0.0/21"]
+    clusterPoolIPv4MaskSize: 24
+policyAuditMode: true
 prometheus:
   metricsService: true
   enabled: true
@@ -28,7 +33,7 @@ dashboards:
   enabled: true
   namespace: monitoring
   annotations:
-    grafana_folder: "Cilium"
+    grafana_folder: Cilium
 operator:
   prometheus:
     metricsService: true
@@ -39,14 +44,7 @@ operator:
     enabled: true
     namespace: monitoring
     annotations:
-      grafana_folder: "Cilium"
-externalIPs:
-  enabled: true
-ipam:
-  mode: "cluster-pool"
-  operator:
-    clusterPoolIPv4PodCIDRList: ["172.27.0.0/21"]
-    clusterPoolIPv4MaskSize: 24
+      grafana_folder: Cilium
 hubble:
   metrics:
     enabled:
@@ -57,14 +55,14 @@ hubble:
       - policy
       - port-distribution
       - tcp
-      - "flow:sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
-      - "httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction;sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
+      - flow
+      - httpV2
     enableOpenMetrics: true
     dashboards:
       enabled: true
       namespace: monitoring
       annotations:
-        grafana_folder: "Hubble"
+        grafana_folder: Hubble
     serviceMonitor:
       enabled: true
   relay:
@@ -82,7 +80,3 @@ hubble:
       className: haproxy
       tls:
         - secretName: hubble-cert
-  export:
-    static:
-      enabled: false
-      filePath: /var/run/cilium/hubble/events.log
