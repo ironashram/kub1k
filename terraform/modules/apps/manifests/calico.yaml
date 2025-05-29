@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tigera-operator
+  namespace: argocd
+spec:
+  source:
+    chart: tigera-operator
+    repoURL: https://docs.projectcalico.org/charts
+    targetRevision: v3.30.0
+  destination:
+    name: in-cluster
+    namespace: tigera-operator
+  project: default

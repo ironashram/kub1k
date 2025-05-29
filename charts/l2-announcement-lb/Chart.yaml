@@ -1,4 +1,0 @@
-apiVersion: v2
-description: A Helm chart to configure Cilium L2 Announcement Load Balancer
-name: l2-announcement-lb
-version: 0.0.1

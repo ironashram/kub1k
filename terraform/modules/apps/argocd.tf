@@ -3,7 +3,7 @@ resource "helm_release" "argocd" {
   name             = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.name
   repository       = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.repoURL
   chart            = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.chart
-  namespace        = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.namespace
+  namespace        = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.destination.namespace
   version          = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.targetRevision
   disable_webhooks = false
 
@@ -49,4 +49,5 @@ resource "helm_release" "argocd" {
   values = [
     file("${path.module}/values/argocd.yaml"),
   ]
+
 }

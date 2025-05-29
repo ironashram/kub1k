@@ -1,0 +1,8 @@
+installation:
+  calicoNetwork:
+    ipPools:
+      - blockSize: 24
+        cidr: 172.27.0.0/21
+        encapsulation: VXLANCrossSubnet
+        natOutgoing: Enabled
+        nodeSelector: all()

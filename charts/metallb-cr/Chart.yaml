@@ -1,0 +1,4 @@
+apiVersion: v2
+description: A Helm chart to configure Metallb custom resources.
+name: metallb-cr
+version: 0.0.1

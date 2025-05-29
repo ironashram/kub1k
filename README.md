@@ -17,7 +17,7 @@ The kub1k project aims to provide a scalable and reliable Kubernetes cluster usi
 
 - ArgoCD
 - External Secrets
-- Cilium
+- Calico
 - HAProxy Ingress
 - Vault
 - Github Runners
@@ -48,19 +48,6 @@ To deploy the infrastructure, follow these steps:
 6. Run `make apply kub1k` to deploy the infrastructure.
 
 For more detailed instructions, please refer to the [Terraform documentation](https://www.terraform.io/docs/index.html).
-
-<details>
-<summary>First Deploy Caveats (Deprecated)</summary>
-
-During the first deploy of the cluster we need to overcome a [limitation](https://github.com/hashicorp/terraform-provider-kubernetes/issues/2597) of the kubernetes provider.
-
-In order to allow this i had to switch to OpenTofu which adds the `-exclude` plan paramter since version [1.9.0](https://opentofu.org/blog/opentofu-1-9-0/).
-
-```
-make plan-custom kub1k OPTIONS='-exclude="module.provision_apps[0].kubernetes_manifest.cilium_lb_pool" -exclude="module.provision_apps[0].kubernetes_manifest.cilium_l2_policy"'
-make apply kub1k
-```
-</details>
 
 ## License
 

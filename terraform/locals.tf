@@ -34,7 +34,6 @@ locals {
     "--kube-proxy-arg=metrics-bind-address=${var.k3s_kube_bind_address}",
     "--kube-scheduler-arg=bind-address=${var.k3s_kube_bind_address}",
     "--flannel-backend=none",
-    "--disable-kube-proxy",
     "--disable-network-policy",
     "--disable=traefik",
     "--disable=servicelb",

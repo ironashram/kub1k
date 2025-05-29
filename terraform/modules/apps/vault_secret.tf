@@ -33,20 +33,3 @@ resource "kubernetes_secret" "external_secrets" {
     ]
   }
 }
-
-resource "null_resource" "clean_external_secrets_finalizer" {
-  depends_on = [kubernetes_namespace.external_secrets]
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<-EOT
-      kubectl get namespace "external-secrets" -o json \
-        | jq '.spec.finalizers = []' \
-        | kubectl replace --raw /api/v1/namespaces/external-secrets/finalize -f -
-    EOT
-  }
-
-  triggers = {
-    external_secrets_ns = kubernetes_namespace.external_secrets.id
-  }
-}

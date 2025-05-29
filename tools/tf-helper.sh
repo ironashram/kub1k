@@ -17,7 +17,7 @@ main() {
   local TERRAFORM_GLOBAL_OPTIONS="$@"
 
   terraform_init "$ENVIRONMENT" "$TERRAFORM_GLOBAL_OPTIONS"
-  tofu "$TERRAFORM_GLOBAL_OPTIONS" workspace select "$ENVIRONMENT" || terraform "$TERRAFORM_GLOBAL_OPTIONS" workspace new "$ENVIRONMENT"
+  tofu "$TERRAFORM_GLOBAL_OPTIONS" workspace select -or-create "$ENVIRONMENT"
   exit 0
 }
 
