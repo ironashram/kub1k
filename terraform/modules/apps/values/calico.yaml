@@ -2,6 +2,7 @@ kubernetesServiceEndpoint:
   host: "10.0.0.241"
   port: "6443"
 installation:
+  registry: "quay.io"
   calicoNetwork:
     LinuxDataplaneOption: BPF
     ipPools:

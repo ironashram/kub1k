@@ -1,4 +1,5 @@
 resource "kubernetes_cron_job_v1" "image_cache" {
+  depends_on = [helm_release.calico]
   metadata {
     name      = "image-cache"
     namespace = "default"
