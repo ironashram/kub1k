@@ -1,8 +1,12 @@
+kubernetesServiceEndpoint:
+  host: "10.0.0.241"
+  port: "6443"
 installation:
   calicoNetwork:
+    LinuxDataplaneOption: BPF
     ipPools:
       - blockSize: 24
         cidr: 172.27.0.0/21
-        encapsulation: VXLANCrossSubnet
+        encapsulation: IPIP
         natOutgoing: Enabled
         nodeSelector: all()
