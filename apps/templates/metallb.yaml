@@ -23,6 +23,7 @@ spec:
         crds:
           enabled: true
         prometheus:
+          rbacPrometheus: false
           serviceMonitor:
             enabled: true
   ignoreDifferences:
