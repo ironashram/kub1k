@@ -22,6 +22,9 @@ spec:
       valuesObject:
         crds:
           enabled: true
+        prometheus:
+          serviceMonitor:
+            enabled: true
   ignoreDifferences:
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
