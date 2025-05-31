@@ -11,6 +11,7 @@ prometheus:
       prometheus.io/port: "9153"
   monitor:
     enabled: true
+k8sAppLabelOverride: "kube-dns"
 servers:
   - zones:
       - zone: .
