@@ -1,4 +1,5 @@
 resource "helm_release" "calico" {
+  depends_on = [kubectl_manifest.calico_crds]
 
   name       = yamldecode(file("${path.module}/manifests/calico.yaml")).metadata.name
   repository = yamldecode(file("${path.module}/manifests/calico.yaml")).spec.source.repoURL

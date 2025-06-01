@@ -1,4 +1,6 @@
-ENV := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
+ARGUMENTS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+ENV := $(firstword $(ARGUMENTS))
+OPTIONS := $(wordlist 2,$(words $(ARGUMENTS)),$(ARGUMENTS))
 TERRAFORM_GLOBAL_OPTIONS := "-chdir=terraform"
 
 CYAN := \033[36m
@@ -16,6 +18,8 @@ help:
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "plan-custom" "Runs a plan with custom options."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "plan-destroy" "Shows what a destroy would do."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "show" "Shows resources"
+	@printf "$(CYAN)%-30s$(RESET) %s\n" "list" "Lists resources in the state."
+	@printf "$(CYAN)%-30s$(RESET) %s\n" "rm" "Removes resources from the state."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "upgrade" "Gets any provider updates"
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "upgrade-kubernetes-version" "Checks and upgrades k3s version if necessary"
 
@@ -54,6 +58,14 @@ comment-pr:
 .PHONY: plan-destroy
 plan-destroy: init
 	@tofu $(TERRAFORM_GLOBAL_OPTIONS) plan -input=false -refresh=true -destroy -out=terraform.tfplan
+
+.PHONY: list
+list:
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) state list
+
+.PHONY: rm
+rm:
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) state rm $(OPTIONS)
 
 .PHONY: show
 show: init
