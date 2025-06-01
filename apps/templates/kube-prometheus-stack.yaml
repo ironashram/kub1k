@@ -70,6 +70,10 @@ spec:
             custom-grafana-dashboards:
               argocd:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/argocd.json
+              calico-felix:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/calico-felix.json
+              calico-typha:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/calico-typha.json
               haproxy-ingress:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/haproxy-ingress.json
               k8s-system-api-server:
