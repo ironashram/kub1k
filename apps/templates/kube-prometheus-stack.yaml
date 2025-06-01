@@ -70,6 +70,8 @@ spec:
             custom-grafana-dashboards:
               argocd:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/argocd.json
+              haproxy-ingress:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/haproxy-ingress.json
               k8s-system-api-server:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-system-api-server.json
               k8s-views-global:
@@ -80,10 +82,10 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-nodes.json
               k8s-views-pods:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
+              metallb:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/metallb.json
               trivy-operator-vulnerabilities:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
-              haproxy-ingress:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/haproxy-ingress.json
         prometheus:
           serviceMonitor:
             relabelings:
