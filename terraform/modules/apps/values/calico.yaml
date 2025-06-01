@@ -3,6 +3,7 @@ kubernetesServiceEndpoint:
   port: "6443"
 installation:
   registry: "quay.io"
+  typhaMetricsPort: 9093
   calicoNetwork:
     bgp: Disabled
     linuxDataplane: BPF
@@ -12,3 +13,6 @@ installation:
         encapsulation: VXLANCrossSubnet
         natOutgoing: Enabled
         nodeSelector: all()
+defaultFelixConfiguration:
+  enabled: true
+  prometheusMetricsEnabled: true

@@ -18,5 +18,13 @@ resource "helm_release" "calico" {
   provisioner "local-exec" {
     command = "sleep 60"
   }
+}
 
+data "kubectl_file_documents" "calico_monitoring" {
+  content = file("${path.module}/values/calico_monitoring.yaml")
+}
+
+resource "kubectl_manifest" "calico_monitoring" {
+  for_each  = data.kubectl_file_documents.calico_monitoring.manifests
+  yaml_body = each.value
 }
