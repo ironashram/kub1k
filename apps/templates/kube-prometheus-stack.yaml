@@ -85,7 +85,7 @@ spec:
               metallb:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/metallb.json
               trivy-operator-vulnerabilities:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy-operator-vulnerabilities.json
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy.json
         prometheus:
           serviceMonitor:
             relabelings:
