@@ -25,7 +25,7 @@ The following components are part of this setup:
 | Metallb                          | https://github.com/metallb/metallb                                                                       |
 | HAProxy Ingress                  | https://github.com/jcmoraisjr/haproxy-ingress                                                            |
 | GitHub Actions Runner Controller | https://github.com/actions/actions-runner-controller                                                     |
-| Kube-Prometheus-Stack            | https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack               |
+| Kube-Prometheus-Stack            | https://github.com/prometheus-community/helm-charts                                                      |
 | Cert-Manager                     | https://github.com/cert-manager/cert-manager                                                             |
 | Synology CSI Driver              | https://github.com/SynologyOpenSource/synology-csi                                                       |
 | Custom Helm charts               | https://github.com/ironashram/kub1k/tree/main/charts                                                     |
