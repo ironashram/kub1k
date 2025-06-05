@@ -13,19 +13,18 @@ This repository contains the Terraform code for deploying and managing a homelab
 
 ## Overview
 
-The kub1k project aims to provide a scalable and reliable Kubernetes cluster using the K3s lightweight Kubernetes distribution. The infrastructure is provisioned using Terraform and includes the following components:
+The kub1k project aims to provide a scalable and easily maintainable Kubernetes cluster using K3s. The base infrastructure is provisioned using Terraform; once the cluster and CNI are operational, ArgoCD handles the application deployment and management.
 
-- ArgoCD
-- External Secrets
-- Calico
-- HAProxy Ingress
-- Vault
-- Github Runners
-- Kube-Prometheus-Stack
-- Cert-Manager
-- External-Secrets-Operator
-- Synology-CSI
-- Custom Helm charts (deployed as ArgoCD applications)
+- [ArgoCD](https://github.com/argoproj/argo-cd)
+- [External Secrets Operator](https://github.com/external-secrets/external-secrets)
+- [Calico](https://github.com/projectcalico/calico)
+- [Metallb](https://github.com/metallb/metallb)
+- [HAProxy Ingress](https://github.com/haproxy-ingress/kubernetes-ingress) ([Helm Chart](https://github.com/haproxy-ingress/charts))
+- [GitHub Actions Runner Controller (actions-runner-controller)](https://github.com/actions/actions-runner-controller)
+- [Kube-Prometheus-Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+- [Cert-Manager](https://github.com/cert-manager/cert-manager)
+- [Synology CSI Driver](https://github.com/SynologyOpenSource/synology-csi)
+- [Custom Helm charts](https://github.com/ironashram/kub1k/tree/main/charts)
 
 ## Prerequisites
 
