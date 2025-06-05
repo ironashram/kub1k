@@ -2,7 +2,7 @@ name: "ArgoCD App Updates"
 
 on:
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '0 6 * * 6'
   workflow_dispatch:
 
 jobs:
