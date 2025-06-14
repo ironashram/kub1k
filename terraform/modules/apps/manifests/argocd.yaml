@@ -7,7 +7,7 @@ spec:
   source:
     chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 8.0.15
+    targetRevision: 8.0.17
   destination:
     name: in-cluster
     namespace: argocd
