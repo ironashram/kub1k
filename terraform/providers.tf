@@ -1,7 +1,7 @@
 provider "vault" {}
 
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     host                   = local.cluster_host
     cluster_ca_certificate = local.cluster_ca_certificate
     client_certificate     = local.client_certificate

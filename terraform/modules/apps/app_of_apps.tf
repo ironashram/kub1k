@@ -7,40 +7,41 @@ resource "helm_release" "argocd_app_of_apps" {
 
   create_namespace = true
 
-  set_sensitive {
-    name  = "environment"
-    value = terraform.workspace
-  }
+  set = [
+    {
+      name  = "environment"
+      value = terraform.workspace
+    },
 
-  set_sensitive {
-    name  = "internalDomain"
-    value = var.internal_domain
-  }
+    {
+      name  = "internalDomain"
+      value = var.internal_domain
+    },
 
-  set_sensitive {
-    name  = "externalDomain"
-    value = var.external_domain
-  }
+    {
+      name  = "externalDomain"
+      value = var.external_domain
+    },
 
-  set_sensitive {
-    name  = "k8sEndpoint"
-    value = var.k8s_endpoint
-  }
+    {
+      name  = "k8sEndpoint"
+      value = var.k8s_endpoint
+    },
 
-  set_sensitive {
-    name  = "k8sClusterDNS"
-    value = var.k3s_cluster_dns
-  }
+    {
+      name  = "k8sClusterDNS"
+      value = var.k3s_cluster_dns
+    },
 
-  set_sensitive {
-    name  = "l2AnnouncementInterface"
-    value = var.l2_interface
-  }
+    {
+      name  = "l2AnnouncementInterface"
+      value = var.l2_interface
+    },
 
-  set_sensitive {
-    name  = "lbIpPool"
-    value = var.lb_pool_cidr
-  }
+    {
+      name  = "lbIpPool"
+      value = var.lb_pool_cidr
+  }]
 
   lifecycle {
     replace_triggered_by = [null_resource.src_argocd_app_of_apps]

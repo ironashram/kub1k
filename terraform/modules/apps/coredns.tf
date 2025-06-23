@@ -11,10 +11,10 @@ resource "helm_release" "coredns" {
 
   max_history = 0
 
-  set_sensitive {
+  set = [{
     name  = "service.clusterIP"
     value = var.k3s_cluster_dns
-  }
+  }]
 
   values = [
     file("${path.module}/values/coredns.yaml"),
