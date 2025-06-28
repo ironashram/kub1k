@@ -11,7 +11,7 @@ resource "helm_release" "argocd" {
 
   max_history = 0
 
-  set = [{
+  set_sensitive = [{
     name  = "configs.secret.argocdServerAdminPassword"
     value = var.argocd_admin_password
     },
@@ -45,8 +45,6 @@ resource "helm_release" "argocd" {
       name  = "global.domain"
       value = "argocd.${var.internal_domain}"
   }]
-
-
 
   values = [
     file("${path.module}/values/argocd.yaml"),

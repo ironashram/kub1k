@@ -7,7 +7,7 @@ resource "helm_release" "argocd_app_of_apps" {
 
   create_namespace = true
 
-  set = [
+  set_sensitive = [
     {
       name  = "environment"
       value = terraform.workspace
