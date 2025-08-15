@@ -36,8 +36,8 @@ Before deploying the infrastructure, make sure you have the following prerequisi
 
 - OpenTofu: Version >= 1.9.0
 - Helm: Version >= 3.0.0
-- Kubernetes: Version >= 1.21.0
-- Vault: Version >= 1.7.0
+- Kubernetes: Version >= 1.32.0
+- Openbao: Version >= 2.0.0
 
 ## Getting Started
 
