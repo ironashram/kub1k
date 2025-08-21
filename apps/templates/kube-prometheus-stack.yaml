@@ -24,6 +24,11 @@ spec:
         kubernetesServiceMonitors:
           enabled: true
         alertmanager:
+          config:
+            receivers:
+              - name: matrix
+                webhook_configs:
+                  - url: "https://matrix-alertmanager-receiver.{{ .Values.externalDomain }}/alerts/k8s-alerts"
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
