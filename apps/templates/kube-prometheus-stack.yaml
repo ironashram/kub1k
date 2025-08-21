@@ -25,6 +25,16 @@ spec:
           enabled: true
         alertmanager:
           config:
+            route:
+              group_by: ['namespace']
+              group_wait: 30s
+              group_interval: 5m
+              repeat_interval: 12h
+              receiver: matrix
+              routes:
+              - receiver: matrix
+                matchers:
+                  - alertname = "Watchdog"
             receivers:
               - name: matrix
                 webhook_configs:
