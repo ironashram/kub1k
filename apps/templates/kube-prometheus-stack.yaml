@@ -18,7 +18,7 @@ spec:
   source:
     chart: kube-prometheus-stack
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 76.5.1
+    targetRevision: 77.1.0
     helm:
       valuesObject:
         kubernetesServiceMonitors:
