@@ -7,7 +7,7 @@ spec:
   source:
     chart: coredns
     repoURL: https://coredns.github.io/helm
-    targetRevision: 1.43.3
+    targetRevision: 1.44.3
   destination:
     name: in-cluster
     namespace: kube-system
