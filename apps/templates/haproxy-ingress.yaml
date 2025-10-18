@@ -17,7 +17,7 @@ spec:
   source:
     chart: haproxy-ingress
     repoURL: https://haproxy-ingress.github.io/charts
-    targetRevision: 0.16.0-alpha.2
+    targetRevision: v0.16.0-beta.1
     helm:
       valuesObject:
         controller:
