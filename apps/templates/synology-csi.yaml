@@ -20,6 +20,19 @@ spec:
     targetRevision: 0.10.1
     helm:
       valuesObject:
+        images:
+          plugin:
+            tag: v1.2.0
+          attacher:
+            tag: v4.10.0
+          nodeDriverRegistrar:
+            tag: v2.15.0
+          provisioner:
+            tag: v5.3.0
+          resizer:
+            tag: v1.14.0
+          snapshotter:
+            tag: v8.3.0
         clientInfoSecret:
           name: client-info-secret
           create: false
