@@ -24,6 +24,15 @@ spec:
         kubernetesServiceMonitors:
           enabled: true
         alertmanager:
+          alertmanagerSpec:
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: synology-csi-iscsi-custom
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 10Gi
           config:
             route:
               group_by: ['namespace']
