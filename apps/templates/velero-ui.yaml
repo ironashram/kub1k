@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: velero-ui
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: velero-ui
+    repoURL: https://helm.otwld.com/
+    targetRevision: 0.14.0
+    helm:
+      valuesObject:
+        ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          className: haproxy
+          hosts:
+            - velero.{{ .Values.internalDomain }}
+          tls:
+            - secretName: velero-ui-cert
+              hosts:
+                - velero.{{ .Values.internalDomain }}
+  destination:
+    name: in-cluster
+    namespace: velero-ui
