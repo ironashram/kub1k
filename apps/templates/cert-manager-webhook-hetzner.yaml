@@ -16,13 +16,11 @@ spec:
       selfHeal: true
   source:
     chart: cert-manager-webhook-hetzner
-    repoURL: https://vadimkim.github.io/cert-manager-webhook-hetzner
-    targetRevision: 1.4.0
+    repoURL: https://charts.hetzner.cloud
+    targetRevision: 0.4.0
     helm:
       valuesObject:
         groupName: acme.{{ .Values.externalDomain }}
-        secretName:
-          - hetzner-api-token
   destination:
     name: in-cluster
     namespace: cert-manager

@@ -14,6 +14,6 @@ spec:
             groupName: {{ include "letsencrypt.groupName" . }}
             solverName: hetzner
             config:
-              secretName: {{ .Values.letsencrypt.existingSecret.name }}
-              zoneName: {{ include "letsencrypt.zoneName" . }}
-              apiUrl: {{ .Values.letsencrypt.apiUrl | default "https://dns.hetzner.com/api/v1" }}
+              tokenSecretKeyRef:
+                name: {{ .Values.letsencrypt.existingSecret.name }}
+                key: api-key
