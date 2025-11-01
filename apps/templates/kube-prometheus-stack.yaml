@@ -276,6 +276,10 @@ spec:
       kind: "DaemonSet"
       jqPathExpressions:
         - .spec.template.spec.containers[].resources
+    - group: "apps"
+      kind: "StatefulSet"
+      jqPathExpressions:
+        - .spec.volumeClaimTemplates[].metadata
   destination:
     name: in-cluster
     namespace: monitoring
