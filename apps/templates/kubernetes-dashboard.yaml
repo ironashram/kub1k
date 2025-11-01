@@ -19,10 +19,6 @@ spec:
     targetRevision: 7.14.0
     helm:
       valuesObject:
-        kong:
-          image:
-            repository: "docker.io/library/kong"
-            tag: "3.9.1"
         app:
           ingress:
             enabled: true
