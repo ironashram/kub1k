@@ -279,7 +279,7 @@ spec:
     - group: "apps"
       kind: "StatefulSet"
       jqPathExpressions:
-        - .spec.volumeClaimTemplates[].metadata
+        - .spec.template.spec.volumeClaimTemplates[].metadata
   destination:
     name: in-cluster
     namespace: monitoring
