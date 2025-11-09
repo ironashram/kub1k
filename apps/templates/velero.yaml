@@ -1,0 +1,68 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: velero
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: velero
+    repoURL: https://vmware-tanzu.github.io/helm-charts
+    targetRevision: 11.1.1
+    helm:
+      valuesObject:
+        resources:
+          requests:
+            cpu: 1
+            memory: 1Gi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        configuration:
+          backupStorageLocation:
+            name: default
+            default: true
+            provider: aws
+            bucket: velero-offsite
+            config:
+              s3Url: https://r1-it.storage.cloud.it
+              region: ""
+              checksumAlgorithm: ""
+              s3ForcePathStyle: true
+            credential:
+              name: cloud-credentials
+              key: cloud
+        credentials:
+          useSecret: true
+          existingSecret: cloud-credentials
+        schedules:
+          kub1k-daily:
+            schedule: "CRON_TZ=Europe/Rome 0 13 * * *"
+            useOwnerReferencesInBackup: false
+            skipImmediately: false
+            paused: false
+            template:
+              defaultVolumesToFsBackup: true
+              excludedNamespaces:
+                - trivy-system
+              includeClusterResources: true
+              includedNamespaces:
+                - "*"
+              includedResources:
+                - "*"
+              snapshotVolumes: true
+              storageLocation: default
+              ttl: 360h
+        deployNodeAgent: true
+  destination:
+    name: in-cluster
+    namespace: velero
