@@ -25,10 +25,10 @@ spec:
             repository: public.ecr.aws/bitnami/kubectl
             tag: latest
         resources:
-          requests:
+          limuts:
             cpu: 1
             memory: 1Gi
-          limits:
+          requests:
             cpu: 500m
             memory: 512Mi
         configuration:
