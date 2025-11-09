@@ -20,6 +20,10 @@ spec:
     targetRevision: 11.1.1
     helm:
       valuesObject:
+        kubectl:
+          image:
+            repository: public.ecr.aws/bitnami/kubectl
+            tag: latest
         resources:
           requests:
             cpu: 1
