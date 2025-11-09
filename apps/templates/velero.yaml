@@ -45,6 +45,10 @@ spec:
               credential:
                 name: cloud-credentials
                 key: cloud
+          volumeSnapshotLocation:
+            - name: default
+              provider: aws
+              defaultVolumesToFsBackup: true
         credentials:
           useSecret: true
           existingSecret: cloud-credentials
