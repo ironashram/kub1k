@@ -42,9 +42,6 @@ spec:
                 region: ""
                 checksumAlgorithm: ""
                 s3ForcePathStyle: true
-              credential:
-                name: cloud-credentials
-                key: cloud
           volumeSnapshotLocation:
             - name: default
               provider: aws
