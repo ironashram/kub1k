@@ -29,18 +29,18 @@ spec:
             memory: 512Mi
         configuration:
           backupStorageLocation:
-            name: default
-            default: true
-            provider: aws
-            bucket: velero-offsite
-            config:
-              s3Url: https://r1-it.storage.cloud.it
-              region: ""
-              checksumAlgorithm: ""
-              s3ForcePathStyle: true
-            credential:
-              name: cloud-credentials
-              key: cloud
+            - name: default
+              default: true
+              provider: aws
+              bucket: velero-offsite
+              config:
+                s3Url: https://r1-it.storage.cloud.it
+                region: ""
+                checksumAlgorithm: ""
+                s3ForcePathStyle: true
+              credential:
+                name: cloud-credentials
+                key: cloud
         credentials:
           useSecret: true
           existingSecret: cloud-credentials
