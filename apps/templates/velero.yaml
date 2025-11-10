@@ -82,6 +82,7 @@ spec:
             enabled: true
           prometheusRule:
             enabled: true
+            namespace: monitoring
             spec:
               - alert: VeleroBackupFailed
                 annotations:
