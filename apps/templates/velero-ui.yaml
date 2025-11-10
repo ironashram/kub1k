@@ -36,6 +36,17 @@ spec:
             - secretName: velero-ui-cert
               hosts:
                 - velero.{{ .Values.internalDomain }}
+        env:
+          - name: BASIC_AUTH_USER
+            valueFrom:
+              secretKeyRef:
+                name: velero-ui-auth
+                key: username
+          - name: BASIC_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: velero-ui-auth
+                key: password
   destination:
     name: in-cluster
     namespace: velero-ui
