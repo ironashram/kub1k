@@ -41,12 +41,12 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: velero-ui-auth
-                key: username
+                key: admin-user
           - name: BASIC_AUTH_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: velero-ui-auth
-                key: password
+                key: admin-password
   destination:
     name: in-cluster
     namespace: velero-ui
