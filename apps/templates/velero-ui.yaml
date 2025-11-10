@@ -37,7 +37,7 @@ spec:
               hosts:
                 - velero.{{ .Values.internalDomain }}
         env:
-          - name: BASIC_AUTH_USER
+          - name: BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
                 name: velero-ui-auth
