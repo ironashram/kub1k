@@ -24,6 +24,8 @@ repoServer:
     enabled: true
     serviceMonitor:
       enabled: true
+  podAnnotations:
+    backup.velero.io/backup-volumes-excludes: "var-files"
 server:
   replicas: 1
   metrics:
