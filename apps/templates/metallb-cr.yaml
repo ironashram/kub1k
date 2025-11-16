@@ -18,6 +18,14 @@ spec:
     repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
     path: charts/metallb-cr
     targetRevision: main
+    helm:
+      valuesObject:
+        namespace: "metallb-system"
+        L2Advertisement:
+          name: "l2lb"
+        IPAddressPool:
+          name: "routable-pool"
+          addresses: "{{ .Values.lbIpPool }}"
   destination:
     name: in-cluster
-    namespace: kube-system
+    namespace: metallb-system
