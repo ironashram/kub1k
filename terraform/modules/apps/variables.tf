@@ -45,7 +45,3 @@ variable "worker_nodes" {
 variable "lb_pool_cidr" {
   sensitive = false
 }
-
-variable "l2_interface" {
-  sensitive = false
-}

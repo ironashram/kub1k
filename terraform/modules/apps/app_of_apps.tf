@@ -34,11 +34,6 @@ resource "helm_release" "argocd_app_of_apps" {
     },
 
     {
-      name  = "l2AnnouncementInterface"
-      value = var.l2_interface
-    },
-
-    {
       name  = "lbIpPool"
       value = var.lb_pool_cidr
   }]

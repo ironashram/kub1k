@@ -14,7 +14,6 @@ module "provision_apps" {
   k8s_endpoint          = local.control_nodes[0].ip
   worker_nodes          = local.worker_nodes
   lb_pool_cidr          = var.lb_pool_cidr
-  l2_interface          = var.l2_interface
 
   providers = {
     helm       = helm

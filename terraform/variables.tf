@@ -22,10 +22,6 @@ variable "lb_pool_cidr" {
   default = "10.0.0.230/32"
 }
 
-variable "l2_interface" {
-  default = "ens3"
-}
-
 variable "control_nodes" {
   default = [{
     name = "control-01"
