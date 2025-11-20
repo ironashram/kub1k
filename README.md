@@ -34,10 +34,10 @@ The following components are part of this setup:
 
 Before deploying the infrastructure, make sure you have the following prerequisites:
 
-- OpenTofu: Version >= 1.9.0
-- Helm: Version >= 3.0.0
+- OpenTofu: Version >= 1.11.0
+- Helm: Version >= 3.17.0
 - Kubernetes: Version >= 1.32.0
-- OpenBao: Version >= 2.0.0
+- OpenBao: Version >= 2.3.0
 
 ## Getting Started
 
