@@ -7,7 +7,7 @@ resource "helm_release" "argocd_app_of_apps" {
 
   create_namespace = true
 
-  set_sensitive = [
+  set_wo = [
     {
       name  = "environment"
       value = terraform.workspace
@@ -37,6 +37,8 @@ resource "helm_release" "argocd_app_of_apps" {
       name  = "lbIpPool"
       value = var.lb_pool_cidr
   }]
+
+  set_wo_revision = var.write_only_revision
 
   lifecycle {
     replace_triggered_by = [null_resource.src_argocd_app_of_apps]

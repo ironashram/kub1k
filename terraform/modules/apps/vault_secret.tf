@@ -12,7 +12,7 @@ resource "kubernetes_namespace" "external_secrets" {
   }
 }
 
-resource "kubernetes_secret" "external_secrets" {
+resource "kubernetes_secret_v1" "external_secrets" {
   depends_on = [kubernetes_namespace.external_secrets]
 
   metadata {
@@ -20,9 +20,11 @@ resource "kubernetes_secret" "external_secrets" {
     namespace = "external-secrets"
   }
 
-  data = {
-    "token" = var.vault_token
+  data_wo = {
+    "token" = var.vault_token.data.token
   }
+
+  data_wo_revision = var.write_only_revision
 
   type = "Opaque"
 

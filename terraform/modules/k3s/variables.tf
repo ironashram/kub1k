@@ -1,4 +1,6 @@
-variable "ssh_user" {}
+variable "ssh_user" {
+  ephemeral = true
+}
 
 variable "kube_config_output" {}
 
@@ -10,3 +12,7 @@ variable "control_nodes" {}
 
 variable "worker_nodes" {}
 
+
+variable "write_only_revision" {
+
+}
