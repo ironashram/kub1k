@@ -39,7 +39,11 @@ spec:
               group_wait: 30s
               group_interval: 5m
               repeat_interval: 12h
-              receiver: 'matrix'
+              receiver: matrix
+              routes:
+              - receiver: matrix
+                matchers:
+                  - alertname = "Watchdog"
             receivers:
               - name: matrix
                 webhook_configs:
