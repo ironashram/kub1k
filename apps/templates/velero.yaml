@@ -20,8 +20,6 @@ spec:
     targetRevision: 11.2.0
     helm:
       valuesObject:
-        image:
-          tag: v1.17.1
         initContainers:
           - name: velero-plugin-for-aws
             image: velero/velero-plugin-for-aws:v1.13.1
