@@ -3,7 +3,7 @@ module "provision_apps" {
   source = "./modules/apps"
 
   argocd_admin_password = ephemeral.vault_kv_secret_v2.argocd.data.admin_password
-  vault_token           = ephemeral.vault_kv_secret_v2.vault
+  vault_token           = ephemeral.vault_kv_secret_v2.vault.data.token
   git_token             = ephemeral.vault_kv_secret_v2.github.data.token
   git_user              = ephemeral.vault_kv_secret_v2.github.data.username
   git_repo              = ephemeral.vault_kv_secret_v2.github.data.repo
@@ -14,7 +14,6 @@ module "provision_apps" {
   k8s_endpoint          = local.control_nodes[0].ip
   worker_nodes          = local.worker_nodes
   lb_pool_cidr          = var.lb_pool_cidr
-  write_only_revision   = var.write_only_revision
 
   providers = {
     helm       = helm

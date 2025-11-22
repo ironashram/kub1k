@@ -11,8 +11,3 @@ variable "k3s_version" {}
 variable "control_nodes" {}
 
 variable "worker_nodes" {}
-
-
-variable "write_only_revision" {
-
-}

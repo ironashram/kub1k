@@ -55,5 +55,6 @@ variable "lb_pool_cidr" {
   sensitive = false
 }
 
-variable "write_only_revision" {
+variable "vault_secret_revision" {
+  default = "2"
 }

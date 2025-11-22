@@ -42,7 +42,3 @@ variable "worker_nodes" {
 variable "remote_state_s3_endpoint" {
   description = "url for s3 backend"
 }
-
-variable "write_only_revision" {
-  default = "1"
-}

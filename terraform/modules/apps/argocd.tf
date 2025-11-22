@@ -46,7 +46,7 @@ resource "helm_release" "argocd" {
       value = "argocd.${var.internal_domain}"
   }]
 
-  set_wo_revision = var.write_only_revision
+  set_wo_revision = parseint(substr(sha256(yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.targetRevision), 0, 15), 16)
 
   values = [
     file("${path.module}/values/argocd.yaml"),

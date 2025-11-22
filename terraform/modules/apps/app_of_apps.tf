@@ -38,7 +38,7 @@ resource "helm_release" "argocd_app_of_apps" {
       value = var.lb_pool_cidr
   }]
 
-  set_wo_revision = var.write_only_revision
+  set_wo_revision = parseint(substr(data.archive_file.argocd_app_of_apps.output_sha, 0, 8), 16)
 
   lifecycle {
     replace_triggered_by = [null_resource.src_argocd_app_of_apps]

@@ -21,10 +21,10 @@ resource "kubernetes_secret_v1" "external_secrets" {
   }
 
   data_wo = {
-    "token" = var.vault_token.data.token
+    "token" = var.vault_token
   }
 
-  data_wo_revision = var.write_only_revision
+  data_wo_revision = var.vault_secret_revision
 
   type = "Opaque"
 
