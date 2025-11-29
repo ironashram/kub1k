@@ -15,7 +15,7 @@ variable "k3s_kube_bind_address" {
 }
 
 variable "k3s_version" {
-  default = "v1.34.2-rc2+k3s1"
+  default = "v1.34.2+k3s1"
 }
 
 variable "lb_pool_cidr" {
