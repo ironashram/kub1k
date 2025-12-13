@@ -45,10 +45,10 @@ To deploy the infrastructure, follow these steps:
 
 1. Clone this repository to your local machine.
 2. Navigate to the project directory.
-3. Initialize the Terraform backend by running `make init kub1k`.
+3. Initialize the Terraform backend by running `make init`.
 4. Review and modify the variables in the `variables.tf` file according to your environment.
-5. Run `make plan kub1k` to see the execution plan.
-6. Run `make apply kub1k` to deploy the infrastructure.
+5. Run `make plan` to see the execution plan.
+6. Run `make apply` to deploy the infrastructure.
 
 For more detailed instructions, please refer to the [Terraform documentation](https://www.terraform.io/docs/index.html).
 
