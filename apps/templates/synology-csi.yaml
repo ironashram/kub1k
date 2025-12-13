@@ -41,7 +41,7 @@ spec:
             reclaimPolicy: Delete
             parameters:
               fsType: xfs
-              location: /volume2
+              location: /volume1
               protocol: iscsi
           iscsi-delete:
             disabled: true

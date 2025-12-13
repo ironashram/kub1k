@@ -6,18 +6,15 @@
 set -e
 
 terraform_init() {
-  local ENVIRONMENT="$1"; shift
   local TERRAFORM_GLOBAL_OPTIONS="$@"
 
   tofu "$TERRAFORM_GLOBAL_OPTIONS" init
 }
 
 main() {
-  local ENVIRONMENT="$1"; shift
   local TERRAFORM_GLOBAL_OPTIONS="$@"
 
-  terraform_init "$ENVIRONMENT" "$TERRAFORM_GLOBAL_OPTIONS"
-  tofu "$TERRAFORM_GLOBAL_OPTIONS" workspace select -or-create "$ENVIRONMENT"
+  terraform_init "$TERRAFORM_GLOBAL_OPTIONS"
   exit 0
 }
 

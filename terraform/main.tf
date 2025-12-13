@@ -5,8 +5,7 @@ terraform {
       s3 = "https://${var.remote_state_s3_endpoint}"
     }
     bucket                      = "tfdata-v2"
-    key                         = "terraform.tfstate"
-    workspace_key_prefix        = "k8s"
+    key                         = "k8s/terraform.tfstate"
     use_path_style              = true
     skip_region_validation      = true
     skip_requesting_account_id  = true

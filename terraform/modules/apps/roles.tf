@@ -1,11 +1,9 @@
 resource "kubernetes_labels" "worker_role" {
-  for_each = {
-    for node in var.worker_nodes : node.name => node
-  }
+  count       = length(var.worker_names)
   api_version = "v1"
   kind        = "Node"
   metadata {
-    name = each.value.name
+    name = var.worker_names[count.index]
   }
   labels = {
     "node-role.kubernetes.io/worker" = true

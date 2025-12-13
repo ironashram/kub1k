@@ -10,7 +10,7 @@ resource "helm_release" "argocd_app_of_apps" {
   set_wo = [
     {
       name  = "environment"
-      value = terraform.workspace
+      value = var.cluster_name
     },
 
     {

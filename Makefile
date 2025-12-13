@@ -1,7 +1,6 @@
 ARGUMENTS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-ENV := $(firstword $(ARGUMENTS))
-OPTIONS := $(wordlist 2,$(words $(ARGUMENTS)),$(ARGUMENTS))
 TERRAFORM_GLOBAL_OPTIONS := "-chdir=terraform"
+OPTIONS := $(firstword $(ARGUMENTS))
 
 CYAN := \033[36m
 RESET := \033[0m
@@ -10,7 +9,7 @@ RESET := \033[0m
 help:
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "apply" "Applies a new state."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "comment-pr" "Posts the terraform plan as a PR comment."
-	@printf "$(CYAN)%-30s$(RESET) %s\n" "get-kubeconfig" "Gets the kubeconfig for the environment if it doesn't exist."
+	@printf "$(CYAN)%-30s$(RESET) %s\n" "get-kubeconfig" "Gets the kubeconfig if it doesn't exist."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "help" "Display help for available targets"
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "init" "Initializes the terraform state backend."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "output" "Show outputs of the entire state."
@@ -30,14 +29,14 @@ apply: init
 .PHONY: get-kubeconfig
 get-kubeconfig:
 	@mkdir -p ~/.kube/config-files
-	@test -s ~/.kube/config-files/$(ENV).yaml || \
-		curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $(VAULT_TOKEN)" $(VAULT_ADDR)/v1/kv/data/$(ENV)/k3s \
+	@test -s ~/.kube/config-files/kub1k.yaml || \
+		curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $(VAULT_TOKEN)" $(VAULT_ADDR)/v1/kv/data/kub1k/k3s \
 		| jq -r '.data.data.kubeconfig' \
-		| base64 -d > ~/.kube/config-files/$(ENV).yaml
+		| base64 -d > ~/.kube/config-files/kub1k.yaml
 
 .PHONY: init
 init: get-kubeconfig
-	@./tools/tf-helper.sh $(ENV) $(TERRAFORM_GLOBAL_OPTIONS)
+	@./tools/tf-helper.sh $(TERRAFORM_GLOBAL_OPTIONS)
 
 .PHONY: output
 output: init
@@ -82,8 +81,8 @@ upgrade-kubernetes-version:
 .PHONY: FORCE
 %: FORCE
 	@if [ "$(MAKECMDGOALS)" != "help" ] \
-		&& [ "$(MAKECMDGOALS)" != "upgrade-kubernetes-version" ] \
-		&& [ "$(ENV)" = "" ]; then \
-		echo "Environment was not set properly, check README.md"; \
+		&& [ "$(MAKECMDGOALS)" == "" ]; then \
+		echo "No targets specified, check README.md"; \
 		exit 1; \
 	fi
+

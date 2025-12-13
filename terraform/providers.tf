@@ -23,3 +23,9 @@ provider "kubectl" {
   client_key             = local.client_key
   load_config_file       = false
 }
+
+provider "synology" {
+  host     = ephemeral.vault_kv_secret_v2.vms.data.synology_host
+  user     = ephemeral.vault_kv_secret_v2.vms.data.synology_user
+  password = ephemeral.vault_kv_secret_v2.vms.data.synology_password
+}

@@ -16,5 +16,9 @@ terraform {
       source  = "gavinbunney/kubectl"
       version = "1.19.0"
     }
+    synology = {
+      source  = "synology-community/synology"
+      version = "0.6.4"
+    }
   }
 }

@@ -1,5 +1,5 @@
 locals {
-  kube_config_output = pathexpand("~/.kube/config-files/${terraform.workspace}.yaml")
+  kube_config_output = pathexpand("~/.kube/config-files/${var.cluster_name}.yaml")
 
   // decode base64 kubeconfig from vault
   kubeconfig             = try(yamldecode(base64decode(ephemeral.vault_kv_secret_v2.k3s.data.kubeconfig)), null)
@@ -7,22 +7,6 @@ locals {
   cluster_ca_certificate = try(base64decode(local.kubeconfig.clusters[0].cluster.certificate-authority-data), null)
   client_certificate     = try(base64decode(local.kubeconfig.users[0].user.client-certificate-data), null)
   client_key             = try(base64decode(local.kubeconfig.users[0].user.client-key-data), null)
-
-
-
-  control_nodes = [
-    for i in var.control_nodes : {
-      name = "${terraform.workspace}-${i.name}"
-      ip   = i.ip
-    }
-  ]
-
-  worker_nodes = [
-    for i in var.worker_nodes : {
-      name = "${terraform.workspace}-${i.name}"
-      ip   = i.ip
-    }
-  ]
 
   k3s_extra_args = join(" ", [
     "--cluster-cidr=${var.k3s_cluster_cidr}",
@@ -40,4 +24,13 @@ locals {
     "--disable=servicelb",
     "--disable=coredns"
   ])
+
+  control_mgmt_macs = [for i in range(var.control_count) : format("02:00:00:a1:00:%02x", i + 1)]
+  control_mgmt_ips  = [for i in range(var.control_count) : "${var.mgmt_ip_base}.${i + 11}"]
+  control_names     = [for i in range(var.control_count) : "${var.cluster_name}-control-${i + 1}"]
+  worker_mgmt_macs  = [for i in range(var.worker_count) : format("02:00:00:a1:11:%02x", i + 1)]
+  worker_mgmt_ips   = [for i in range(var.worker_count) : "${var.mgmt_ip_base}.${i + 21}"]
+  worker_names      = [for i in range(var.worker_count) : "${var.cluster_name}-worker-${i + 1}"]
+  domain_name       = data.vault_kv_secret_v2.vms.data.domain_name
+  ssh_public_key    = data.vault_kv_secret_v2.vms.data.ssh_public_key
 }

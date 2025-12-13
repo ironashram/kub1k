@@ -1,4 +1,4 @@
-resource "kubernetes_namespace" "external_secrets" {
+resource "kubernetes_namespace_v1" "external_secrets" {
   metadata {
     name = "external-secrets"
   }
@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "external_secrets" {
 }
 
 resource "kubernetes_secret_v1" "external_secrets" {
-  depends_on = [kubernetes_namespace.external_secrets]
+  depends_on = [kubernetes_namespace_v1.external_secrets]
 
   metadata {
     name      = "vault-token"

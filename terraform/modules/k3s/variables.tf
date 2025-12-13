@@ -8,6 +8,12 @@ variable "k3s_extra_args" {}
 
 variable "k3s_version" {}
 
-variable "control_nodes" {}
+variable "control_mgmt_ips" {}
 
-variable "worker_nodes" {}
+variable "control_names" {}
+
+variable "worker_mgmt_ips" {}
+
+variable "worker_names" {}
+
+variable "cluster_name" {}

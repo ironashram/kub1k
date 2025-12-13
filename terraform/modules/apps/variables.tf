@@ -47,7 +47,7 @@ variable "k8s_endpoint" {
   ephemeral = true
 }
 
-variable "worker_nodes" {
+variable "worker_names" {
   sensitive = false
 }
 
@@ -57,4 +57,8 @@ variable "lb_pool_cidr" {
 
 variable "vault_secret_revision" {
   default = "2"
+}
+
+variable "cluster_name" {
+  sensitive = false
 }

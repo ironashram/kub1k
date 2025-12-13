@@ -19,24 +19,11 @@ variable "k3s_version" {
 }
 
 variable "lb_pool_cidr" {
-  default = "10.0.0.230/32"
+  default = "10.78.0.230/32"
 }
 
-variable "control_nodes" {
-  default = [{
-    name = "control-01"
-    ip   = "10.0.0.241"
-  }]
-}
-
-variable "worker_nodes" {
-  default = [{
-    name = "worker-01"
-    ip   = "10.0.0.242"
-    }, {
-    name = "worker-02"
-    ip   = "10.0.0.243"
-  }]
+variable "cluster_name" {
+  default = "kub1k"
 }
 
 variable "remote_state_s3_endpoint" {

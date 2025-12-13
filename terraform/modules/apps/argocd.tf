@@ -17,27 +17,27 @@ resource "helm_release" "argocd" {
     },
 
     {
-      name  = "configs.repositories.${terraform.workspace}.name"
+      name  = "configs.repositories.${var.cluster_name}.name"
       value = var.git_repo_name
     },
 
     {
-      name  = "configs.repositories.${terraform.workspace}.url"
+      name  = "configs.repositories.${var.cluster_name}.url"
       value = var.git_repo
     },
 
     {
-      name  = "configs.repositories.${terraform.workspace}.username"
+      name  = "configs.repositories.${var.cluster_name}.username"
       value = var.git_user
     },
 
     {
-      name  = "configs.repositories.${terraform.workspace}.password"
+      name  = "configs.repositories.${var.cluster_name}.password"
       value = var.git_token
     },
 
     {
-      name  = "configs.repositories.${terraform.workspace}.type"
+      name  = "configs.repositories.${var.cluster_name}.type"
       value = "git"
     },
 
