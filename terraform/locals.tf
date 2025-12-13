@@ -31,6 +31,6 @@ locals {
   worker_mgmt_macs  = [for i in range(var.worker_count) : format("02:00:00:a1:11:%02x", i + 1)]
   worker_mgmt_ips   = [for i in range(var.worker_count) : "${var.mgmt_ip_base}.${i + 21}"]
   worker_names      = [for i in range(var.worker_count) : "${var.cluster_name}-worker-${i + 1}"]
-  domain_name       = data.vault_kv_secret_v2.vms.data.domain_name
-  ssh_public_key    = data.vault_kv_secret_v2.vms.data.ssh_public_key
+  domain_name       = data.vault_generic_secret.vars.data["domain_name"]
+  ssh_public_key    = data.vault_generic_secret.vars.data["ssh_public_key"]
 }

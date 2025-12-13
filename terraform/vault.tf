@@ -33,8 +33,7 @@ ephemeral "vault_kv_secret_v2" "vms" {
   name  = "${var.cluster_name}/vms"
 }
 
-data "vault_kv_secret_v2" "vms" {
-  mount = "kv"
-  name  = "${var.cluster_name}/vms"
+data "vault_generic_secret" "vars" {
+  path = "kv/${var.cluster_name}/vars"
 }
 
