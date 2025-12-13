@@ -63,9 +63,11 @@ data "local_sensitive_file" "kubeconfig" {
 resource "vault_kv_secret_v2" "k3s" {
   mount = "kv"
   name  = "${var.cluster_name}/k3s"
-  data_json = jsonencode(
+  data_json_wo = jsonencode(
     {
       kubeconfig = base64encode(data.local_sensitive_file.kubeconfig.content)
     }
   )
+  # Use filemd5 to get the hash during plan if the file exists, avoiding deferred value drift
+  data_json_wo_version = parseint(substr(try(filemd5(var.kube_config_output), md5("wait")), 0, 12), 16)
 }

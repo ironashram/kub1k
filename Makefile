@@ -18,6 +18,7 @@ help:
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "plan-destroy" "Shows what a destroy would do."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "show" "Shows resources"
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "list" "Lists resources in the state."
+	@printf "$(CYAN)%-30s$(RESET) %s\n" "taint" "Taints resources in the state."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "rm" "Removes resources from the state."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "upgrade" "Gets any provider updates"
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "upgrade-kubernetes-version" "Checks and upgrades k3s version if necessary"
@@ -61,6 +62,10 @@ plan-destroy: init
 .PHONY: list
 list:
 	@tofu $(TERRAFORM_GLOBAL_OPTIONS) state list
+
+.PHONY: taint
+taint:
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) taint $(OPTIONS)
 
 .PHONY: rm
 rm:
