@@ -4,8 +4,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'terraform/**'
-      - 'terraform/**/*.yaml'
+      - "terraform/**"
+      - "terraform/**/*.yaml"
 
 jobs:
   plan:
@@ -33,7 +33,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: terraform plan
-        run: make plan kub1k
+        run: make plan
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -43,7 +43,7 @@ jobs:
 
       - name: Post plan as PR comment
         if: github.event_name == 'pull_request'
-        run: make comment-pr kub1k
+        run: make comment-pr
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -53,6 +53,6 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_ENDPOINT_URL:  ${{ secrets.AWS_ENDPOINT_URL }}
+          AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
           S3_BUCKET: github-artifacts
           S3_PREFIX: ${{ github.event.repository.name }}/pulls/${{ github.event.number }}/terraform-plan
