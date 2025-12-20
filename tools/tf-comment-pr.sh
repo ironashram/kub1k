@@ -8,6 +8,14 @@ if ! PLAN=$(tofu $TERRAFORM_OPTIONS show -no-color terraform.tfplan); then
     exit 1
 fi
 
+# Truncate plan if it exceeds maximum length to avoid "argument too long" errors
+MAX_LENGTH=60000
+if [ ${#PLAN} -gt $MAX_LENGTH ]; then
+    PLAN="${PLAN:0:$MAX_LENGTH}
+
+... (output truncated due to size)"
+fi
+
 if ! PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH"); then
     echo "Error: Failed to get PR number"
     exit 1
