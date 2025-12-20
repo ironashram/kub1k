@@ -43,10 +43,14 @@ spec:
               routes:
               - receiver: 'null'
                 matchers:
-                  - alertname = "Watchdog"
+                - matchType: "="
+                  name: alertname
+                  value: Watchdog
               - receiver: 'null'
                 matchers:
-                  - alertname = "InfoInhibitor"
+                - matchType: "="
+                  name: alertname
+                  value: InfoInhibitor
             receivers:
               - name: 'null'
               - name: matrix
