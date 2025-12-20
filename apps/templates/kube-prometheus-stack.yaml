@@ -46,12 +46,11 @@ spec:
               group_interval: 5m
               repeat_interval: 12h
               receiver: matrix
+              receiver: 'null'
               routes:
                 - receiver: 'null'
                   matchers:
-                  - matchType: "="
-                    name: alertname
-                    value: Watchdog
+                    - alertname = "Watchdog"
             receivers:
               - name: 'null'
               - name: matrix
