@@ -52,7 +52,6 @@ spec:
                   matchers:
                     - alertname = "Watchdog"
             receivers:
-              - name: 'null'
               - name: matrix
                 webhook_configs:
                   - url: "https://matrix-alertmanager-receiver.{{ .Values.externalDomain }}/alerts/k8s-alerts"
