@@ -43,15 +43,12 @@ spec:
               routes:
               - receiver: 'null'
                 matchers:
-                  - matchType: "="
-                    name: alertname
-                    value: Watchdog
+                  - alertname = "Watchdog"
               - receiver: 'null'
                 matchers:
-                  - matchType: "="
-                    name: alertname
-                    value: InfoInhibitor
+                  - alertname = "InfoInhibitor"
             receivers:
+              - name: 'null'
               - name: matrix
                 webhook_configs:
                   - url: "https://matrix-alertmanager-receiver.{{ .Values.externalDomain }}/alerts/k8s-alerts"
