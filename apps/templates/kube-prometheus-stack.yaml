@@ -46,7 +46,14 @@ spec:
               group_interval: 5m
               repeat_interval: 12h
               receiver: matrix
+              routes:
+                - receiver: 'null'
+                  matchers:
+                  - matchType: "="
+                    name: alertname
+                    value: Watchdog
             receivers:
+              - name: 'null'
               - name: matrix
                 webhook_configs:
                   - url: "https://matrix-alertmanager-receiver.{{ .Values.externalDomain }}/alerts/k8s-alerts"
