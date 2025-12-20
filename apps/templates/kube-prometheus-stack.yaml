@@ -41,9 +41,16 @@ spec:
               repeat_interval: 12h
               receiver: matrix
               routes:
-              - receiver: matrix
+              - receiver: 'null'
                 matchers:
-                  - alertname = "Watchdog"
+                  - matchType: "="
+                    name: alertname
+                    value: Watchdog
+              - receiver: 'null'
+                matchers:
+                  - matchType: "="
+                    name: alertname
+                    value: InfoInhibitor
             receivers:
               - name: matrix
                 webhook_configs:
