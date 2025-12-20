@@ -41,16 +41,16 @@ spec:
               repeat_interval: 12h
               receiver: matrix
               routes:
-              - receiver: 'null'
-                matchers:
-                - matchType: "="
-                  name: alertname
-                  value: Watchdog
-              - receiver: 'null'
-                matchers:
-                - matchType: "="
-                  name: alertname
-                  value: InfoInhibitor
+                - receiver: 'null'
+                  matchers:
+                  - matchType: "="
+                    name: alertname
+                    value: Watchdog
+                - receiver: 'null'
+                  matchers:
+                  - matchType: "="
+                    name: alertname
+                    value: InfoInhibitor
             receivers:
               - name: 'null'
               - name: matrix
