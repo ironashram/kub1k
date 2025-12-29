@@ -37,3 +37,14 @@ data "vault_generic_secret" "vars" {
   path = "kv/${var.cluster_name}/vars"
 }
 
+data "vault_generic_secret" "argocd" {
+  path = "kv/${var.cluster_name}/argocd"
+}
+
+data "vault_generic_secret" "domain" {
+  path = "kv/${var.cluster_name}/domain"
+
+}
+data "vault_generic_secret" "github" {
+  path = "kv/${var.cluster_name}/github"
+}

@@ -5,27 +5,22 @@ variable "vault_token" {
 
 variable "git_token" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "git_user" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "git_repo" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "git_repo_name" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "argocd_admin_password" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "k3s_cluster_dns" {
@@ -34,17 +29,14 @@ variable "k3s_cluster_dns" {
 
 variable "internal_domain" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "external_domain" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "k8s_endpoint" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "worker_names" {

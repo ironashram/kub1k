@@ -7,7 +7,7 @@ resource "helm_release" "argocd_app_of_apps" {
 
   create_namespace = true
 
-  set_wo = [
+  set_sensitive = [
     {
       name  = "environment"
       value = var.cluster_name
@@ -37,8 +37,6 @@ resource "helm_release" "argocd_app_of_apps" {
       name  = "lbIpPool"
       value = var.lb_pool_cidr
   }]
-
-  set_wo_revision = parseint(substr(data.archive_file.argocd_app_of_apps.output_sha, 0, 8), 16)
 
   lifecycle {
     replace_triggered_by = [null_resource.src_argocd_app_of_apps]

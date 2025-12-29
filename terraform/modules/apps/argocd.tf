@@ -11,7 +11,7 @@ resource "helm_release" "argocd" {
 
   max_history = 0
 
-  set_wo = [{
+  set_sensitive = [{
     name  = "configs.secret.argocdServerAdminPassword"
     value = var.argocd_admin_password
     },
@@ -45,8 +45,6 @@ resource "helm_release" "argocd" {
       name  = "global.domain"
       value = "argocd.${var.internal_domain}"
   }]
-
-  set_wo_revision = parseint(substr(sha256(yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.targetRevision), 0, 15), 16)
 
   values = [
     file("${path.module}/values/argocd.yaml"),

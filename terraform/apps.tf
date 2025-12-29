@@ -2,14 +2,14 @@ module "provision_apps" {
   count  = local.cluster_host != null ? 1 : 0
   source = "./modules/apps"
 
-  argocd_admin_password = ephemeral.vault_kv_secret_v2.argocd.data.admin_password
+  argocd_admin_password = data.vault_generic_secret.argocd.data["admin_password"]
   vault_token           = ephemeral.vault_kv_secret_v2.vault.data.token
-  git_token             = ephemeral.vault_kv_secret_v2.github.data.token
-  git_user              = ephemeral.vault_kv_secret_v2.github.data.username
-  git_repo              = ephemeral.vault_kv_secret_v2.github.data.repo
-  git_repo_name         = ephemeral.vault_kv_secret_v2.github.data.repo_name
-  internal_domain       = ephemeral.vault_kv_secret_v2.domain.data.internal
-  external_domain       = ephemeral.vault_kv_secret_v2.domain.data.external
+  git_token             = data.vault_generic_secret.github.data["token"]
+  git_user              = data.vault_generic_secret.github.data["username"]
+  git_repo              = data.vault_generic_secret.github.data["repo"]
+  git_repo_name         = data.vault_generic_secret.github.data["repo_name"]
+  internal_domain       = data.vault_generic_secret.domain.data["internal"]
+  external_domain       = data.vault_generic_secret.domain.data["external"]
   k3s_cluster_dns       = var.k3s_cluster_dns
   k8s_endpoint          = local.control_mgmt_ips[0]
   worker_names          = local.worker_names
