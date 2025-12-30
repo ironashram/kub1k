@@ -3,7 +3,7 @@ module "provision_apps" {
   source = "./modules/apps"
 
   argocd_admin_password = data.vault_generic_secret.argocd.data["admin_password"]
-  vault_token           = ephemeral.vault_kv_secret_v2.vault.data.token
+  vault_token           = data.vault_generic_secret.vault.data["token"]
   git_token             = data.vault_generic_secret.github.data["token"]
   git_user              = data.vault_generic_secret.github.data["username"]
   git_repo              = data.vault_generic_secret.github.data["repo"]

@@ -25,7 +25,7 @@ provider "kubectl" {
 }
 
 provider "synology" {
-  host     = ephemeral.vault_kv_secret_v2.vms.data.synology_host
-  user     = ephemeral.vault_kv_secret_v2.vms.data.synology_user
-  password = ephemeral.vault_kv_secret_v2.vms.data.synology_password
+  host     = data.vault_generic_secret.vms.data["synology_host"]
+  user     = data.vault_generic_secret.vms.data["synology_user"]
+  password = data.vault_generic_secret.vms.data["synology_password"]
 }

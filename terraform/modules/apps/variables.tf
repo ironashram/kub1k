@@ -1,6 +1,5 @@
 variable "vault_token" {
   sensitive = true
-  ephemeral = true
 }
 
 variable "git_token" {

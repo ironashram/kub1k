@@ -9,6 +9,6 @@ module "provision_k3s" {
   k3s_extra_args     = local.k3s_extra_args
   k3s_version        = var.k3s_version
   kube_config_output = local.kube_config_output
-  ssh_user           = ephemeral.vault_kv_secret_v2.ssh.data.user
+  ssh_user           = data.vault_generic_secret.ssh.data["user"]
   cluster_name       = var.cluster_name
 }

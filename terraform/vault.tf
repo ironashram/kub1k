@@ -1,36 +1,17 @@
-ephemeral "vault_kv_secret_v2" "github" {
-  mount = "kv"
-  name  = "${var.cluster_name}/github"
+data "vault_generic_secret" "vault" {
+  path = "kv/${var.cluster_name}/vault"
 }
 
-ephemeral "vault_kv_secret_v2" "vault" {
-  mount = "kv"
-  name  = "${var.cluster_name}/vault"
+data "vault_generic_secret" "ssh" {
+  path = "kv/${var.cluster_name}/ssh"
 }
 
-ephemeral "vault_kv_secret_v2" "ssh" {
-  mount = "kv"
-  name  = "${var.cluster_name}/ssh"
+data "vault_generic_secret" "vms" {
+  path = "kv/${var.cluster_name}/vms"
 }
 
-ephemeral "vault_kv_secret_v2" "k3s" {
-  mount = "kv"
-  name  = "${var.cluster_name}/k3s"
-}
-
-ephemeral "vault_kv_secret_v2" "argocd" {
-  mount = "kv"
-  name  = "${var.cluster_name}/argocd"
-}
-
-ephemeral "vault_kv_secret_v2" "domain" {
-  mount = "kv"
-  name  = "${var.cluster_name}/domain"
-}
-
-ephemeral "vault_kv_secret_v2" "vms" {
-  mount = "kv"
-  name  = "${var.cluster_name}/vms"
+data "vault_generic_secret" "k3s" {
+  path = "kv/${var.cluster_name}/k3s"
 }
 
 data "vault_generic_secret" "vars" {
