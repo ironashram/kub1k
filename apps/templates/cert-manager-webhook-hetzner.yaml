@@ -17,7 +17,7 @@ spec:
   source:
     chart: cert-manager-webhook-hetzner
     repoURL: https://charts.hetzner.cloud
-    targetRevision: 0.6.5
+    targetRevision: 0.6.6
     helm:
       valuesObject:
         groupName: acme.{{ .Values.externalDomain }}
