@@ -292,10 +292,10 @@ spec:
                     severity: critical
                 - alert: VeleroNoNewBackup
                   annotations:
-                    message: Velero backup {{`{{`}} $labels.schedule {{`}}`}} has not run successfully in the last 25h
+                    message: Velero backup {{`{{`}} $labels.schedule {{`}}`}} has not run successfully in the last 96h
                   expr: |-
                     (
-                    (time() - velero_backup_last_successful_timestamp{schedule!=""}) >bool (25 * 3600)
+                    (time() - velero_backup_last_successful_timestamp{schedule!=""}) >bool (96 * 3600)
                     or
                     absent(velero_backup_last_successful_timestamp{schedule!=""})
                     ) == 1
@@ -310,7 +310,7 @@ spec:
                       / rate(velero_backup_attempt_total{schedule!=""}[25m]) > 0.5
                   for: 15m
                   labels:
-                    severity: warning
+                    severity: info
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
