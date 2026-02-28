@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: headlamp
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+  source:
+    chart: headlamp
+    repoURL: https://kubernetes-sigs.github.io/headlamp/
+    targetRevision: 0.40.0
+    helm:
+      valuesObject:
+        config:
+          inCluster: true
+        ingress:
+          enabled: true
+          ingressClassName: haproxy
+          hosts:
+            - host: k8s.{{ .Values.internalDomain }}
+              paths:
+                - path: /
+                  type: ImplementationSpecific
+          tls:
+            - secretName: headlamp-cert
+              hosts:
+                - k8s.{{ .Values.internalDomain }}
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+  destination:
+    name: in-cluster
+    namespace: headlamp
