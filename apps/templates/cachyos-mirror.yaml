@@ -28,7 +28,7 @@ spec:
           storageClass: synology-csi-iscsi-custom
         ingress:
           enabled: true
-          host: cachyos-mirror.{{ .Values.externalDomain }}
+          host: cachyos-mirror.{{ .Values.internalDomain }}
   destination:
     name: in-cluster
     namespace: cachyos-mirror
