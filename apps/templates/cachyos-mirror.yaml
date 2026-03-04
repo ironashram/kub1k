@@ -25,10 +25,10 @@ spec:
           schedule: "0 */2 * * *"
         storage:
           size: 250Gi
-          storageClass: synology-iscsi-custom
+          storageClass: synology-csi-iscsi-custom
         ingress:
           enabled: true
-          host: mirror.{{ .Values.externalDomain }}
+          host: cachyos-mirror.{{ .Values.externalDomain }}
   destination:
     name: in-cluster
     namespace: cachyos-mirror
