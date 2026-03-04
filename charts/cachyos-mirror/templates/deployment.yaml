@@ -18,6 +18,9 @@ spec:
         app: {{ .Release.Name }}
     spec:
       securityContext:
+        runAsUser: 101
+        runAsNonRoot: true
+        fsGroup: 101
         seccompProfile:
           type: RuntimeDefault
       containers:
