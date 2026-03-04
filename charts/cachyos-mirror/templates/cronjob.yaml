@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-sync
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: {{ .Values.sync.schedule | quote }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: rsync
+              image: "{{ .Values.sync.image.repository }}:{{ .Values.sync.image.tag }}"
+              command:
+                - sh
+                - -c
+                - |
+                  apk add --no-cache rsync && \
+                  rsync -avz --delete \
+                    --timeout=300 \
+                    {{ .Values.sync.upstream }}/ \
+                    /data/
+              volumeMounts:
+                - name: mirror-data
+                  mountPath: /data
+              resources:
+                {{- toYaml .Values.resources.sync | nindent 16 }}
+          volumes:
+            - name: mirror-data
+              persistentVolumeClaim:
+                claimName: {{ .Release.Name }}-data

@@ -1,0 +1,48 @@
+---
+replicaCount: 1
+
+image:
+  repository: nginx
+  tag: alpine
+  pullPolicy: IfNotPresent
+
+sync:
+  image:
+    repository: alpine
+    tag: latest
+  upstream: rsync://nl.mirror.cx/cachyos/
+  schedule: "0 */6 * * *"
+
+storage:
+  size: 250Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  className: haproxy
+  host: ""
+  tls:
+    enabled: true
+    secretName: cachyos-mirror-cert
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+resources:
+  nginx:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  sync:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi

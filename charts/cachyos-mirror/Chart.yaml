@@ -1,0 +1,4 @@
+apiVersion: v2
+description: A Helm chart to deploy a CachyOS package mirror.
+name: cachyos-mirror
+version: 0.0.1
