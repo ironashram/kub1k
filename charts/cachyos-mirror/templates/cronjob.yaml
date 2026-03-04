@@ -11,6 +11,13 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app: {{ .Release.Name }}
+                  topologyKey: kubernetes.io/hostname
           containers:
             - name: rsync
               image: "{{ .Values.sync.image.repository }}:{{ .Values.sync.image.tag }}"
@@ -21,7 +28,7 @@ spec:
                   apk add --no-cache rsync && \
                   rsync -avz --delete \
                     --timeout=300 \
-                    {{ .Values.sync.upstream }}/ \
+                    {{ .Values.sync.upstream }} \
                     /data/
               volumeMounts:
                 - name: mirror-data
