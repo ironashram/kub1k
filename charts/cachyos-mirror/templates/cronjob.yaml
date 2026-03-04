@@ -21,6 +21,10 @@ spec:
           containers:
             - name: rsync
               image: "{{ .Values.sync.image.repository }}:{{ .Values.sync.image.tag }}"
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
               command:
                 - sh
                 - -c
