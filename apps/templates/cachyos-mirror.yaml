@@ -34,6 +34,7 @@ spec:
             host: cachyos-mirror.{{ .Values.externalDomain }}
             annotations:
               haproxy-ingress.github.io/allowlist-source-range: 0.0.0.0/0
+              cert-manager.io/cluster-issuer: letsencrypt-prod
             tls:
               secretName: cachyos-mirror-external-cert
   destination:
