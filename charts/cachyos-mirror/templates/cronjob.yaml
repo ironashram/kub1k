@@ -35,6 +35,8 @@ spec:
                   rsync -rltvz --delete \
                     --timeout=300 \
                     --no-owner --no-group \
+                    --exclude='Nginx-Fancyindex-Theme-light/' \
+                    --exclude='index.html' \
                     {{ .Values.sync.upstream }} \
                     /data/
               volumeMounts:

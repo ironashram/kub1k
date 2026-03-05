@@ -18,7 +18,4 @@ data:
             autoindex_localtime on;
             index off;
         }
-
-        location = /index.html { return 404; }
-        location ^~ /Nginx-Fancyindex-Theme-light/ { return 404; }
     }
