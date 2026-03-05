@@ -17,7 +17,7 @@ storage:
   size: 250Gi
   storageClass: ""
   accessMode: ReadWriteOnce
-  excludeFromBackup: true
+  excludeFromBackup: false
 
 service:
   port: 80
