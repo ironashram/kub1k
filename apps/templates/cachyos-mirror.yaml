@@ -29,8 +29,13 @@ spec:
         ingress:
           enabled: true
           host: cachyos-mirror.{{ .Values.internalDomain }}
-          annotations:
-            haproxy-ingress.github.io/allowlist-source-range: 0.0.0.0/0
+        extraIngresses:
+          - name: external
+            host: cachyos-mirror.{{ .Values.externalDomain }}
+            annotations:
+              haproxy-ingress.github.io/allowlist-source-range: 0.0.0.0/0
+            tls:
+              secretName: cachyos-mirror-external-cert
   destination:
     name: in-cluster
     namespace: cachyos-mirror

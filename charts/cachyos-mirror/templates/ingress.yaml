@@ -26,3 +26,34 @@ spec:
         - {{ .Values.ingress.host }}
   {{- end }}
 {{- end }}
+{{- range .Values.extraIngresses }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $.Release.Name }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  {{- if .annotations }}
+  annotations:
+    {{- toYaml .annotations | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .className | default $.Values.ingress.className }}
+  rules:
+    - host: {{ .host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Release.Name }}
+                port:
+                  number: {{ $.Values.service.port }}
+  {{- if .tls }}
+  tls:
+    - secretName: {{ .tls.secretName }}
+      hosts:
+        - {{ .host }}
+  {{- end }}
+{{- end }}
