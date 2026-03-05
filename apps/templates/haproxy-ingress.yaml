@@ -27,6 +27,8 @@ spec:
             default: true
           replicaCount: 2
           minAvailable: 1
+          config:
+            allowlist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           metrics:
             enabled: true
           serviceMonitor:

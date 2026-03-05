@@ -29,6 +29,8 @@ spec:
         ingress:
           enabled: true
           host: cachyos-mirror.{{ .Values.internalDomain }}
+          annotations:
+            haproxy-ingress.github.io/allowlist-source-range: 0.0.0.0/0
   destination:
     name: in-cluster
     namespace: cachyos-mirror
