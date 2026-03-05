@@ -14,8 +14,10 @@ spec:
       app: {{ .Release.Name }}
   template:
     metadata:
+      {{- if .Values.storage.excludeFromBackup }}
       annotations:
         backup.velero.io/backup-volumes-excludes: mirror-data
+      {{- end }}
       labels:
         app: {{ .Release.Name }}
     spec:
