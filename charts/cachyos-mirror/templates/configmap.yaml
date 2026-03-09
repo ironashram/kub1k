@@ -18,4 +18,9 @@ data:
             autoindex_localtime on;
             index off;
         }
+
+        location ~ /\.rsync-partial {
+            deny all;
+            return 404;
+        }
     }
