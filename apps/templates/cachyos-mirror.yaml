@@ -22,7 +22,7 @@ spec:
       valuesObject:
         sync:
           upstream: rsync://nl.mirror.cx/cachyos/
-          schedule: "0 */2 * * *"
+          schedule: "*/30 * * * *"
         storage:
           size: 250Gi
           storageClass: synology-csi-iscsi-custom
