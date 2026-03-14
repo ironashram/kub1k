@@ -18,6 +18,8 @@ spec:
     repoURL: https://kubernetes-sigs.github.io/headlamp/
     targetRevision: 0.40.1
     helm:
+      valueFiles:
+        - values-fix-headlamp.yaml
       valuesObject:
         ingress:
           enabled: true
@@ -33,10 +35,6 @@ spec:
                 - k8s.{{ .Values.internalDomain }}
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt-prod
-			values: |
-        config:
-          inCluster: true
-					sessionTTL: null
   destination:
     name: in-cluster
     namespace: headlamp
