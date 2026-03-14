@@ -35,7 +35,7 @@ spec:
                   - k8s.{{ .Values.internalDomain }}
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
-    - repoURL: https://github.com/m1k/kub1k.git
+    - repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
       targetRevision: HEAD
       ref: values
   destination:
