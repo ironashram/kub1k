@@ -17,7 +17,7 @@ spec:
   source:
     chart: synology-csi
     repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
-    targetRevision: 0.10.1
+    targetRevision: 0.11.1
     helm:
       valuesObject:
         images:
