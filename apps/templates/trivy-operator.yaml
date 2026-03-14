@@ -17,7 +17,7 @@ spec:
   source:
     chart: trivy-operator
     repoURL: ghcr.io/aquasecurity/helm-charts
-    targetRevision: 0.32.0
+    targetRevision: 0.32.1
     helm:
       valuesObject:
         operator:
