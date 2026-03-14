@@ -16,11 +16,10 @@ spec:
   source:
     chart: headlamp
     repoURL: https://kubernetes-sigs.github.io/headlamp/
-    targetRevision: 0.40.1
+    targetRevision: 0.40.0
     helm:
       valuesObject:
         config:
-          sessionTTL: null
           inCluster: true
         ingress:
           enabled: true
