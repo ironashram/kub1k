@@ -13,28 +13,31 @@ spec:
       - CreateNamespace=true
     automated:
       prune: true
-  source:
-    chart: headlamp
-    repoURL: https://kubernetes-sigs.github.io/headlamp/
-    targetRevision: 0.40.1
-    helm:
-      valueFiles:
-        - values-fix-headlamp.yaml
-      valuesObject:
-        ingress:
-          enabled: true
-          ingressClassName: haproxy
-          hosts:
-            - host: k8s.{{ .Values.internalDomain }}
-              paths:
-                - path: /
-                  type: ImplementationSpecific
-          tls:
-            - secretName: headlamp-cert
-              hosts:
-                - k8s.{{ .Values.internalDomain }}
-          annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-prod
+  sources:
+    - chart: headlamp
+      repoURL: https://kubernetes-sigs.github.io/headlamp/
+      targetRevision: 0.40.1
+      helm:
+        valueFiles:
+          - $values/apps/values-fix-headlamp.yaml
+        valuesObject:
+          ingress:
+            enabled: true
+            ingressClassName: haproxy
+            hosts:
+              - host: k8s.{{ .Values.internalDomain }}
+                paths:
+                  - path: /
+                    type: ImplementationSpecific
+            tls:
+              - secretName: headlamp-cert
+                hosts:
+                  - k8s.{{ .Values.internalDomain }}
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+    - repoURL: https://github.com/m1k/kub1k.git
+      targetRevision: HEAD
+      ref: values
   destination:
     name: in-cluster
     namespace: headlamp
