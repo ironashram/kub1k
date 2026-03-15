@@ -171,7 +171,7 @@ spec:
               - job_name: 'kube-etcd'
                 scheme: http
                 static_configs:
-                  - targets: ['{{ .Values.k8sEndpoint }}:2381']
+                  - targets: [{{ range $i, $ip := .Values.k8sControlNodes }}{{ if $i }}, {{ end }}'{{ $ip }}:2381'{{ end }}]
                 metric_relabel_configs:
                   - source_labels: [__name__]
                     regex: (etcd|grpc|rest_client|process|go)_(.+)
@@ -189,7 +189,7 @@ spec:
               - job_name: 'kube-controller-manager'
                 scheme: https
                 static_configs:
-                  - targets: ['{{ .Values.k8sEndpoint }}:10257']
+                  - targets: [{{ range $i, $ip := .Values.k8sControlNodes }}{{ if $i }}, {{ end }}'{{ $ip }}:10257'{{ end }}]
                 tls_config:
                   insecure_skip_verify: true
                 bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -210,7 +210,7 @@ spec:
               - job_name: 'kube-scheduler'
                 scheme: https
                 static_configs:
-                  - targets: ['{{ .Values.k8sEndpoint }}:10259']
+                  - targets: [{{ range $i, $ip := .Values.k8sControlNodes }}{{ if $i }}, {{ end }}'{{ $ip }}:10259'{{ end }}]
                 tls_config:
                   insecure_skip_verify: true
                 bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token

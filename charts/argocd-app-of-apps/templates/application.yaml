@@ -29,5 +29,9 @@ spec:
           value: "{{ .Values.k8sClusterDNS }}"
         - name: lbIpPool
           value: "{{ .Values.lbIpPool }}"
+        {{- range $i, $ip := .Values.k8sControlNodes }}
+        - name: "k8sControlNodes[{{ $i }}]"
+          value: "{{ $ip }}"
+        {{- end }}
   destination:
     name: in-cluster

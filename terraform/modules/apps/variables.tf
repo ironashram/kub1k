@@ -53,3 +53,8 @@ variable "cluster_name" {
 variable "control_plane_vip" {
   sensitive = false
 }
+
+variable "control_mgmt_ips" {
+  type      = list(string)
+  sensitive = false
+}

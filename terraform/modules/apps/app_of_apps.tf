@@ -7,7 +7,9 @@ resource "helm_release" "argocd_app_of_apps" {
 
   create_namespace = true
 
-  set_sensitive = [
+  set_sensitive = concat(
+    [for i, ip in var.control_mgmt_ips : { name = "k8sControlNodes[${i}]", value = ip }],
+    [
     {
       name  = "environment"
       value = var.cluster_name
@@ -36,7 +38,8 @@ resource "helm_release" "argocd_app_of_apps" {
     {
       name  = "lbIpPool"
       value = var.lb_pool_cidr
-  }]
+    },
+  ])
 
   lifecycle {
     replace_triggered_by = [null_resource.src_argocd_app_of_apps]

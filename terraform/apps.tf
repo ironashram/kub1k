@@ -12,6 +12,7 @@ module "provision_apps" {
   external_domain       = data.vault_generic_secret.domain.data["external"]
   k3s_cluster_dns       = var.k3s_cluster_dns
   control_plane_vip     = var.control_plane_vip
+  control_mgmt_ips      = local.control_mgmt_ips
   worker_names          = local.worker_label_names
   lb_pool_cidr          = var.lb_pool_cidr
   cluster_name          = var.cluster_name
