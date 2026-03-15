@@ -28,6 +28,7 @@ The following components are part of this setup:
 | Kube-Prometheus-Stack            | https://github.com/prometheus-community/helm-charts                                                      |
 | Cert-Manager                     | https://github.com/cert-manager/cert-manager                                                             |
 | Synology CSI Driver              | https://github.com/SynologyOpenSource/synology-csi                                                       |
+| kube-vip                         | https://github.com/kube-vip/kube-vip                                                                     |
 | Custom Helm charts               | https://github.com/ironashram/kub1k/tree/main/charts                                                     |
 
 ## Prerequisites
