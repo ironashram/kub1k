@@ -22,7 +22,8 @@ locals {
     "--disable-network-policy",
     "--disable=traefik",
     "--disable=servicelb",
-    "--disable=coredns"
+    "--disable=coredns",
+    "--tls-san=${var.control_plane_vip}"
   ])
 
   k3s_server_join_args = join(" ", [
@@ -38,7 +39,8 @@ locals {
     "--disable-network-policy",
     "--disable=traefik",
     "--disable=servicelb",
-    "--disable=coredns"
+    "--disable=coredns",
+    "--tls-san=${var.control_plane_vip}"
   ])
 
   control_mgmt_macs = [for i in range(var.control_count) : format("02:00:00:a1:00:%02x", i + 1)]

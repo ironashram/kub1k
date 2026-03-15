@@ -22,6 +22,11 @@ variable "lb_pool_cidr" {
   default = "10.78.0.230/32"
 }
 
+variable "control_plane_vip" {
+  description = "Floating VIP for the k3s control plane, managed by kube-vip"
+  default     = "10.78.0.10"
+}
+
 variable "cluster_name" {
   default = "kub1k"
 }

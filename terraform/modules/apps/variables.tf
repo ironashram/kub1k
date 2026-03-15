@@ -34,10 +34,6 @@ variable "external_domain" {
   sensitive = true
 }
 
-variable "k8s_endpoint" {
-  sensitive = true
-}
-
 variable "worker_names" {
   sensitive = false
 }
@@ -51,5 +47,9 @@ variable "vault_secret_revision" {
 }
 
 variable "cluster_name" {
+  sensitive = false
+}
+
+variable "control_plane_vip" {
   sensitive = false
 }

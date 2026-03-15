@@ -13,6 +13,12 @@ resource "helm_release" "calico" {
 
   values = [
     file("${path.module}/values/calico.yaml"),
+    yamlencode({
+      kubernetesServiceEndpoint = {
+        host = var.control_plane_vip
+        port = "6443"
+      }
+    }),
   ]
 
   provisioner "local-exec" {

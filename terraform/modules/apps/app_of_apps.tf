@@ -25,7 +25,7 @@ resource "helm_release" "argocd_app_of_apps" {
 
     {
       name  = "k8sEndpoint"
-      value = var.k8s_endpoint
+      value = var.control_plane_vip
     },
 
     {

@@ -1,6 +1,3 @@
-kubernetesServiceEndpoint:
-  host: "10.78.0.11"
-  port: "6443"
 installation:
   registry: "quay.io"
   typhaMetricsPort: 9093
