@@ -23,6 +23,8 @@ spec:
         sync:
           upstream: rsync://nl.mirror.cx/cachyos/
           schedule: "*/30 * * * *"
+        nodeSelector:
+          node-role.kubernetes.io/control-plane: "true"
         storage:
           size: 250Gi
           storageClass: synology-csi-iscsi-custom
