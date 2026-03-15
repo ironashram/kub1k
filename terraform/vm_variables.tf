@@ -24,14 +24,20 @@ variable "mgmt_ip_base" {
 
 variable "control_count" {
   type        = number
-  default     = 1
+  default     = 3
   description = "Number of control nodes to create"
 }
 
 variable "worker_count" {
   type        = number
-  default     = 2
+  default     = 0
   description = "Number of worker nodes to create"
+}
+
+variable "label_controls_as_worker" {
+  type        = bool
+  default     = true
+  description = "Apply node-role.kubernetes.io/worker to control nodes so workloads with that nodeSelector can schedule in an all-control topology"
 }
 
 variable "worker_memory_mb" {

@@ -4,6 +4,8 @@ variable "kube_config_output" {}
 
 variable "k3s_extra_args" {}
 
+variable "k3s_server_join_args" {}
+
 variable "k3s_version" {}
 
 variable "control_mgmt_ips" {}

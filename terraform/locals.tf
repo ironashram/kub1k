@@ -25,12 +25,33 @@ locals {
     "--disable=coredns"
   ])
 
+  k3s_server_join_args = join(" ", [
+    "--cluster-cidr=${var.k3s_cluster_cidr}",
+    "--service-cidr=${var.k3s_service_cidr}",
+    "--cluster-dns=${var.k3s_cluster_dns}",
+    "--etcd-expose-metrics",
+    "--kube-controller-manager-arg=bind-address=${var.k3s_kube_bind_address}",
+    "--kube-proxy-arg=metrics-bind-address=${var.k3s_kube_bind_address}",
+    "--kube-scheduler-arg=bind-address=${var.k3s_kube_bind_address}",
+    "--flannel-backend=none",
+    "--disable-kube-proxy",
+    "--disable-network-policy",
+    "--disable=traefik",
+    "--disable=servicelb",
+    "--disable=coredns"
+  ])
+
   control_mgmt_macs = [for i in range(var.control_count) : format("02:00:00:a1:00:%02x", i + 1)]
   control_mgmt_ips  = [for i in range(var.control_count) : "${var.mgmt_ip_base}.${i + 11}"]
   control_names     = [for i in range(var.control_count) : "${var.cluster_name}-control-${i + 1}"]
   worker_mgmt_macs  = [for i in range(var.worker_count) : format("02:00:00:a1:11:%02x", i + 1)]
   worker_mgmt_ips   = [for i in range(var.worker_count) : "${var.mgmt_ip_base}.${i + 21}"]
   worker_names      = [for i in range(var.worker_count) : "${var.cluster_name}-worker-${i + 1}"]
-  domain_name       = data.vault_generic_secret.vars.data["domain_name"]
-  ssh_public_key    = data.vault_generic_secret.vars.data["ssh_public_key"]
+
+  # When label_controls_as_worker=true, control nodes also receive the worker role label
+  # so workloads with nodeSelector node-role.kubernetes.io/worker continue to schedule
+  worker_label_names = var.label_controls_as_worker ? concat(local.control_names, local.worker_names) : local.worker_names
+
+  domain_name    = data.vault_generic_secret.vars.data["domain_name"]
+  ssh_public_key = data.vault_generic_secret.vars.data["ssh_public_key"]
 }
