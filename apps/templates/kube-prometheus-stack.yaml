@@ -171,7 +171,10 @@ spec:
               - job_name: 'kube-etcd'
                 scheme: http
                 static_configs:
-                  - targets: [{{ range $i, $ip := .Values.k8sControlNodes }}{{ if $i }}, {{ end }}'{{ $ip }}:2381'{{ end }}]
+                  - targets:
+                    {{- range .Values.k8sControlNodes }}
+                    - '{{ . }}:2381'
+                    {{- end }}
                 metric_relabel_configs:
                   - source_labels: [__name__]
                     regex: (etcd|grpc|rest_client|process|go)_(.+)
