@@ -167,11 +167,16 @@ spec:
               runAsNonRoot: false
               runAsGroup: 0
               fsGroup: 0
+            # NOTE: range/end are prefixed with # so the file remains valid YAML
+            # for plain parsers (argocd-apps-action), while Helm still processes them.
             additionalScrapeConfigs:
               - job_name: 'kube-etcd'
                 scheme: http
                 static_configs:
-                  - targets: [{{ range $i, $ip := .Values.k8sControlNodes }}{{ if $i }}, {{ end }}'{{ $ip }}:2381'{{ end }}]
+                  - targets:
+                    #{{- range .Values.k8sControlNodes }}
+                    - '{{ . }}:2381'
+                    #{{- end }}
                 metric_relabel_configs:
                   - source_labels: [__name__]
                     regex: (etcd|grpc|rest_client|process|go)_(.+)
@@ -189,7 +194,10 @@ spec:
               - job_name: 'kube-controller-manager'
                 scheme: https
                 static_configs:
-                  - targets: [{{ range $i, $ip := .Values.k8sControlNodes }}{{ if $i }}, {{ end }}'{{ $ip }}:10257'{{ end }}]
+                  - targets:
+                    #{{- range .Values.k8sControlNodes }}
+                    - '{{ . }}:10257'
+                    #{{- end }}
                 tls_config:
                   insecure_skip_verify: true
                 bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -210,7 +218,10 @@ spec:
               - job_name: 'kube-scheduler'
                 scheme: https
                 static_configs:
-                  - targets: [{{ range $i, $ip := .Values.k8sControlNodes }}{{ if $i }}, {{ end }}'{{ $ip }}:10259'{{ end }}]
+                  - targets:
+                    #{{- range .Values.k8sControlNodes }}
+                    - '{{ . }}:10259'
+                    #{{- end }}
                 tls_config:
                   insecure_skip_verify: true
                 bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
