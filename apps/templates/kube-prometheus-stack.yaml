@@ -124,8 +124,6 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
               metallb:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/metallb.json
-              trivy-operator-vulnerabilities:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/trivy.json
         prometheus:
           serviceMonitor:
             relabelings:
