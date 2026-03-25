@@ -15,12 +15,12 @@ jobs:
     steps:
 
       - name: Check out
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: '0'
 
       - name: Check updates for ArgoCD Apps
-        uses: ironashram/argocd-apps-action@v1.5.1
+        uses: ironashram/argocd-apps-action@7948791f1a624a0d5e5637d6de5684cede86f41e # v1.5.1
         with:
           skip_prerelease: true
           target_branch: main
