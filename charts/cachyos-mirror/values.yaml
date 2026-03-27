@@ -8,8 +8,8 @@ image:
 
 sync:
   image:
-    repository: alpine
-    tag: latest
+    repository: ghcr.io/ironashram/toolbox
+    tag: v3.0.14
   upstream: rsync://nl.mirror.cx/cachyos/
   schedule: "0 */6 * * *"
 
