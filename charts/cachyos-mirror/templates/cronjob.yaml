@@ -35,6 +35,7 @@ spec:
                   rsync -rltvz \
                     --delete-after --delete-excluded \
                     --delay-updates \
+                    --progress \
                     --partial-dir=.rsync-partial \
                     --timeout=60 \
                     --contimeout=10 \
