@@ -34,7 +34,6 @@ spec:
                   apk add --no-cache rsync && \
                   rsync -rltvz \
                     --delete-after --delete-excluded \
-                    --delay-updates \
                     --progress \
                     --partial-dir=.rsync-partial \
                     --timeout=60 \
