@@ -36,7 +36,7 @@ spec:
                     --delete-after --delete-excluded \
                     --delay-updates \
                     --partial-dir=.rsync-partial \
-                    --timeout=120 \
+                    --timeout=60 \
                     --contimeout=10 \
                     --no-owner --no-group \
                     --exclude='Nginx-Fancyindex-Theme-light/' \
