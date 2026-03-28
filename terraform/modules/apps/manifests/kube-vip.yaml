@@ -7,7 +7,7 @@ spec:
   source:
     chart: kube-vip
     repoURL: https://kube-vip.github.io/helm-charts
-    targetRevision: 0.9.7
+    targetRevision: 0.9.8
   destination:
     name: in-cluster
     namespace: kube-vip
