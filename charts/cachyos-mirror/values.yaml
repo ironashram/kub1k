@@ -10,7 +10,7 @@ sync:
   image:
     repository: ghcr.io/ironashram/toolbox
     tag: latest
-  upstream: rsync://nl.mirror.cx/cachyos/
+  upstream: rsync://test.mirror.cachyos.org/cachyos/
   schedule: "0 */6 * * *"
 
 storage:
