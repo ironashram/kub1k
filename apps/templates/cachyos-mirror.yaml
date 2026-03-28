@@ -21,7 +21,8 @@ spec:
     helm:
       valuesObject:
         sync:
-          upstream: rsync://mirror.hb9hil.org/cachyos/
+          #upstream: rsync://mirror.hb9hil.org/cachyos/
+					upstream: rsync://nl.mirror.cx/cachyos/
           schedule: "*/30 * * * *"
         nodeSelector:
           node-role.kubernetes.io/control-plane: "true"
