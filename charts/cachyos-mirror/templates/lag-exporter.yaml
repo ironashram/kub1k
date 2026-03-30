@@ -1,3 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-lag-exporter
+  namespace: {{ .Release.Namespace }}
+data:
+  exporter.py: |
+    import urllib.request
+    import re
+
+    html = urllib.request.urlopen("https://packages.cachyos.org/mirrors", timeout=30).read().decode()
+
+    pos = html.find("{{ .Values.lagExporter.mirrorDomain }}")
+    match = re.search(r'<span>([^<]+)</span>', html[pos:pos+500]) if pos >= 0 else None
+    text = match.group(1) if match else ""
+
+    d  = re.search(r'(\d+)\s+day', text)
+    h  = re.search(r'(\d+)\s+hour', text)
+    mi = re.search(r'(\d+)\s+min', text)
+    s  = re.search(r'(\d+)\s+sec', text)
+
+    if text:
+        lag = (
+            (int(d.group(1))  if d  else 0) * 86400 +
+            (int(h.group(1))  if h  else 0) * 3600  +
+            (int(mi.group(1)) if mi else 0) * 60    +
+            (int(s.group(1))  if s  else 0)
+        )
+    else:
+        lag = -1
+
+    metric = f"cachyos_mirror_lag_seconds {lag}\n"
+    urllib.request.urlopen(urllib.request.Request(
+        "{{ .Values.lagExporter.pushgatewayUrl }}/metrics/job/cachyos-mirror-lag",
+        data=metric.encode(),
+        method="POST",
+    ))
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -19,21 +57,20 @@ spec:
           containers:
             - name: exporter
               image: python:3-alpine
+              command: ["python3", "/scripts/exporter.py"]
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true
                 capabilities:
                   drop: ["ALL"]
-              command:
-                - python3
-                - -c
-                - |
-                  import urllib.request, re
-                  html = urllib.request.urlopen(urllib.request.Request("https://packages.cachyos.org/mirrors", headers={"RSC": "1"}), timeout=30).read().decode()
-                  pos = html.find("{{ .Values.lagExporter.mirrorDomain }}")
-                  m = re.search(r'"averageLagSeconds":(\d+)', html[max(0, pos - 200):pos + 500]) if pos >= 0 else None
-                  urllib.request.urlopen(urllib.request.Request("{{ .Values.lagExporter.pushgatewayUrl }}/metrics/job/cachyos-mirror-lag", data=f"cachyos_mirror_lag_seconds {m.group(1) if m else -1}\n".encode(), method="POST"))
+              volumeMounts:
+                - name: scripts
+                  mountPath: /scripts
               resources:
                 requests:
                   cpu: 10m
                   memory: 32Mi
+          volumes:
+            - name: scripts
+              configMap:
+                name: {{ .Release.Name }}-lag-exporter
