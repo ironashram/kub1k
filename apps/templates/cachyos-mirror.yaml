@@ -31,6 +31,8 @@ spec:
         ingress:
           enabled: true
           host: cachyos-mirror.{{ .Values.internalDomain }}
+        lagExporter:
+          mirrorDomain: cachyos-mirror.{{ .Values.externalDomain }}
         extraIngresses:
           - name: external
             host: cachyos-mirror.{{ .Values.externalDomain }}

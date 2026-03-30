@@ -45,3 +45,7 @@ resources:
     requests:
       cpu: 100m
       memory: 128Mi
+
+lagExporter:
+  mirrorDomain: ""
+  pushgatewayUrl: "http://kube-prometheus-stack-prometheus-pushgateway.monitoring:9091"

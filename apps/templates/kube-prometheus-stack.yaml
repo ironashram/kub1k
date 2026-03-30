@@ -278,7 +278,27 @@ spec:
             enabled: false
           serviceMonitor:
             enabled: false
+        prometheus-pushgateway:
+          enabled: true
         additionalPrometheusRulesMap:
+          cachyos-mirror:
+            groups:
+            - name: cachyos-mirror
+              rules:
+                - alert: CachyOSMirrorLagHigh
+                  annotations:
+                    message: CachyOS mirror lag is {{`{{`}} $value | humanizeDuration {{`}}`}}
+                  expr: cachyos_mirror_lag_seconds > 43200
+                  for: 5m
+                  labels:
+                    severity: warning
+                - alert: CachyOSMirrorLagUnknown
+                  annotations:
+                    message: CachyOS mirror lag check is failing (metric absent or -1)
+                  expr: cachyos_mirror_lag_seconds < 0 or absent(cachyos_mirror_lag_seconds)
+                  for: 15m
+                  labels:
+                    severity: warning
           velero:
             groups:
             - name: velero

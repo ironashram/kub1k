@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-lag-exporter
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: exporter
+              image: python:3-alpine
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              command:
+                - python3
+                - -c
+                - |
+                  import urllib.request, re
+                  html = urllib.request.urlopen(urllib.request.Request("https://packages.cachyos.org/mirrors", headers={"RSC": "1"}), timeout=30).read().decode()
+                  pos = html.find("{{ .Values.lagExporter.mirrorDomain }}")
+                  m = re.search(r'"averageLagSeconds":(\d+)', html[max(0, pos - 200):pos + 500]) if pos >= 0 else None
+                  urllib.request.urlopen(urllib.request.Request("{{ .Values.lagExporter.pushgatewayUrl }}/metrics/job/cachyos-mirror-lag", data=f"cachyos_mirror_lag_seconds {m.group(1) if m else -1}\n".encode(), method="POST"))
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
