@@ -29,7 +29,7 @@ data:
     else:
         lag = -1
 
-    metric = f"cachyos_mirror_lag_seconds {lag}\n"
+    metric = f'cachyos_mirror_lag_seconds{{url="https://{{ .Values.lagExporter.mirrorDomain }}"}} {lag}\n'
     urllib.request.urlopen(urllib.request.Request(
         "{{ .Values.lagExporter.pushgatewayUrl }}/metrics/job/cachyos-mirror-lag",
         data=metric.encode(),
