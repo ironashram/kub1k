@@ -48,4 +48,4 @@ resources:
 
 lagExporter:
   mirrorDomain: ""
-  pushgatewayUrl: "http://kube-prometheus-stack-prometheus-pushgateway.monitoring:9091"
+  pushgatewayUrl: "http://prometheus-pushgateway.monitoring:9091"

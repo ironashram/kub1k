@@ -278,8 +278,6 @@ spec:
             enabled: false
           serviceMonitor:
             enabled: false
-        prometheus-pushgateway:
-          enabled: true
         additionalPrometheusRulesMap:
           cachyos-mirror:
             groups:
