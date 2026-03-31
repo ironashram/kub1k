@@ -27,6 +27,9 @@ spec:
           schedule: "*/30 * * * *"
         syncthing:
           folderID: "ogfcd-hynra"
+          remoteDeviceIDs:
+            - "RPPVJJS-JKRNOQS-ORA7HAP-XDX35QT-QWD5Q6D-6UB7OBG-T3JEF3N-MOH6XA3"
+            - "TL4QQ6H-GP7ZF3O-VMCQN2X-Y5VPKYD-6VFMPMI-C5LSXQD-DYXAHKE-35XFTQX"
         nodeSelector:
           node-role.kubernetes.io/control-plane: "true"
         storage:

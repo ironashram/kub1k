@@ -21,6 +21,7 @@ syncthing:
     repository: syncthing/syncthing
     tag: "1.29"
   folderID: ""
+  remoteDeviceIDs: []
   globalAnnounce: true
   relaysEnabled: true
 

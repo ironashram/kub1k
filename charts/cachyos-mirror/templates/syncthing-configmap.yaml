@@ -10,8 +10,17 @@ data:
       <folder id="{{ .Values.syncthing.folderID }}" label="cachyos-mirror" path="/var/syncthing/data"
               type="receiveonly" rescanIntervalS="3600" fsWatcherEnabled="true"
               fsWatcherDelayS="10" ignorePerms="true" autoNormalize="true">
+        {{- range .Values.syncthing.remoteDeviceIDs }}
+        <device id="{{ . }}" introducedBy="">
+        </device>
+        {{- end }}
         <minDiskFree unit="%">1</minDiskFree>
       </folder>
+      {{- range .Values.syncthing.remoteDeviceIDs }}
+      <device id="{{ . }}" name="cachyos-upstream" compression="metadata">
+        <address>dynamic</address>
+      </device>
+      {{- end }}
       <gui enabled="false" tls="false">
         <address>127.0.0.1:8384</address>
       </gui>
