@@ -21,7 +21,7 @@ spec:
     helm:
       valuesObject:
         sync:
-          method: rsync
+          method: syncthing
         rsync:
           upstream: rsync://no.mirror.cx/cachyos/
           schedule: "*/30 * * * *"
