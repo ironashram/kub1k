@@ -131,7 +131,8 @@ spec:
           emptyDir: {}
         {{- if eq .Values.sync.method "syncthing" }}
         - name: syncthing-config
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-syncthing-config
         - name: syncthing-config-seed
           configMap:
             name: {{ .Release.Name }}-syncthing-config

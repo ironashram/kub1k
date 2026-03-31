@@ -24,6 +24,8 @@ syncthing:
   remoteDeviceIDs: []
   globalAnnounce: true
   relaysEnabled: true
+  configStorage:
+    size: 5Gi
 
 storage:
   size: 250Gi

@@ -12,3 +12,20 @@ spec:
   {{- if .Values.storage.storageClass }}
   storageClassName: {{ .Values.storage.storageClass }}
   {{- end }}
+{{- if eq .Values.sync.method "syncthing" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-syncthing-config
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - {{ .Values.storage.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.syncthing.configStorage.size }}
+  {{- if .Values.storage.storageClass }}
+  storageClassName: {{ .Values.storage.storageClass }}
+  {{- end }}
+{{- end }}
