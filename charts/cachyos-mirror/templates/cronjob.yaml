@@ -1,10 +1,11 @@
+{{- if eq .Values.sync.method "rsync" }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-sync
   namespace: {{ .Release.Namespace }}
 spec:
-  schedule: {{ .Values.sync.schedule | quote }}
+  schedule: {{ .Values.rsync.schedule | quote }}
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -22,7 +23,7 @@ spec:
                   topologyKey: kubernetes.io/hostname
           containers:
             - name: rsync
-              image: "{{ .Values.sync.image.repository }}:{{ .Values.sync.image.tag }}"
+              image: "{{ .Values.rsync.image.repository }}:{{ .Values.rsync.image.tag }}"
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
@@ -41,14 +42,15 @@ spec:
                     --exclude='Nginx-Fancyindex-Theme-light/' \
                     --exclude='index.html' \
                     --exclude='.rsync-partial/' \
-                    {{ .Values.sync.upstream }} \
+                    {{ .Values.rsync.upstream }} \
                     /data/
               volumeMounts:
                 - name: mirror-data
                   mountPath: /data
               resources:
-                {{- toYaml .Values.resources.sync | nindent 16 }}
+                {{- toYaml .Values.resources.rsync | nindent 16 }}
           volumes:
             - name: mirror-data
               persistentVolumeClaim:
                 claimName: {{ .Release.Name }}-data
+{{- end }}

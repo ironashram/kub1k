@@ -21,8 +21,12 @@ spec:
     helm:
       valuesObject:
         sync:
+          method: rsync
+        rsync:
           upstream: rsync://no.mirror.cx/cachyos/
           schedule: "*/30 * * * *"
+        syncthing:
+          folderID: "ogfcd-hynra"
         nodeSelector:
           node-role.kubernetes.io/control-plane: "true"
         storage:

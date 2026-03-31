@@ -7,11 +7,22 @@ image:
   pullPolicy: IfNotPresent
 
 sync:
+  method: rsync
+
+rsync:
   image:
     repository: ghcr.io/ironashram/toolbox
     tag: latest
   upstream: rsync://test.example.com/cachyos/
   schedule: "*/30 * * * *"
+
+syncthing:
+  image:
+    repository: syncthing/syncthing
+    tag: "1.29"
+  folderID: ""
+  globalAnnounce: true
+  relaysEnabled: true
 
 storage:
   size: 250Gi
@@ -41,10 +52,14 @@ resources:
     requests:
       cpu: 50m
       memory: 64Mi
-  sync:
+  rsync:
     requests:
       cpu: 100m
       memory: 128Mi
+  syncthing:
+    requests:
+      cpu: 200m
+      memory: 256Mi
 
 lagExporter:
   mirrorDomain: ""

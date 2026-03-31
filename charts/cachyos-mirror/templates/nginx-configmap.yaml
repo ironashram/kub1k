@@ -19,8 +19,15 @@ data:
             index off;
         }
 
+        {{- if eq .Values.sync.method "syncthing" }}
+        location ~ /\.(stfolder|stversions|syncthing) {
+            deny all;
+            return 404;
+        }
+        {{- else }}
         location ~ /\.rsync-partial {
             deny all;
             return 404;
         }
+        {{- end }}
     }

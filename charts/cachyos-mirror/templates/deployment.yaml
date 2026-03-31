@@ -26,11 +26,42 @@ spec:
         {{- toYaml .Values.nodeSelector | nindent 8 }}
       {{- end }}
       securityContext:
-        runAsUser: 101
         runAsNonRoot: true
+        {{- if eq .Values.sync.method "syncthing" }}
+        fsGroup: 1000
+        {{- else }}
+        runAsUser: 101
         fsGroup: 101
+        {{- end }}
         seccompProfile:
           type: RuntimeDefault
+      {{- if eq .Values.sync.method "syncthing" }}
+      initContainers:
+        - name: syncthing-init
+          image: busybox:1.37
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /config/config.xml ]; then
+                cp /config-seed/config.xml /config/config.xml
+                cp /certs/cert.pem /config/cert.pem
+                cp /certs/key.pem /config/key.pem
+              fi
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: syncthing-config
+              mountPath: /config
+            - name: syncthing-config-seed
+              mountPath: /config-seed
+            - name: syncthing-certs
+              mountPath: /certs
+      {{- end }}
       containers:
         - name: nginx
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -38,6 +69,10 @@ spec:
           ports:
             - containerPort: 80
           securityContext:
+            {{- if eq .Values.sync.method "syncthing" }}
+            runAsUser: 101
+            runAsGroup: 101
+            {{- end }}
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
@@ -58,6 +93,29 @@ spec:
               mountPath: /tmp
           resources:
             {{- toYaml .Values.resources.nginx | nindent 12 }}
+        {{- if eq .Values.sync.method "syncthing" }}
+        - name: syncthing
+          image: "{{ .Values.syncthing.image.repository }}:{{ .Values.syncthing.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          env:
+            - name: STGUIADDRESS
+              value: ""
+            - name: STNOUPGRADE
+              value: "1"
+          volumeMounts:
+            - name: mirror-data
+              mountPath: /var/syncthing/data
+            - name: syncthing-config
+              mountPath: /var/syncthing/config
+          resources:
+            {{- toYaml .Values.resources.syncthing | nindent 12 }}
+        {{- end }}
       volumes:
         - name: mirror-data
           persistentVolumeClaim:
@@ -71,3 +129,13 @@ spec:
           emptyDir: {}
         - name: tmp
           emptyDir: {}
+        {{- if eq .Values.sync.method "syncthing" }}
+        - name: syncthing-config
+          emptyDir: {}
+        - name: syncthing-config-seed
+          configMap:
+            name: {{ .Release.Name }}-syncthing-config
+        - name: syncthing-certs
+          secret:
+            secretName: {{ .Release.Name }}-syncthing-certs
+        {{- end }}
