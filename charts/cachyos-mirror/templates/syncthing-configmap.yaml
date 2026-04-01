@@ -25,9 +25,9 @@ data:
         <address>127.0.0.1:8384</address>
       </gui>
       <options>
-        <globalAnnounceEnabled>{{ .Values.syncthing.globalAnnounce | default true }}</globalAnnounceEnabled>
+        <globalAnnounceEnabled>{{ .Values.syncthing.globalAnnounce }}</globalAnnounceEnabled>
         <localAnnounceEnabled>false</localAnnounceEnabled>
-        <relaysEnabled>{{ .Values.syncthing.relaysEnabled | default true }}</relaysEnabled>
+        <relaysEnabled>{{ .Values.syncthing.relaysEnabled }}</relaysEnabled>
         <urAccepted>-1</urAccepted>
         <crashReportingEnabled>false</crashReportingEnabled>
         <autoUpgradeIntervalH>0</autoUpgradeIntervalH>
