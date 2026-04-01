@@ -14,10 +14,14 @@ spec:
       app: {{ .Release.Name }}
   template:
     metadata:
-      {{- if .Values.storage.excludeFromBackup }}
       annotations:
+        {{- if .Values.storage.excludeFromBackup }}
         backup.velero.io/backup-volumes-excludes: mirror-data
-      {{- end }}
+        {{- end }}
+        checksum/nginx-config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- if eq .Values.sync.method "syncthing" }}
+        checksum/syncthing-config: {{ include (print $.Template.BasePath "/syncthing-configmap.yaml") . | sha256sum }}
+        {{- end }}
       labels:
         app: {{ .Release.Name }}
     spec:
