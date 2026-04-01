@@ -47,8 +47,8 @@ spec:
             - sh
             - -c
             - |
-              if [ ! -f /config/config.xml ]; then
-                cp /config-seed/config.xml /config/config.xml
+              cp /config-seed/config.xml /config/config.xml
+              if [ ! -f /config/cert.pem ]; then
                 cp /certs/cert.pem /config/cert.pem
                 cp /certs/key.pem /config/key.pem
               fi
