@@ -20,7 +20,7 @@
           "uid": "prometheus"
         },
         "enable": true,
-        "expr": "changes(process_start_time_seconds{instance=\"$instance\",job=~\"synapse\"}[$bucket_size]) * on (instance, job) group_left(version) synapse_build_info{instance=\"$instance\",job=\"synapse\"}",
+        "expr": "changes(process_start_time_seconds{instance=\"$instance\",job=~\"commstack-synapse\"}[$bucket_size]) * on (instance, job) group_left(version) synapse_build_info{instance=\"$instance\",job=\"commstack-synapse\"}",
         "iconColor": "purple",
         "name": "deploys",
         "titleFormat": "Deployed {{version}}"
@@ -699,7 +699,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "synapse_build_info{instance=\"$instance\", job=\"synapse\"} - 1",
+          "expr": "synapse_build_info{instance=\"$instance\", job=\"commstack-synapse\"} - 1",
           "hide": false,
           "legendFormat": "version {{version}}",
           "range": true,
@@ -1550,7 +1550,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "synapse_build_info{instance=\"$instance\", job=\"synapse\"} - 1",
+              "expr": "synapse_build_info{instance=\"$instance\", job=\"commstack-synapse\"} - 1",
               "legendFormat": "version {{version}}",
               "range": true,
               "refId": "deployed_synapse_versions"
@@ -1889,7 +1889,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": false
@@ -5017,7 +5017,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": false
@@ -5445,7 +5445,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": false
@@ -10373,7 +10373,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": true
@@ -11561,7 +11561,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": true
@@ -11776,7 +11776,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": true
@@ -12019,7 +12019,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": true
@@ -12262,7 +12262,7 @@
               "color": "rgba(255,0,255,0.7)"
             },
             "filterValues": {
-              "le": 1e-9
+              "le": 1e-09
             },
             "legend": {
               "show": true
@@ -13912,7 +13912,7 @@
           "color": "rgba(255,0,255,0.7)"
         },
         "filterValues": {
-          "le": 1e-9
+          "le": 1e-09
         },
         "legend": {
           "show": false
@@ -14148,9 +14148,9 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "synapse:9000",
-          "value": "synapse:9000"
+          "selected": true,
+          "text": "commstack",
+          "value": "commstack"
         },
         "datasource": {
           "uid": "prometheus"
@@ -14162,7 +14162,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(synapse_util_metrics_block_ru_utime_seconds_total, instance)",
+          "query": "label_values(synapse_util_metrics_block_ru_utime_seconds_total{instance=\"commstack\"}, instance)",
           "refId": "Prometheus-instance-Variable-Query"
         },
         "refresh": 2,
@@ -14178,9 +14178,9 @@
         "allFormat": "regex wildcard",
         "allValue": "",
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": "commstack-synapse",
+          "value": "commstack-synapse"
         },
         "datasource": {
           "uid": "prometheus"
@@ -14195,7 +14195,7 @@
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(synapse_util_metrics_block_ru_utime_seconds_total, job)",
+          "query": "label_values(synapse_util_metrics_block_ru_utime_seconds_total{instance=\"commstack\"}, job)",
           "refId": "Prometheus-job-Variable-Query"
         },
         "refresh": 2,
@@ -14275,7 +14275,7 @@
     ]
   },
   "timezone": "",
-  "title": "Synapse",
+  "title": "Commstack - Synapse",
   "uid": "000000012",
   "version": 1,
   "weekStart": ""

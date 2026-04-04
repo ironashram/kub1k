@@ -255,7 +255,7 @@ spec:
                     - 'matrix.{{ .Values.externalDomain }}:8080'
                     labels:
                       instance: commstack
-              - job_name: 'synapse'
+              - job_name: 'commstack-synapse'
                 metrics_path: '/_synapse/metrics'
                 static_configs:
                   - targets:

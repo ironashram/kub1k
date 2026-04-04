@@ -795,7 +795,7 @@
         "name": "host",
         "options": [],
         "query": {
-          "query": "label_values({__name__=~\"container.*\"},instance)",
+          "query": "label_values({__name__=~\"container.*\", job=\"commstack-cadvisor\"}, instance)",
           "refId": "Prometheus-host-Variable-Query"
         },
         "refresh": 1,
@@ -826,7 +826,7 @@
         "name": "container",
         "options": [],
         "query": {
-          "query": "label_values({__name__=~\"container.*\", instance=~\"$host\"},name)",
+          "query": "label_values({__name__=~\"container.*\", job=\"commstack-cadvisor\", instance=~\"$host\"}, name)",
           "refId": "Prometheus-container-Variable-Query"
         },
         "refresh": 1,
@@ -846,7 +846,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Cadvisor exporter",
+  "title": "Commstack - cAdvisor",
   "uid": "pMEd7m0Mz",
   "version": 1,
   "weekStart": ""
