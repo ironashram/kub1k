@@ -124,6 +124,12 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
               metallb:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/metallb.json
+              commstack-node-exporter:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-node-exporter.json
+              commstack-cadvisor:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-cadvisor.json
+              commstack-synapse:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-synapse.json
         prometheus:
           serviceMonitor:
             relabelings:
@@ -237,6 +243,25 @@ spec:
                   - source_labels: []
                     target_label: namespace
                     replacement: kube-system
+              - job_name: 'commstack-node'
+                static_configs:
+                  - targets:
+                    - 'matrix.{{ .Values.externalDomain }}:9100'
+                    labels:
+                      instance: commstack
+              - job_name: 'commstack-cadvisor'
+                static_configs:
+                  - targets:
+                    - 'matrix.{{ .Values.externalDomain }}:8080'
+                    labels:
+                      instance: commstack
+              - job_name: 'synapse'
+                metrics_path: '/_synapse/metrics'
+                static_configs:
+                  - targets:
+                    - 'matrix.{{ .Values.externalDomain }}:9000'
+                    labels:
+                      instance: commstack
         prometheusOperator:
           tls:
             enabled: false
