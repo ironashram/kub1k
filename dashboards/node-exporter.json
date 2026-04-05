@@ -23715,11 +23715,7 @@
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": true,
-          "text": "commstack-node",
-          "value": "commstack-node"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
@@ -23732,7 +23728,7 @@
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(node_uname_info{job=\"commstack-node\"}, job)",
+          "query": "label_values(node_uname_info{job=~\"commstack-node|workstations-node\"}, job)",
           "refId": "Prometheus-job-Variable-Query"
         },
         "refresh": 1,
@@ -23762,7 +23758,7 @@
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(node_uname_info{job=\"commstack-node\"}, instance)",
+          "query": "label_values(node_uname_info{job=\"$job\"}, instance)",
           "refId": "Prometheus-node-Variable-Query"
         },
         "refresh": 1,
@@ -23827,7 +23823,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Commstack - Node Exporter",
+  "title": "Node Exporter",
   "uid": "rYdddlPWk",
   "version": 1,
   "weekStart": ""

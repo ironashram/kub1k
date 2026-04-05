@@ -124,8 +124,8 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
               metallb:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/metallb.json
-              commstack-node-exporter:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-node-exporter.json
+              node-exporter:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/node-exporter.json
               commstack-cadvisor:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-cadvisor.json
               commstack-synapse:
@@ -243,6 +243,20 @@ spec:
                   - source_labels: []
                     target_label: namespace
                     replacement: kube-system
+              - job_name: 'workstations-node'
+                static_configs:
+                  - targets:
+                    - 'ashram.{{ .Values.externalDomain }}:9100'
+                    labels:
+                      instance: ashram
+                  - targets:
+                    - 'amarok.{{ .Values.externalDomain }}:9100'
+                    labels:
+                      instance: amarok
+                  - targets:
+                    - 'nargaroth.{{ .Values.externalDomain }}:9100'
+                    labels:
+                      instance: nargaroth
               - job_name: 'commstack-node'
                 static_configs:
                   - targets:
