@@ -366,36 +366,66 @@
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
-          "thresholds": {
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 45 },
-              { "color": "red", "value": 60 }
-            ]
-          },
           "custom": {
             "align": "auto",
             "cellOptions": { "type": "auto" },
             "inspect": false
-          },
-          "unit": "short"
+          }
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Temperature" },
-            "properties": [{ "id": "unit", "value": "celsius" }]
+            "matcher": { "id": "byName", "options": "Value #Temperature" },
+            "properties": [
+              { "id": "displayName", "value": "Temp" },
+              { "id": "unit", "value": "celsius" },
+              { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 45 }, { "color": "red", "value": 60 }] } },
+              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Spare %" },
-            "properties": [{ "id": "unit", "value": "percent" }]
+            "matcher": { "id": "byName", "options": "Value #Spare" },
+            "properties": [
+              { "id": "displayName", "value": "Spare %" },
+              { "id": "unit", "value": "percent" },
+              { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 10 }, { "color": "green", "value": 50 }] } },
+              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Used %" },
-            "properties": [{ "id": "unit", "value": "percent" }]
+            "matcher": { "id": "byName", "options": "Value #Used" },
+            "properties": [
+              { "id": "displayName", "value": "Used %" },
+              { "id": "unit", "value": "percent" },
+              { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 50 }, { "color": "red", "value": 80 }] } },
+              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Power On Hours" },
-            "properties": [{ "id": "unit", "value": "h" }]
+            "matcher": { "id": "byName", "options": "Value #Hours" },
+            "properties": [
+              { "id": "displayName", "value": "Power On Hours" },
+              { "id": "unit", "value": "h" }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Value #Errors" },
+            "properties": [
+              { "id": "displayName", "value": "Media Errors" },
+              { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "red", "value": 1 }] } },
+              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "instance" },
+            "properties": [{ "id": "displayName", "value": "Instance" }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "disk" },
+            "properties": [{ "id": "displayName", "value": "Disk" }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "model" },
+            "properties": [{ "id": "displayName", "value": "Model" }]
           }
         ]
       },
@@ -408,46 +438,65 @@
       "title": "Disk Summary Table",
       "type": "table",
       "transformations": [
-        { "id": "seriesToColumns", "options": { "byField": "disk" } }
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "serial": true
+            },
+            "indexByName": {
+              "instance": 0,
+              "disk": 1,
+              "model": 2,
+              "Value #Temperature": 3,
+              "Value #Spare": 4,
+              "Value #Used": 5,
+              "Value #Hours": 6,
+              "Value #Errors": 7
+            }
+          }
+        }
       ],
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "smartmon_temperature_celsius{instance=~\"$instance\"}",
-          "legendFormat": "Temperature",
-          "refId": "A",
+          "refId": "Temperature",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "smartmon_available_spare{instance=~\"$instance\"}",
-          "legendFormat": "Spare %",
-          "refId": "B",
+          "refId": "Spare",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "smartmon_percentage_used{instance=~\"$instance\"}",
-          "legendFormat": "Used %",
-          "refId": "C",
+          "refId": "Used",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "smartmon_power_on_hours_total{instance=~\"$instance\"}",
-          "legendFormat": "Power On Hours",
-          "refId": "D",
+          "refId": "Hours",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "smartmon_media_errors{instance=~\"$instance\"}",
-          "legendFormat": "Media Errors",
-          "refId": "E",
+          "refId": "Errors",
           "instant": true,
           "format": "table"
         }
