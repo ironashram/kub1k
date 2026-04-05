@@ -126,6 +126,8 @@ spec:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/metallb.json
               node-exporter:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/node-exporter.json
+              smart-disk-health:
+                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/smart-disk-health.json
               commstack-cadvisor:
                 url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-cadvisor.json
               commstack-synapse:
