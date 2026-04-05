@@ -401,69 +401,46 @@
       "type": "table",
       "transformations": [
         {
-          "id": "renameByRegex",
-          "options": { "regex": "Value #(.*)", "renamePattern": "$1" }
+          "id": "concatenate",
+          "options": {}
         },
         {
-          "id": "joinByField",
-          "options": { "byField": "disk", "mode": "outer" }
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "instance": { "aggregations": ["lastNotNull"], "operation": "groupby" },
+              "disk": { "aggregations": ["lastNotNull"], "operation": "groupby" },
+              "model": { "aggregations": ["lastNotNull"], "operation": "groupby" },
+              "Value #Temp": { "aggregations": ["lastNotNull"], "operation": "aggregate" },
+              "Value #Spare": { "aggregations": ["lastNotNull"], "operation": "aggregate" },
+              "Value #Used": { "aggregations": ["lastNotNull"], "operation": "aggregate" },
+              "Value #Hours": { "aggregations": ["lastNotNull"], "operation": "aggregate" },
+              "Value #Errors": { "aggregations": ["lastNotNull"], "operation": "aggregate" }
+            }
+          }
         },
         {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "Time": true,
-              "Time 1": true,
-              "Time 2": true,
-              "Time 3": true,
-              "Time 4": true,
-              "Time 5": true,
-              "__name__": true,
-              "__name__ 1": true,
-              "__name__ 2": true,
-              "__name__ 3": true,
-              "__name__ 4": true,
-              "__name__ 5": true,
-              "job": true,
-              "job 1": true,
-              "job 2": true,
-              "job 3": true,
-              "job 4": true,
-              "job 5": true,
-              "serial": true,
-              "serial 1": true,
-              "serial 2": true,
-              "serial 3": true,
-              "serial 4": true,
-              "serial 5": true,
-              "instance 2": true,
-              "instance 3": true,
-              "instance 4": true,
-              "instance 5": true,
-              "model 2": true,
-              "model 3": true,
-              "model 4": true,
-              "model 5": true
-            },
             "renameByName": {
-              "instance 1": "Instance",
-              "model 1": "Model",
+              "instance": "Instance",
               "disk": "Disk",
-              "Temp": "Temp",
-              "Spare": "Spare %",
-              "Used": "Used %",
-              "Hours": "Power On Hours",
-              "Errors": "Media Errors"
+              "model": "Model",
+              "Value #Temp (lastNotNull)": "Temp",
+              "Value #Spare (lastNotNull)": "Spare %",
+              "Value #Used (lastNotNull)": "Used %",
+              "Value #Hours (lastNotNull)": "Power On Hours",
+              "Value #Errors (lastNotNull)": "Media Errors"
             },
             "indexByName": {
-              "instance 1": 0,
+              "instance": 0,
               "disk": 1,
-              "model 1": 2,
-              "Temp": 3,
-              "Spare": 4,
-              "Used": 5,
-              "Hours": 6,
-              "Errors": 7
+              "model": 2,
+              "Value #Temp (lastNotNull)": 3,
+              "Value #Spare (lastNotNull)": 4,
+              "Value #Used (lastNotNull)": 5,
+              "Value #Hours (lastNotNull)": 6,
+              "Value #Errors (lastNotNull)": 7
             }
           }
         }
