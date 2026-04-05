@@ -90,48 +90,6 @@ spec:
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
-          dashboardProviders:
-            dashboardproviders.yaml:
-              apiVersion: 1
-              providers:
-                - name: "custom-grafana-dashboards"
-                  orgId: 1
-                  folder: ""
-                  type: file
-                  disableDeletion: true
-                  editable: true
-                  options:
-                    path: /var/lib/grafana/dashboards/custom-grafana-dashboards
-          dashboards:
-            custom-grafana-dashboards:
-              argocd:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/argocd.json
-              calico-felix:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/calico-felix.json
-              calico-typha:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/calico-typha.json
-              haproxy-ingress:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/haproxy-ingress.json
-              k8s-system-api-server:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-system-api-server.json
-              k8s-views-global:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-global.json
-              k8s-views-namespaces:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-namespaces.json
-              k8s-views-nodes:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-nodes.json
-              k8s-views-pods:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/k8s-views-pods.json
-              metallb:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/metallb.json
-              node-exporter:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/node-exporter.json
-              smart-disk-health:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/smart-disk-health.json
-              commstack-cadvisor:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-cadvisor.json
-              commstack-synapse:
-                url: https://raw.githubusercontent.com/ironashram/kub1k/main/dashboards/commstack-synapse.json
         prometheus:
           serviceMonitor:
             relabelings:
