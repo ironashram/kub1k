@@ -229,6 +229,12 @@ spec:
                     - 'matrix.{{ .Values.externalDomain }}:8080'
                     labels:
                       instance: commstack
+              - job_name: 'commstack-haproxy'
+                static_configs:
+                  - targets:
+                    - 'matrix.{{ .Values.externalDomain }}:8405'
+                    labels:
+                      instance: commstack
               - job_name: 'commstack-synapse'
                 metrics_path: '/_synapse/metrics'
                 static_configs:
