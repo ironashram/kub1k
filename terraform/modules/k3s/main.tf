@@ -64,6 +64,12 @@ resource "null_resource" "k3s_worker" {
 resource "null_resource" "k3s_kubeconfig" {
   depends_on = [null_resource.k3s_control_primary]
 
+  triggers = {
+    md5_main   = md5(file("${path.module}/main.tf"))
+    md5_vars   = md5(file("${path.root}/variables.tf"))
+    md5_locals = md5(file("${path.root}/locals.tf"))
+  }
+
   provisioner "local-exec" {
     command = <<EOT
             k3sup install \
@@ -71,7 +77,9 @@ resource "null_resource" "k3s_kubeconfig" {
             --ip ${var.control_mgmt_ips[0]} \
             --context ${var.cluster_name} \
             --user ${var.ssh_user} \
-            --local-path ${var.kube_config_output}
+            --local-path ${var.kube_config_output} && \
+            kubectl --kubeconfig ${var.kube_config_output} config set-cluster ${var.cluster_name} \
+            --server=https://${var.control_plane_vip}:6443
         EOT
   }
 }
@@ -90,6 +98,6 @@ resource "vault_kv_secret_v2" "k3s" {
       kubeconfig = base64encode(data.local_sensitive_file.kubeconfig.content)
     }
   )
-  # Use filemd5 to get the hash during plan if the file exists, avoiding deferred value drift
-  data_json_wo_version = parseint(substr(try(filemd5(var.kube_config_output), md5("wait")), 0, 12), 16)
+
+  data_json_wo_version = parseint(substr(data.local_sensitive_file.kubeconfig.content_md5, 0, 12), 16)
 }

@@ -17,3 +17,5 @@ variable "worker_mgmt_ips" {}
 variable "worker_names" {}
 
 variable "cluster_name" {}
+
+variable "control_plane_vip" {}

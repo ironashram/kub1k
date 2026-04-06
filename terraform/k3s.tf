@@ -12,4 +12,5 @@ module "provision_k3s" {
   kube_config_output   = local.kube_config_output
   ssh_user             = data.vault_generic_secret.ssh.data["user"]
   cluster_name         = var.cluster_name
+  control_plane_vip    = var.control_plane_vip
 }
