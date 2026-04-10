@@ -343,6 +343,46 @@ spec:
                   for: 15m
                   labels:
                     severity: info
+          veeam:
+            groups:
+            - name: veeam
+              rules:
+                - alert: VeeamBackupFailed
+                  annotations:
+                    message: Veeam backup {{`{{`}} $labels.job_name {{`}}`}} on {{`{{`}} $labels.instance {{`}}`}} last run failed
+                  expr: |-
+                    veeam_backup_last_status == 0
+                  for: 15m
+                  labels:
+                    severity: warning
+                - alert: VeeamNoRecentBackup
+                  annotations:
+                    message: Veeam backup {{`{{`}} $labels.job_name {{`}}`}} on {{`{{`}} $labels.instance {{`}}`}} has not succeeded in the last 48h
+                  expr: |-
+                    (
+                    (time() - veeam_backup_last_successful_timestamp_seconds) > bool (48 * 3600)
+                    or
+                    absent(veeam_backup_last_successful_timestamp_seconds)
+                    ) == 1
+                  for: 1h
+                  labels:
+                    severity: critical
+                - alert: VeeamRepositoryUnreachable
+                  annotations:
+                    message: Veeam repository {{`{{`}} $labels.repository {{`}}`}} is unreachable from {{`{{`}} $labels.instance {{`}}`}}
+                  expr: |-
+                    veeam_repository_accessible == 0
+                  for: 15m
+                  labels:
+                    severity: critical
+                - alert: VeeamExporterStale
+                  annotations:
+                    message: Veeam textfile collector on {{`{{`}} $labels.instance {{`}}`}} has not updated in over 30m
+                  expr: |-
+                    time() - veeam_exporter_last_run_timestamp_seconds > 1800
+                  for: 15m
+                  labels:
+                    severity: warning
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
