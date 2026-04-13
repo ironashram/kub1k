@@ -216,7 +216,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": true,
-                    "expr": "count(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})-count(haproxy_process_start_time_seconds{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
+                    "expr": "count(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})-count(haproxy_process_start_time_seconds{job=\"haproxy-ingress\",cluster=~\"$cluster\",hostname=~\"$hostname\"})",
                     "format": "time_series",
                     "instant": false,
                     "interval": "",
@@ -509,7 +509,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": false,
-                    "expr": "time()-max(haproxy_process_start_time_seconds{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
+                    "expr": "time()-max(haproxy_process_start_time_seconds{job=\"haproxy-ingress\",cluster=~\"$cluster\",hostname=~\"$hostname\"})",
                     "format": "table",
                     "instant": true,
                     "interval": "",
