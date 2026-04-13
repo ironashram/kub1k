@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vm-query-ingress
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: local
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
+    path: charts/vm-query-ingress
+    targetRevision: main
+    helm:
+      parameters:
+        - name: host
+          value: "vm.{{ .Values.internalDomain }}"
+  destination:
+    name: in-cluster
+    namespace: monitoring

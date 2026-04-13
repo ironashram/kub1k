@@ -1,0 +1,74 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: victoria-metrics-a
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: victoria-metrics-single
+    repoURL: https://victoriametrics.github.io/helm-charts/
+    targetRevision: 0.34.0
+    helm:
+      releaseName: victoria-metrics-a
+      valuesObject:
+        server:
+          fullnameOverride: victoria-metrics-a
+          replicaCount: 1
+          retentionPeriod: 45d
+          extraArgs:
+            envflag.enable: true
+            envflag.prefix: VM_
+            loggerFormat: json
+            httpListenAddr: :8428
+            dedup.minScrapeInterval: 30s
+          persistentVolume:
+            enabled: true
+            storageClassName: synology-csi-iscsi-custom
+            accessModes:
+              - ReadWriteOnce
+            size: 20Gi
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              memory: 2Gi
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: victoria-metrics-single
+                  topologyKey: kubernetes.io/hostname
+          ingress:
+            enabled: true
+            ingressClassName: haproxy
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+            hosts:
+              - name: vm-a.{{ .Values.internalDomain }}
+                path:
+                  - /
+                port: http
+            pathType: Prefix
+            tls:
+              - secretName: vm-a-cert
+                hosts:
+                  - vm-a.{{ .Values.internalDomain }}
+          serviceMonitor:
+            enabled: true
+            extraLabels:
+              release: kube-prometheus-stack
+  destination:
+    name: in-cluster
+    namespace: monitoring

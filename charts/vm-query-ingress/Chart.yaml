@@ -1,0 +1,5 @@
+apiVersion: v2
+description: TLS-only ingress placeholder for vm.<internalDomain>; routing handled by haproxy-ingress config-frontend-late ACL
+name: vm-query-ingress
+version: 1.0.0
+appVersion: 1.0.0
