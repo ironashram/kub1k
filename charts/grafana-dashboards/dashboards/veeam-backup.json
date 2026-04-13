@@ -462,46 +462,29 @@
           "options": { "byField": "id", "mode": "outer" }
         },
         {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "instance 1",
+                "job_name 1",
+                "Value #Status",
+                "Value #End",
+                "Value #Success",
+                "Value #Duration",
+                "Value #Processed",
+                "Value #Transferred"
+              ]
+            }
+          }
+        },
+        {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "Time": true,
-              "Time 1": true,
-              "Time 2": true,
-              "Time 3": true,
-              "Time 4": true,
-              "Time 5": true,
-              "Time 6": true,
-              "__name__": true,
-              "job": true,
-              "job 1": true,
-              "job 2": true,
-              "job 3": true,
-              "job 4": true,
-              "job 5": true,
-              "job 6": true,
-              "instance 2": true,
-              "instance 3": true,
-              "instance 4": true,
-              "instance 5": true,
-              "instance 6": true,
-              "job_name 2": true,
-              "job_name 3": true,
-              "job_name 4": true,
-              "job_name 5": true,
-              "job_name 6": true,
-              "job_id": true,
-              "job_id 1": true,
-              "job_id 2": true,
-              "job_id 3": true,
-              "job_id 4": true,
-              "job_id 5": true,
-              "job_id 6": true,
-              "id": true
-            },
+            "excludeByName": {},
             "renameByName": {
-              "instance 1": "Instance",
-              "job_name 1": "Job",
+              "instance 1":         "Instance",
+              "job_name 1":         "Job",
               "Value #Status":      "Status",
               "Value #End":         "Last End",
               "Value #Success":     "Last Success",
@@ -510,13 +493,13 @@
               "Value #Transferred": "Transferred"
             },
             "indexByName": {
-              "instance 1": 0,
-              "job_name 1": 1,
-              "Value #Status": 2,
-              "Value #End": 3,
-              "Value #Success": 4,
-              "Value #Duration": 5,
-              "Value #Processed": 6,
+              "instance 1":         0,
+              "job_name 1":         1,
+              "Value #Status":      2,
+              "Value #End":         3,
+              "Value #Success":     4,
+              "Value #Duration":    5,
+              "Value #Processed":   6,
               "Value #Transferred": 7
             }
           }
