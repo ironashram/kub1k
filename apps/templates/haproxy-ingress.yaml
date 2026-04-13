@@ -38,7 +38,7 @@ spec:
                   mode http
                   balance roundrobin
                   option httpchk
-                  http-check send meth GET uri /health ver HTTP/1.1
+                  http-check send meth GET uri /health ver HTTP/1.0
                   http-check expect status 200
                   server vm-a victoria-metrics-a.monitoring.svc.cluster.local:8428 check inter 2s fall 2 rise 1 resolvers cluster_dns resolve-prefer ipv4 init-addr libc,none
                   server vm-b victoria-metrics-b.monitoring.svc.cluster.local:8428 check inter 2s fall 2 rise 1 resolvers cluster_dns resolve-prefer ipv4 init-addr libc,none
