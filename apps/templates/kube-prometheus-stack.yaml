@@ -98,6 +98,11 @@ spec:
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
+          sidecar:
+            datasources:
+              url: https://vm.{{ .Values.internalDomain }}
+              extraJsonData:
+                prometheusType: VictoriaMetrics
         prometheus:
           ingress:
             annotations:
