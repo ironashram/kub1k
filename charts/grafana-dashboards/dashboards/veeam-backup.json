@@ -46,12 +46,12 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Backup Status",
+      "title": "Last Backup Status (latest job per instance)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_status{instance=~\"$instance\"}",
+          "expr": "veeam_backup_last_status{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
           "legendFormat": "{{instance}} / {{job_name}}",
           "refId": "A"
         }
@@ -83,12 +83,12 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Time Since Last Success",
+      "title": "Time Since Last Success (latest job per instance)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "time() - veeam_backup_last_successful_timestamp_seconds{instance=~\"$instance\"}",
+          "expr": "time() - (veeam_backup_last_successful_timestamp_seconds{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"}))",
           "legendFormat": "{{instance}} / {{job_name}}",
           "refId": "A"
         }
@@ -187,12 +187,12 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Transferred",
+      "title": "Last Transferred (latest job per instance)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_transferred_bytes{instance=~\"$instance\"}",
+          "expr": "veeam_backup_last_transferred_bytes{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
           "legendFormat": "{{instance}} / {{job_name}}",
           "refId": "A"
         }
@@ -220,12 +220,12 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Duration",
+      "title": "Last Duration (latest job per instance)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_duration_seconds{instance=~\"$instance\"}",
+          "expr": "veeam_backup_last_duration_seconds{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
           "legendFormat": "{{instance}} / {{job_name}}",
           "refId": "A"
         }
@@ -253,12 +253,12 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Processed",
+      "title": "Last Processed (latest job per instance)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_processed_bytes{instance=~\"$instance\"}",
+          "expr": "veeam_backup_last_processed_bytes{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
           "legendFormat": "{{instance}} / {{job_name}}",
           "refId": "A"
         }
@@ -337,30 +337,49 @@
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineWidth": 1,
-            "pointSize": 5,
-            "showPoints": "never",
-            "spanNulls": true
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green",  "value": null  },
+              { "color": "yellow", "value": 86400 },
+              { "color": "red",    "value": 172800 }
+            ]
           },
-          "unit": "s"
+          "unit": "s",
+          "min": 0
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 24 },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 24 },
       "id": 12,
-      "title": "Age of Last Successful Backup",
-      "type": "timeseries",
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "title": "Time Since Last Success (per job, sorted)",
+      "type": "bargauge",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "time() - veeam_backup_last_successful_timestamp_seconds{instance=~\"$instance\"}",
           "legendFormat": "{{instance}} / {{job_name}}",
-          "refId": "A"
+          "refId": "A",
+          "instant": true,
+          "format": "time_series"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": { "regex": ".*\\{instance=\"([^\"]+)\", job_name=\"([^\"]+)\".*", "renamePattern": "$1 / $2" }
+        },
+        {
+          "id": "sortBy",
+          "options": { "fields": {}, "sort": [{ "field": "Value", "desc": true }] }
         }
       ]
     },
