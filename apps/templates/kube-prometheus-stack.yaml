@@ -31,6 +31,14 @@ spec:
             InfoInhibitor: true
         alertmanager:
           alertmanagerSpec:
+            replicas: 2
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchLabels:
+                        app.kubernetes.io/name: alertmanager
+                    topologyKey: kubernetes.io/hostname
             storage:
               volumeClaimTemplate:
                 spec:
@@ -108,6 +116,36 @@ spec:
                 hosts:
                   - prometheus.{{ .Values.internalDomain }}
           prometheusSpec:
+            replicas: 2
+            replicaExternalLabelName: prometheus_replica
+            externalLabels:
+              cluster: "{{ .Values.environment }}"
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchLabels:
+                        app.kubernetes.io/name: prometheus
+                    topologyKey: kubernetes.io/hostname
+            remoteWrite:
+              - url: https://vm-a.{{ .Values.internalDomain }}/api/v1/write
+                queueConfig:
+                  capacity: 10000
+                  maxShards: 30
+                  minShards: 1
+                  maxSamplesPerSend: 3000
+                  batchSendDeadline: 5s
+                  minBackoff: 30ms
+                  maxBackoff: 5s
+              - url: https://vm-b.{{ .Values.internalDomain }}/api/v1/write
+                queueConfig:
+                  capacity: 10000
+                  maxShards: 30
+                  minShards: 1
+                  maxSamplesPerSend: 3000
+                  batchSendDeadline: 5s
+                  minBackoff: 30ms
+                  maxBackoff: 5s
             enableFeatures:
               - exemplar-storage
             serviceMonitorSelectorNilUsesHelmValues: false
@@ -115,7 +153,7 @@ spec:
               matchExpressions:
                 - key: kubernetes.io/metadata.name
                   operator: Exists
-            retention: 45d
+            retention: 6h
             storageSpec:
               volumeClaimTemplate:
                 spec:
