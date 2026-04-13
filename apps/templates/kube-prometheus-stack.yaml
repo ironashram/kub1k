@@ -117,6 +117,7 @@ spec:
                   - prometheus.{{ .Values.internalDomain }}
           prometheusSpec:
             replicas: 2
+            replicaExternalLabelName: ""
             externalLabels:
               cluster: "{{ .Values.environment }}"
             affinity:
