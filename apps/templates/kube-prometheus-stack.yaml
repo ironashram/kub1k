@@ -99,11 +99,6 @@ spec:
             labels:
               release: kube-prometheus-stack
         prometheus:
-          serviceMonitor:
-            relabelings:
-              - action: replace
-                targetLabel: cluster
-                replacement: prometheus
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
