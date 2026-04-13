@@ -161,7 +161,7 @@ spec:
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
-                      storage: 50Gi
+                      storage: 5Gi
             nodeSelector:
               node-role.kubernetes.io/worker: "true"
             securityContext:
