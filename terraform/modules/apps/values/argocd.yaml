@@ -18,6 +18,17 @@ controller:
     enabled: true
     serviceMonitor:
       enabled: true
+  podLabels:
+    kub1k.io/workload-heavy: "true"
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      nodeTaintsPolicy: Honor
+      nodeAffinityPolicy: Honor
+      labelSelector:
+        matchLabels:
+          kub1k.io/workload-heavy: "true"
 repoServer:
   replicas: 1
   metrics:
