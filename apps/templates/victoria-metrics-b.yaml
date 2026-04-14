@@ -50,6 +50,17 @@ spec:
                     matchLabels:
                       app.kubernetes.io/name: victoria-metrics-single
                   topologyKey: kubernetes.io/hostname
+          podLabels:
+            kub1k.io/workload-heavy: "true"
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              nodeTaintsPolicy: Honor
+              nodeAffinityPolicy: Honor
+              labelSelector:
+                matchLabels:
+                  kub1k.io/workload-heavy: "true"
           ingress:
             enabled: true
             ingressClassName: haproxy

@@ -27,6 +27,24 @@ spec:
             default: true
           replicaCount: 2
           minAvailable: 1
+          podLabels:
+            kub1k.io/workload-heavy: "true"
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: haproxy-ingress
+                  topologyKey: kubernetes.io/hostname
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              nodeTaintsPolicy: Honor
+              nodeAffinityPolicy: Honor
+              labelSelector:
+                matchLabels:
+                  kub1k.io/workload-heavy: "true"
           publishService:
             enabled: true
           config:
