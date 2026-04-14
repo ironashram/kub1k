@@ -46,7 +46,7 @@ spec:
             haproxy-ingress.github.io/health-check-rise-count: "2"
             haproxy-ingress.github.io/health-check-fall-count: "2"
             haproxy-ingress.github.io/config-backend: |
-              server public cdn.cachyos.org:443 backup ssl verify required sni str(cdn.cachyos.org)
+              server public cdn.cachyos.org:443 backup ssl ca-file @system-ca sni str(cdn.cachyos.org)
               http-request set-header Host cdn.cachyos.org if { nbsrv lt 1 }
         lagExporter:
           mirrorDomain: cachyos-mirror.{{ .Values.externalDomain }}
@@ -61,7 +61,7 @@ spec:
               haproxy-ingress.github.io/health-check-rise-count: "2"
               haproxy-ingress.github.io/health-check-fall-count: "2"
               haproxy-ingress.github.io/config-backend: |
-                server public cdn.cachyos.org:443 backup ssl verify required sni str(cdn.cachyos.org)
+                server public cdn.cachyos.org:443 backup ssl ca-file @system-ca sni str(cdn.cachyos.org)
                 http-request set-header Host cdn.cachyos.org if { nbsrv lt 1 }
             tls:
               secretName: cachyos-mirror-external-cert
