@@ -39,6 +39,15 @@ spec:
         ingress:
           enabled: true
           host: cachyos-mirror.{{ .Values.internalDomain }}
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+            haproxy-ingress.github.io/health-check-uri: "/"
+            haproxy-ingress.github.io/health-check-interval: "5s"
+            haproxy-ingress.github.io/health-check-rise-count: "2"
+            haproxy-ingress.github.io/health-check-fall-count: "2"
+            haproxy-ingress.github.io/config-backend: |
+              server public cdn.cachyos.org:443 backup ssl verify required sni str(cdn.cachyos.org)
+              http-request set-header Host cdn.cachyos.org if { nbsrv lt 1 }
         lagExporter:
           mirrorDomain: cachyos-mirror.{{ .Values.externalDomain }}
         extraIngresses:
@@ -47,6 +56,13 @@ spec:
             annotations:
               haproxy-ingress.github.io/allowlist-source-range: 0.0.0.0/0
               cert-manager.io/cluster-issuer: letsencrypt-prod
+              haproxy-ingress.github.io/health-check-uri: "/"
+              haproxy-ingress.github.io/health-check-interval: "5s"
+              haproxy-ingress.github.io/health-check-rise-count: "2"
+              haproxy-ingress.github.io/health-check-fall-count: "2"
+              haproxy-ingress.github.io/config-backend: |
+                server public cdn.cachyos.org:443 backup ssl verify required sni str(cdn.cachyos.org)
+                http-request set-header Host cdn.cachyos.org if { nbsrv lt 1 }
             tls:
               secretName: cachyos-mirror-external-cert
   destination:
