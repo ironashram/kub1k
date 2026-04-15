@@ -15,9 +15,6 @@ spec:
   template:
     metadata:
       annotations:
-        {{- if .Values.storage.excludeFromBackup }}
-        backup.velero.io/backup-volumes-excludes: mirror-data
-        {{- end }}
         checksum/nginx-config: {{ include (print $.Template.BasePath "/nginx-configmap.yaml") . | sha256sum }}
         {{- if eq .Values.sync.method "syncthing" }}
         checksum/syncthing-config: {{ include (print $.Template.BasePath "/syncthing-configmap.yaml") . | sha256sum }}
