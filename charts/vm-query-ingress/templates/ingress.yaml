@@ -4,6 +4,13 @@ metadata:
   name: vm-query
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    haproxy-ingress.github.io/health-check-interval: "2s"
+    haproxy-ingress.github.io/health-check-rise-count: "1"
+    haproxy-ingress.github.io/health-check-fall-count: "2"
+    haproxy-ingress.github.io/config-backend: |
+      option httpchk
+      http-check send meth GET uri /health ver HTTP/1.0
+      http-check expect status 200
 spec:
   ingressClassName: haproxy
   tls:
@@ -18,6 +25,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: vm-query-placeholder
+                name: vm-query
                 port:
                   number: 8428
