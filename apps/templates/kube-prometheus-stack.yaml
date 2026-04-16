@@ -29,6 +29,9 @@ spec:
           disabled:
             Watchdog: true
             InfoInhibitor: true
+        customRules:
+          etcdMemberCommunicationSlow:
+            for: "30m"
         alertmanager:
           alertmanagerSpec:
             replicas: 2
