@@ -20,7 +20,7 @@ jobs:
           fetch-depth: '0'
 
       - name: Check updates for Terraform Managed Helm Charts
-        uses: ironashram/argocd-apps-action@9a627b54dd488fcaf381438c0976275dcd93ad4a # v2.0.0
+        uses: ironashram/argocd-apps-action@4508cc9a2f607c464986c5a6fcbc2a63fa238fa9 # v2.0.1
         with:
           skip_prerelease: true
           target_branch: main
