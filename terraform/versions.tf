@@ -20,5 +20,9 @@ terraform {
       source  = "synology-community/synology"
       version = "0.6.9"
     }
+    ct = {
+      source  = "poseidon/ct"
+      version = "0.13.0"
+    }
   }
 }

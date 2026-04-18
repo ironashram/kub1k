@@ -85,3 +85,21 @@ variable "dns2" {
   type    = string
   default = "8.8.8.8"
 }
+
+variable "flatcar_channel" {
+  type        = string
+  default     = "stable"
+  description = "Flatcar release channel (stable, beta, alpha)"
+}
+
+variable "flatcar_version" {
+  type        = string
+  default     = "4459.2.4"
+  description = "Pinned Flatcar version. Check https://www.flatcar.org/releases for current stable."
+}
+
+variable "flatcar_storage_pool" {
+  type        = string
+  default     = "storage"
+  description = "Synology VMM storage pool for Flatcar VMs and images"
+}
