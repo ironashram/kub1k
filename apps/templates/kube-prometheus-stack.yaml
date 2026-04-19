@@ -32,8 +32,8 @@ spec:
         customRules:
           etcdMemberCommunicationSlow:
             for: 1h
-					NodeSystemSaturation:
-						for: 1h
+          NodeSystemSaturation:
+            for: 1h
         alertmanager:
           alertmanagerSpec:
             replicas: 2
