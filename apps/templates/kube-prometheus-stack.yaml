@@ -184,6 +184,11 @@ spec:
               runAsNonRoot: false
               runAsGroup: 0
               fsGroup: 0
+            containers:
+              - name: prometheus
+                env:
+                  - name: GOMEMLIMIT
+                    value: "1300MiB"
             # NOTE: range/end are prefixed with # so the file remains valid YAML
             # for plain parsers (argocd-apps-action), while Helm still processes them.
             additionalScrapeConfigs:
