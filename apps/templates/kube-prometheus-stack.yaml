@@ -189,78 +189,7 @@ spec:
                 env:
                   - name: GOMEMLIMIT
                     value: "1300MiB"
-            # NOTE: range/end are prefixed with # so the file remains valid YAML
-            # for plain parsers (argocd-apps-action), while Helm still processes them.
             additionalScrapeConfigs:
-              - job_name: 'kube-etcd'
-                scheme: http
-                static_configs:
-                  - targets:
-                    #{{- range .Values.k8sControlNodes }}
-                    - '{{ . }}:2381'
-                    #{{- end }}
-                metric_relabel_configs:
-                  - source_labels: [__name__]
-                    regex: (etcd|grpc|rest_client|process|go)_(.+)
-                    action: keep
-                relabel_configs:
-                  - source_labels: []
-                    target_label: endpoint
-                    replacement: http-metrics
-                  - source_labels: []
-                    target_label: service
-                    replacement: kube-prometheus-stack-kube-etcd
-                  - source_labels: []
-                    target_label: namespace
-                    replacement: kube-system
-              - job_name: 'kube-controller-manager'
-                scheme: https
-                static_configs:
-                  - targets:
-                    #{{- range .Values.k8sControlNodes }}
-                    - '{{ . }}:10257'
-                    #{{- end }}
-                tls_config:
-                  insecure_skip_verify: true
-                bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-                metric_relabel_configs:
-                  - source_labels: [__name__]
-                    regex: (workqueue|rest_client|process|go)_(.+)
-                    action: keep
-                relabel_configs:
-                  - source_labels: []
-                    target_label: endpoint
-                    replacement: https-metrics
-                  - source_labels: []
-                    target_label: service
-                    replacement: kube-prometheus-stack-kube-controller-manager
-                  - source_labels: []
-                    target_label: namespace
-                    replacement: kube-system
-              - job_name: 'kube-scheduler'
-                scheme: https
-                static_configs:
-                  - targets:
-                    #{{- range .Values.k8sControlNodes }}
-                    - '{{ . }}:10259'
-                    #{{- end }}
-                tls_config:
-                  insecure_skip_verify: true
-                bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-                metric_relabel_configs:
-                  - source_labels: [__name__]
-                    regex: (scheduler|rest_client|process|go)_(.+)
-                    action: keep
-                relabel_configs:
-                  - source_labels: []
-                    target_label: endpoint
-                    replacement: https-metrics
-                  - source_labels: []
-                    target_label: service
-                    replacement: kube-prometheus-stack-kube-scheduler
-                  - source_labels: []
-                    target_label: namespace
-                    replacement: kube-system
               - job_name: 'workstations-node'
                 static_configs:
                   - targets:
@@ -320,19 +249,42 @@ spec:
                 action: keep
         kubeEtcd:
           service:
-            enabled: false
+            enabled: true
+            port: 2381
+            targetPort: 2381
           serviceMonitor:
-            enabled: false
+            enabled: true
+            scheme: http
+            metricRelabelings:
+              - sourceLabels: ["__name__"]
+                regex: "(etcd|grpc)_(.+)"
+                action: keep
         kubeControllerManager:
           service:
-            enabled: false
+            enabled: true
+            port: 10257
+            targetPort: 10257
           serviceMonitor:
-            enabled: false
+            enabled: true
+            https: true
+            insecureSkipVerify: true
+            metricRelabelings:
+              - sourceLabels: ["__name__"]
+                regex: "(workqueue|rest_client|process|go)_(.+)"
+                action: keep
         kubeScheduler:
           service:
-            enabled: false
+            enabled: true
+            port: 10259
+            targetPort: 10259
           serviceMonitor:
-            enabled: false
+            enabled: true
+            https: true
+            insecureSkipVerify: true
+            metricRelabelings:
+              - sourceLabels: ["__name__"]
+                regex: "(scheduler|rest_client|process|go)_(.+)"
+                action: keep
         kubeProxy:
           enabled: false
         coreDns:
@@ -400,6 +352,22 @@ spec:
                   for: 1h
                   labels:
                     severity: warning
+      values: |
+        kubeEtcd:
+          endpoints:
+            {{- range .Values.k8sControlNodes }}
+            - '{{ . }}'
+            {{- end }}
+        kubeControllerManager:
+          endpoints:
+            {{- range .Values.k8sControlNodes }}
+            - '{{ . }}'
+            {{- end }}
+        kubeScheduler:
+          endpoints:
+            {{- range .Values.k8sControlNodes }}
+            - '{{ . }}'
+            {{- end }}
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
