@@ -194,9 +194,9 @@ spec:
                 scheme: http
                 static_configs:
                   - targets:
-                    #{{- range .Values.k8sControlNodes }}
-                    - '{{ . }}:2381'
-                    #{{- end }}
+                    - '{{ index .Values.k8sControlNodes 0 }}:2381'
+                    - '{{ index .Values.k8sControlNodes 1 }}:2381'
+                    - '{{ index .Values.k8sControlNodes 2 }}:2381'
                 metric_relabel_configs:
                   - source_labels: [__name__]
                     regex: (etcd|grpc|rest_client|process|go)_(.+)
@@ -215,9 +215,9 @@ spec:
                 scheme: https
                 static_configs:
                   - targets:
-                    #{{- range .Values.k8sControlNodes }}
-                    - '{{ . }}:10257'
-                    #{{- end }}
+                    - '{{ index .Values.k8sControlNodes 0 }}:10257'
+                    - '{{ index .Values.k8sControlNodes 1 }}:10257'
+                    - '{{ index .Values.k8sControlNodes 2 }}:10257'
                 tls_config:
                   insecure_skip_verify: true
                 bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -239,9 +239,9 @@ spec:
                 scheme: https
                 static_configs:
                   - targets:
-                    #{{- range .Values.k8sControlNodes }}
-                    - '{{ . }}:10259'
-                    #{{- end }}
+                    - '{{ index .Values.k8sControlNodes 0 }}:10259'
+                    - '{{ index .Values.k8sControlNodes 1 }}:10259'
+                    - '{{ index .Values.k8sControlNodes 2 }}:10259'
                 tls_config:
                   insecure_skip_verify: true
                 bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
