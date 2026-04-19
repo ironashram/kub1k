@@ -13,12 +13,15 @@ This repository contains the Terraform code for deploying and managing a homelab
 
 ## Overview
 
-The kub1k project aims to provide a scalable and easily maintainable Kubernetes cluster using K3s. The base infrastructure is provisioned using Terraform; once the cluster and CNI are operational, ArgoCD handles the application deployment and management.
+The kub1k project aims to provide a scalable and easily maintainable Kubernetes cluster using K3s on top of Flatcar Container Linux, running as VMs on Synology Virtual Machine Manager. The base infrastructure is provisioned using Terraform; once the cluster and CNI are operational, ArgoCD handles the application deployment and management.
 
 The following components are part of this setup:
 
 | Component                        | Source                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Flatcar Container Linux          | https://www.flatcar.org/                                                                                 |
+| K3s                              | https://github.com/k3s-io/k3s                                                                            |
+| Synology VMM (ironashram fork)   | https://github.com/ironashram/terraform-provider-synology                                                |
 | ArgoCD                           | https://github.com/argoproj/argo-cd                                                                      |
 | External Secrets Operator        | https://github.com/external-secrets/external-secrets                                                     |
 | Calico                           | https://github.com/projectcalico/calico                                                                  |
