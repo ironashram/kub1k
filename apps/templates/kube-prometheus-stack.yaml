@@ -252,6 +252,10 @@ spec:
             enabled: true
             port: 2381
             targetPort: 2381
+          endpoints:
+            - '{{ index .Values.k8sControlNodes 0 }}'
+            - '{{ index .Values.k8sControlNodes 1 }}'
+            - '{{ index .Values.k8sControlNodes 2 }}'
           serviceMonitor:
             enabled: true
             scheme: http
@@ -264,6 +268,10 @@ spec:
             enabled: true
             port: 10257
             targetPort: 10257
+          endpoints:
+            - '{{ index .Values.k8sControlNodes 0 }}'
+            - '{{ index .Values.k8sControlNodes 1 }}'
+            - '{{ index .Values.k8sControlNodes 2 }}'
           serviceMonitor:
             enabled: true
             https: true
@@ -277,6 +285,10 @@ spec:
             enabled: true
             port: 10259
             targetPort: 10259
+          endpoints:
+            - '{{ index .Values.k8sControlNodes 0 }}'
+            - '{{ index .Values.k8sControlNodes 1 }}'
+            - '{{ index .Values.k8sControlNodes 2 }}'
           serviceMonitor:
             enabled: true
             https: true
@@ -352,22 +364,6 @@ spec:
                   for: 1h
                   labels:
                     severity: warning
-      values: |
-        kubeEtcd:
-          endpoints:
-            {{- range .Values.k8sControlNodes }}
-            - '{{ . }}'
-            {{- end }}
-        kubeControllerManager:
-          endpoints:
-            {{- range .Values.k8sControlNodes }}
-            - '{{ . }}'
-            {{- end }}
-        kubeScheduler:
-          endpoints:
-            {{- range .Values.k8sControlNodes }}
-            - '{{ . }}'
-            {{- end }}
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
