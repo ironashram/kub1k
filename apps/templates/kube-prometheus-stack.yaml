@@ -163,8 +163,6 @@ spec:
                   batchSendDeadline: 5s
                   minBackoff: 30ms
                   maxBackoff: 5s
-            enableFeatures:
-              - exemplar-storage
             serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorNamespaceSelector:
               matchExpressions:
