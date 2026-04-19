@@ -18,6 +18,10 @@ variable "k3s_version" {
   default = "v1.35.3+k3s1"
 }
 
+variable "k3s_install_script_url" {
+  default = "https://s3.m1k.cloud/tools/get-k3s.sh"
+}
+
 variable "lb_pool_cidr" {
   default = "10.78.0.230/32"
 }

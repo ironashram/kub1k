@@ -8,6 +8,8 @@ variable "k3s_server_join_args" {}
 
 variable "k3s_version" {}
 
+variable "k3s_install_script_url" {}
+
 variable "control_mgmt_ips" {}
 
 variable "control_names" {}
