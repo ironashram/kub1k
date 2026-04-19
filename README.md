@@ -19,9 +19,7 @@ The following components are part of this setup:
 
 | Component                        | Source                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Flatcar Container Linux          | https://www.flatcar.org/                                                                                 |
-| K3s                              | https://github.com/k3s-io/k3s                                                                            |
-| Synology VMM (ironashram fork)   | https://github.com/ironashram/terraform-provider-synology                                                |
+| Synology Provider (ironashram fork) | https://github.com/ironashram/terraform-provider-synology                                             |
 | ArgoCD                           | https://github.com/argoproj/argo-cd                                                                      |
 | External Secrets Operator        | https://github.com/external-secrets/external-secrets                                                     |
 | Calico                           | https://github.com/projectcalico/calico                                                                  |
@@ -29,6 +27,7 @@ The following components are part of this setup:
 | HAProxy Ingress                  | https://github.com/jcmoraisjr/haproxy-ingress                                                            |
 | GitHub Actions Runner Controller | https://github.com/actions/actions-runner-controller                                                     |
 | Kube-Prometheus-Stack            | https://github.com/prometheus-community/helm-charts                                                      |
+| VictoriaMetrics                  | https://github.com/VictoriaMetrics/VictoriaMetrics                                                       |
 | Cert-Manager                     | https://github.com/cert-manager/cert-manager                                                             |
 | Synology CSI Driver              | https://github.com/SynologyOpenSource/synology-csi                                                       |
 | kube-vip                         | https://github.com/kube-vip/kube-vip                                                                     |
@@ -62,6 +61,11 @@ This project is licensed under the [MIT License](LICENSE).
 
 
 ## Credits
+
+The cluster runs on:
+
+- [Flatcar Container Linux](https://www.flatcar.org/)
+- [K3s](https://github.com/k3s-io/k3s)
 
 The grafana dashboards are based on the followings projects:
 
