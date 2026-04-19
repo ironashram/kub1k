@@ -6007,7 +6007,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "description": "Why is the data zero (0)? https://github.com/matrix-org/synapse/pull/13541#discussion_r951926322",
+          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -6100,7 +6100,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "description": "https://github.com/matrix-org/synapse/pull/13541",
+          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {

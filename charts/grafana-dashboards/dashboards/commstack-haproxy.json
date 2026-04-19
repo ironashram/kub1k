@@ -64,32 +64,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "links": [
-    {
-      "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [],
-      "targetBlank": true,
-      "title": "GitHub",
-      "tooltip": "",
-      "type": "link",
-      "url": "https://github.com/rfmoz/grafana-dashboards"
-    },
-    {
-      "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [],
-      "targetBlank": true,
-      "title": "Grafana",
-      "tooltip": "",
-      "type": "link",
-      "url": "https://grafana.com/grafana/dashboards/12693"
-    }
-  ],
+  "links": [],
   "panels": [
     {
       "collapsed": false,
