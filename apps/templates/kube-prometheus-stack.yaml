@@ -189,8 +189,6 @@ spec:
                 env:
                   - name: GOMEMLIMIT
                     value: "1300MiB"
-            # NOTE: range/end are prefixed with # so the file remains valid YAML
-            # for plain parsers (argocd-apps-action), while Helm still processes them.
             additionalScrapeConfigs:
               - job_name: 'kube-etcd'
                 scheme: http
