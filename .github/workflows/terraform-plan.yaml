@@ -7,6 +7,10 @@ on:
       - "terraform/**"
       - "terraform/**/*.yaml"
 
+concurrency:
+  group: terraform-plan-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   plan:
     runs-on: gha-runner-scale-set-kub1k

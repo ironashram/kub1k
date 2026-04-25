@@ -1,0 +1,20 @@
+name: Cleanup PR Plan
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  cleanup:
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete plan from S3
+        run: |
+          aws s3 rm --recursive \
+            "s3://${S3_BUCKET}/${{ github.event.repository.name }}/pulls/${{ github.event.number }}/"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
+          S3_BUCKET: github-artifacts
