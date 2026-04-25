@@ -7,6 +7,10 @@ on:
       - 'terraform/**'
       - 'terraform/**/*.yaml'
 
+concurrency:
+  group: terraform-apply
+  cancel-in-progress: false
+
 jobs:
   apply:
     if: github.event.pull_request.merged == true
@@ -50,3 +54,12 @@ jobs:
           VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
           VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
           TF_VAR_remote_state_s3_endpoint: ${{ secrets.TF_VAR_REMOTE_STATE_S3_ENDPOINT }}
+
+      - name: Delete plan from S3
+        if: success()
+        run: aws s3 rm --recursive "s3://${S3_BUCKET}/${{ github.event.repository.name }}/pulls/${{ github.event.number }}/"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
+          S3_BUCKET: github-artifacts
