@@ -48,6 +48,10 @@
             "properties": [
               { "id": "unit", "value": "percent" },
               { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
+              { "id": "noValue", "value": " " },
+              { "id": "mappings", "value": [
+                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
+              ]},
               {
                 "id": "thresholds",
                 "value": {
@@ -66,6 +70,10 @@
             "properties": [
               { "id": "unit", "value": "percent" },
               { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
+              { "id": "noValue", "value": " " },
+              { "id": "mappings", "value": [
+                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
+              ]},
               {
                 "id": "thresholds",
                 "value": {
@@ -80,20 +88,21 @@
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "Power On Hours" },
-            "properties": [{ "id": "unit", "value": "h" }]
-          },
-          {
             "matcher": { "id": "byName", "options": "Media Errors" },
             "properties": [
               { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
+              { "id": "noValue", "value": " " },
+              { "id": "mappings", "value": [
+                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
+              ]},
               {
                 "id": "thresholds",
                 "value": {
                   "mode": "absolute",
                   "steps": [
                     { "color": "green", "value": null },
-                    { "color": "red", "value": 1 }
+                    { "color": "yellow", "value": 1 },
+                    { "color": "red", "value": 1000 }
                   ]
                 }
               }
@@ -103,6 +112,10 @@
             "matcher": { "id": "byName", "options": "Critical" },
             "properties": [
               { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
+              { "id": "noValue", "value": " " },
+              { "id": "mappings", "value": [
+                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
+              ]},
               {
                 "id": "thresholds",
                 "value": {
@@ -134,7 +147,7 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "pattern": "^(instance 1|disk 1|model 1|serial 1|Value #(Temp|Spare|Used|Hours|Errors|Crit))$"
+              "pattern": "^(instance 1|disk 1|model 1|serial 1|Value #(Temp|Spare|Used|Errors|Crit))$"
             }
           }
         },
@@ -149,7 +162,6 @@
               "Value #Temp": "Temp",
               "Value #Spare": "Spare %",
               "Value #Used": "Wear %",
-              "Value #Hours": "Power On Hours",
               "Value #Errors": "Media Errors",
               "Value #Crit": "Critical"
             },
@@ -161,9 +173,8 @@
               "Value #Temp": 4,
               "Value #Spare": 5,
               "Value #Used": 6,
-              "Value #Hours": 7,
-              "Value #Errors": 8,
-              "Value #Crit": 9
+              "Value #Errors": 7,
+              "Value #Crit": 8
             }
           }
         }
@@ -187,13 +198,6 @@
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "label_join(smartmon_percentage_used{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
           "refId": "Used",
-          "instant": true,
-          "format": "table"
-        },
-        {
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(smartmon_power_on_hours_total{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
-          "refId": "Hours",
           "instant": true,
           "format": "table"
         },
