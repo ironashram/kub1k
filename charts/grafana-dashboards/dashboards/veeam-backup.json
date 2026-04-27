@@ -116,7 +116,7 @@
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
-        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
       "title": "Running Now",
@@ -125,6 +125,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "sum(veeam_backup_running{instance=~\"$instance\"})",
+          "instant": true,
           "refId": "A"
         }
       ]
