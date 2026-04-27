@@ -127,15 +127,14 @@
       "type": "table",
       "transformations": [
         {
-          "id": "labelsToFields",
-          "options": { "valueLabel": "__name__" }
+          "id": "joinByField",
+          "options": { "byField": "id", "mode": "outer" }
         },
-        { "id": "merge" },
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "pattern": "^(instance|disk|model|serial|smartmon_(temperature_celsius|available_spare|percentage_used|power_on_hours_total|media_errors|critical_warning))$"
+              "pattern": "^(instance 1|disk 1|model 1|serial 1|Value #(Temp|Spare|Used|Hours|Errors|Crit))$"
             }
           }
         },
@@ -143,28 +142,28 @@
           "id": "organize",
           "options": {
             "renameByName": {
-              "instance": "Instance",
-              "disk": "Disk",
-              "model": "Model",
-              "serial": "Serial",
-              "smartmon_temperature_celsius": "Temp",
-              "smartmon_available_spare": "Spare %",
-              "smartmon_percentage_used": "Wear %",
-              "smartmon_power_on_hours_total": "Power On Hours",
-              "smartmon_media_errors": "Media Errors",
-              "smartmon_critical_warning": "Critical"
+              "instance 1": "Instance",
+              "disk 1": "Disk",
+              "model 1": "Model",
+              "serial 1": "Serial",
+              "Value #Temp": "Temp",
+              "Value #Spare": "Spare %",
+              "Value #Used": "Wear %",
+              "Value #Hours": "Power On Hours",
+              "Value #Errors": "Media Errors",
+              "Value #Crit": "Critical"
             },
             "indexByName": {
-              "instance": 0,
-              "disk": 1,
-              "model": 2,
-              "serial": 3,
-              "smartmon_temperature_celsius": 4,
-              "smartmon_available_spare": 5,
-              "smartmon_percentage_used": 6,
-              "smartmon_power_on_hours_total": 7,
-              "smartmon_media_errors": 8,
-              "smartmon_critical_warning": 9
+              "instance 1": 0,
+              "disk 1": 1,
+              "model 1": 2,
+              "serial 1": 3,
+              "Value #Temp": 4,
+              "Value #Spare": 5,
+              "Value #Used": 6,
+              "Value #Hours": 7,
+              "Value #Errors": 8,
+              "Value #Crit": 9
             }
           }
         }
@@ -172,8 +171,43 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "{__name__=~\"smartmon_.*\", instance=~\"$instance\"}",
-          "refId": "A",
+          "expr": "label_join(smartmon_temperature_celsius{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
+          "refId": "Temp",
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "label_join(smartmon_available_spare{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
+          "refId": "Spare",
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "label_join(smartmon_percentage_used{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
+          "refId": "Used",
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "label_join(smartmon_power_on_hours_total{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
+          "refId": "Hours",
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "label_join(smartmon_media_errors{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
+          "refId": "Errors",
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "label_join(smartmon_critical_warning{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
+          "refId": "Crit",
           "instant": true,
           "format": "table"
         }
