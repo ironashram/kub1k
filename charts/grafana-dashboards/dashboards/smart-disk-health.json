@@ -454,7 +454,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "{__name__=~\"smartmon_(temperature_celsius|available_spare|percentage_used|power_on_hours_total|media_errors)\", instance=~\"$instance\"}",
+          "expr": "{__name__=~\"smartmon_.*\", instance=~\"$instance\"}",
           "refId": "A",
           "instant": true,
           "format": "table"
