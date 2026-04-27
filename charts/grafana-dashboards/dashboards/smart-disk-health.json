@@ -117,7 +117,7 @@
           }
         ]
       },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 1 },
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 1 },
       "id": 2,
       "options": {
         "showHeader": true,
@@ -130,12 +130,20 @@
           "id": "labelsToFields",
           "options": { "valueLabel": "__name__" }
         },
-        { "id": "merge" },
         {
-          "id": "filterFieldsByName",
+          "id": "groupBy",
           "options": {
-            "include": {
-              "pattern": "^(instance|disk|model|serial|smartmon_(temperature_celsius|available_spare|percentage_used|power_on_hours_total|media_errors|critical_warning))$"
+            "fields": {
+              "instance": { "operation": "groupby" },
+              "disk": { "operation": "groupby" },
+              "model": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
+              "serial": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
+              "smartmon_temperature_celsius": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
+              "smartmon_available_spare": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
+              "smartmon_percentage_used": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
+              "smartmon_power_on_hours_total": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
+              "smartmon_media_errors": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
+              "smartmon_critical_warning": { "operation": "aggregate", "aggregations": ["lastNotNull"] }
             }
           }
         },
@@ -145,26 +153,26 @@
             "renameByName": {
               "instance": "Instance",
               "disk": "Disk",
-              "model": "Model",
-              "serial": "Serial",
-              "smartmon_temperature_celsius": "Temp",
-              "smartmon_available_spare": "Spare %",
-              "smartmon_percentage_used": "Wear %",
-              "smartmon_power_on_hours_total": "Power On Hours",
-              "smartmon_media_errors": "Media Errors",
-              "smartmon_critical_warning": "Critical"
+              "model (lastNotNull)": "Model",
+              "serial (lastNotNull)": "Serial",
+              "smartmon_temperature_celsius (lastNotNull)": "Temp",
+              "smartmon_available_spare (lastNotNull)": "Spare %",
+              "smartmon_percentage_used (lastNotNull)": "Wear %",
+              "smartmon_power_on_hours_total (lastNotNull)": "Power On Hours",
+              "smartmon_media_errors (lastNotNull)": "Media Errors",
+              "smartmon_critical_warning (lastNotNull)": "Critical"
             },
             "indexByName": {
               "instance": 0,
               "disk": 1,
-              "model": 2,
-              "serial": 3,
-              "smartmon_temperature_celsius": 4,
-              "smartmon_available_spare": 5,
-              "smartmon_percentage_used": 6,
-              "smartmon_power_on_hours_total": 7,
-              "smartmon_media_errors": 8,
-              "smartmon_critical_warning": 9
+              "model (lastNotNull)": 2,
+              "serial (lastNotNull)": 3,
+              "smartmon_temperature_celsius (lastNotNull)": 4,
+              "smartmon_available_spare (lastNotNull)": 5,
+              "smartmon_percentage_used (lastNotNull)": 6,
+              "smartmon_power_on_hours_total (lastNotNull)": 7,
+              "smartmon_media_errors (lastNotNull)": 8,
+              "smartmon_critical_warning (lastNotNull)": 9
             }
           }
         }
@@ -180,46 +188,9 @@
       ]
     },
     {
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 8760 },
-              { "color": "red", "value": 43800 }
-            ]
-          },
-          "unit": "h"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 9 },
-      "id": 3,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "value_and_name"
-      },
-      "title": "Power On Hours",
-      "type": "stat",
-      "targets": [
-        {
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "smartmon_power_on_hours_total{instance=~\"$instance\"}",
-          "legendFormat": "{{instance}} / {{disk}}",
-          "refId": "A"
-        }
-      ]
-    },
-    {
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
-      "id": 4,
+      "id": 3,
       "title": "Trends",
       "type": "row"
     },
@@ -243,7 +214,7 @@
         "overrides": []
       },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
-      "id": 5,
+      "id": 4,
       "title": "Temperature Over Time",
       "type": "timeseries",
       "targets": [
@@ -275,7 +246,7 @@
         "overrides": []
       },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
-      "id": 6,
+      "id": 5,
       "title": "SMART Errors Over Time",
       "type": "timeseries",
       "targets": [
@@ -296,6 +267,70 @@
           "expr": "smartmon_critical_warning{instance=~\"$instance\"}",
           "legendFormat": "crit / {{instance}} / {{disk}}",
           "refId": "C"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
+      "id": 6,
+      "title": "Data Read Rate",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "rate(smartmon_data_units_read{instance=~\"$instance\"}[5m]) * 512000",
+          "legendFormat": "{{instance}} / {{disk}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
+      "id": 7,
+      "title": "Data Write Rate",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "rate(smartmon_data_units_written{instance=~\"$instance\"}[5m]) * 512000",
+          "legendFormat": "{{instance}} / {{disk}}",
+          "refId": "A"
         }
       ]
     }
