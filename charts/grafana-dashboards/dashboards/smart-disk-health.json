@@ -401,65 +401,52 @@
       "type": "table",
       "transformations": [
         {
-          "id": "joinByField",
-          "options": { "byField": "id", "mode": "outer" }
+          "id": "labelsToFields",
+          "options": { "valueLabel": "__name__" }
+        },
+        {
+          "id": "merge"
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "instance": { "operation": "groupby" },
+              "disk": { "operation": "groupby" },
+              "model": { "operation": "aggregate", "aggregations": ["first"] },
+              "serial": { "operation": "aggregate", "aggregations": ["first"] },
+              "smartmon_temperature_celsius": { "operation": "aggregate", "aggregations": ["first"] },
+              "smartmon_available_spare": { "operation": "aggregate", "aggregations": ["first"] },
+              "smartmon_percentage_used": { "operation": "aggregate", "aggregations": ["first"] },
+              "smartmon_power_on_hours_total": { "operation": "aggregate", "aggregations": ["first"] },
+              "smartmon_media_errors": { "operation": "aggregate", "aggregations": ["first"] }
+            }
+          }
         },
         {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "Time": true,
-              "Time 1": true,
-              "Time 2": true,
-              "Time 3": true,
-              "Time 4": true,
-              "Time 5": true,
-              "__name__": true,
-              "job": true,
-              "job 1": true,
-              "job 2": true,
-              "job 3": true,
-              "job 4": true,
-              "job 5": true,
-              "instance 2": true,
-              "instance 3": true,
-              "instance 4": true,
-              "instance 5": true,
-              "disk 2": true,
-              "disk 3": true,
-              "disk 4": true,
-              "disk 5": true,
-              "model 2": true,
-              "model 3": true,
-              "model 4": true,
-              "model 5": true,
-              "serial 2": true,
-              "serial 3": true,
-              "serial 4": true,
-              "serial 5": true,
-              "id": true
-            },
             "renameByName": {
-              "instance 1": "Instance",
-              "disk 1": "Disk",
-              "model 1": "Model",
-              "serial 1": "Serial",
-              "Value #Temp": "Temp",
-              "Value #Spare": "Spare %",
-              "Value #Used": "Used %",
-              "Value #Hours": "Power On Hours",
-              "Value #Errors": "Media Errors"
+              "instance": "Instance",
+              "disk": "Disk",
+              "model (first)": "Model",
+              "serial (first)": "Serial",
+              "smartmon_temperature_celsius (first)": "Temp",
+              "smartmon_available_spare (first)": "Spare %",
+              "smartmon_percentage_used (first)": "Used %",
+              "smartmon_power_on_hours_total (first)": "Power On Hours",
+              "smartmon_media_errors (first)": "Media Errors"
             },
             "indexByName": {
-              "instance 1": 0,
-              "disk 1": 1,
-              "model 1": 2,
-              "serial 1": 3,
-              "Value #Temp": 4,
-              "Value #Spare": 5,
-              "Value #Used": 6,
-              "Value #Hours": 7,
-              "Value #Errors": 8
+              "instance": 0,
+              "disk": 1,
+              "model (first)": 2,
+              "serial (first)": 3,
+              "smartmon_temperature_celsius (first)": 4,
+              "smartmon_available_spare (first)": 5,
+              "smartmon_percentage_used (first)": 6,
+              "smartmon_power_on_hours_total (first)": 7,
+              "smartmon_media_errors (first)": 8
             }
           }
         }
@@ -467,36 +454,8 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(smartmon_temperature_celsius{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
-          "refId": "Temp",
-          "instant": true,
-          "format": "table"
-        },
-        {
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(smartmon_available_spare{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
-          "refId": "Spare",
-          "instant": true,
-          "format": "table"
-        },
-        {
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(smartmon_percentage_used{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
-          "refId": "Used",
-          "instant": true,
-          "format": "table"
-        },
-        {
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(smartmon_power_on_hours_total{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
-          "refId": "Hours",
-          "instant": true,
-          "format": "table"
-        },
-        {
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(smartmon_media_errors{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"disk\")",
-          "refId": "Errors",
+          "expr": "{__name__=~\"smartmon_(temperature_celsius|available_spare|percentage_used|power_on_hours_total|media_errors)\", instance=~\"$instance\"}",
+          "refId": "A",
           "instant": true,
           "format": "table"
         }
