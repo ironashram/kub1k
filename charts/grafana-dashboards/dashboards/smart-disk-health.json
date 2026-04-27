@@ -130,20 +130,12 @@
           "id": "labelsToFields",
           "options": { "valueLabel": "__name__" }
         },
+        { "id": "merge" },
         {
-          "id": "groupBy",
+          "id": "filterFieldsByName",
           "options": {
-            "fields": {
-              "instance": { "operation": "groupby" },
-              "disk": { "operation": "groupby" },
-              "model": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
-              "serial": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
-              "smartmon_temperature_celsius": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
-              "smartmon_available_spare": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
-              "smartmon_percentage_used": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
-              "smartmon_power_on_hours_total": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
-              "smartmon_media_errors": { "operation": "aggregate", "aggregations": ["lastNotNull"] },
-              "smartmon_critical_warning": { "operation": "aggregate", "aggregations": ["lastNotNull"] }
+            "include": {
+              "pattern": "^(instance|disk|model|serial|smartmon_(temperature_celsius|available_spare|percentage_used|power_on_hours_total|media_errors|critical_warning))$"
             }
           }
         },
@@ -153,26 +145,26 @@
             "renameByName": {
               "instance": "Instance",
               "disk": "Disk",
-              "model (lastNotNull)": "Model",
-              "serial (lastNotNull)": "Serial",
-              "smartmon_temperature_celsius (lastNotNull)": "Temp",
-              "smartmon_available_spare (lastNotNull)": "Spare %",
-              "smartmon_percentage_used (lastNotNull)": "Wear %",
-              "smartmon_power_on_hours_total (lastNotNull)": "Power On Hours",
-              "smartmon_media_errors (lastNotNull)": "Media Errors",
-              "smartmon_critical_warning (lastNotNull)": "Critical"
+              "model": "Model",
+              "serial": "Serial",
+              "smartmon_temperature_celsius": "Temp",
+              "smartmon_available_spare": "Spare %",
+              "smartmon_percentage_used": "Wear %",
+              "smartmon_power_on_hours_total": "Power On Hours",
+              "smartmon_media_errors": "Media Errors",
+              "smartmon_critical_warning": "Critical"
             },
             "indexByName": {
               "instance": 0,
               "disk": 1,
-              "model (lastNotNull)": 2,
-              "serial (lastNotNull)": 3,
-              "smartmon_temperature_celsius (lastNotNull)": 4,
-              "smartmon_available_spare (lastNotNull)": 5,
-              "smartmon_percentage_used (lastNotNull)": 6,
-              "smartmon_power_on_hours_total (lastNotNull)": 7,
-              "smartmon_media_errors (lastNotNull)": 8,
-              "smartmon_critical_warning (lastNotNull)": 9
+              "model": 2,
+              "serial": 3,
+              "smartmon_temperature_celsius": 4,
+              "smartmon_available_spare": 5,
+              "smartmon_percentage_used": 6,
+              "smartmon_power_on_hours_total": 7,
+              "smartmon_media_errors": 8,
+              "smartmon_critical_warning": 9
             }
           }
         }
@@ -188,8 +180,54 @@
       ]
     },
     {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "green" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          },
+          "unit": "h",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 13 },
+      "id": 8,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "title": "Power On Hours (per disk, sorted)",
+      "type": "bargauge",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "smartmon_power_on_hours_total{instance=~\"$instance\"}",
+          "legendFormat": "{{instance}} / {{disk}}",
+          "refId": "A",
+          "instant": true,
+          "format": "time_series"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": { "regex": ".*\\{instance=\"([^\"]+)\", disk=\"([^\"]+)\".*", "renamePattern": "$1 / $2" }
+        },
+        {
+          "id": "sortBy",
+          "options": { "fields": {}, "sort": [{ "field": "Value", "desc": true }] }
+        }
+      ]
+    },
+    {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 23 },
       "id": 3,
       "title": "Trends",
       "type": "row"
@@ -213,7 +251,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 },
       "id": 4,
       "title": "Temperature Over Time",
       "type": "timeseries",
@@ -245,7 +283,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
       "id": 5,
       "title": "SMART Errors Over Time",
       "type": "timeseries",
@@ -289,7 +327,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
       "id": 6,
       "title": "Data Read Rate",
       "type": "timeseries",
@@ -321,7 +359,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
       "id": 7,
       "title": "Data Write Rate",
       "type": "timeseries",
