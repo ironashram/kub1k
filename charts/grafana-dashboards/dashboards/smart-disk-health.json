@@ -29,7 +29,7 @@
             "matcher": { "id": "byName", "options": "Temp" },
             "properties": [
               { "id": "unit", "value": "celsius" },
-              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
+              { "id": "custom.cellOptions", "value": { "type": "color-text" } },
               {
                 "id": "thresholds",
                 "value": {
@@ -47,11 +47,7 @@
             "matcher": { "id": "byName", "options": "Spare %" },
             "properties": [
               { "id": "unit", "value": "percent" },
-              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
-              { "id": "noValue", "value": " " },
-              { "id": "mappings", "value": [
-                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
-              ]},
+              { "id": "custom.cellOptions", "value": { "type": "color-text" } },
               {
                 "id": "thresholds",
                 "value": {
@@ -69,11 +65,7 @@
             "matcher": { "id": "byName", "options": "Wear %" },
             "properties": [
               { "id": "unit", "value": "percent" },
-              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
-              { "id": "noValue", "value": " " },
-              { "id": "mappings", "value": [
-                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
-              ]},
+              { "id": "custom.cellOptions", "value": { "type": "color-text" } },
               {
                 "id": "thresholds",
                 "value": {
@@ -90,11 +82,7 @@
           {
             "matcher": { "id": "byName", "options": "Media Errors" },
             "properties": [
-              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
-              { "id": "noValue", "value": " " },
-              { "id": "mappings", "value": [
-                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
-              ]},
+              { "id": "custom.cellOptions", "value": { "type": "color-text" } },
               {
                 "id": "thresholds",
                 "value": {
@@ -111,11 +99,7 @@
           {
             "matcher": { "id": "byName", "options": "Critical" },
             "properties": [
-              { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "basic" } },
-              { "id": "noValue", "value": " " },
-              { "id": "mappings", "value": [
-                { "type": "special", "options": { "match": "null", "result": { "text": "", "color": "transparent", "index": 0 } } }
-              ]},
+              { "id": "custom.cellOptions", "value": { "type": "color-text" } },
               {
                 "id": "thresholds",
                 "value": {
