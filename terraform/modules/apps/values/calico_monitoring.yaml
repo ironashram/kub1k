@@ -43,4 +43,4 @@ spec:
     matchExpressions:
       - key: k8s-app
         operator: In
-        values: ["calico-felix", "calico-typha", "calico-kube-controllers"]
+        values: ["calico-felix", "calico-typha"]
