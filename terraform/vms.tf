@@ -1,70 +1,15 @@
 data "ct_config" "control_ignition" {
   count  = var.control_count
   strict = true
-  content = <<-EOT
-    variant: flatcar
-    version: 1.0.0
-    passwd:
-      users:
-        - name: core
-          ssh_authorized_keys:
-            - ${local.ssh_public_key}
-    storage:
-      files:
-        - path: /etc/hostname
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              ${var.cluster_name}-control-${count.index + 1}
-        - path: /etc/systemd/network/10-eth0.network
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              [Match]
-              MACAddress=${local.control_mgmt_macs[count.index]}
-              [Link]
-              RequiredForOnline=yes
-              [Network]
-              Address=${var.mgmt_ip_base}.${count.index + 11}/24
-              Gateway=${var.mgmt_ip_base}.1
-              DNS=${var.dns1}
-              DNS=${var.dns2}
-        - path: /etc/flatcar/update.conf
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              REBOOT_STRATEGY=off
-        - path: /etc/ssh/sshd_config.d/00-post-quantum-kex.conf
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              KexAlgorithms mlkem768x25519-sha256,sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
-    systemd:
-      units:
-        - name: qemu-guest-agent.service
-          enabled: true
-        - name: flatcar-openstack-hostname.service
-          mask: true
-        - name: iscsi-init.service
-          enabled: true
-          contents: |
-            [Unit]
-            Description=Generate iSCSI initiator name on first boot
-            Before=iscsid.service
-            ConditionPathExists=!/etc/iscsi/initiatorname.iscsi
-            [Service]
-            Type=oneshot
-            RemainAfterExit=true
-            ExecStart=/bin/sh -c 'mkdir -p /etc/iscsi && echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi'
-            [Install]
-            WantedBy=multi-user.target
-        - name: iscsid.service
-          enabled: true
-  EOT
+  content = templatestring(local.flatcar_ignition_tmpl, {
+    hostname       = local.control_names[count.index]
+    mac            = local.control_mgmt_macs[count.index]
+    ip             = local.control_mgmt_ips[count.index]
+    gateway        = "${var.mgmt_ip_base}.1"
+    dns1           = var.dns1
+    dns2           = var.dns2
+    ssh_public_key = local.ssh_public_key
+  })
 }
 
 resource "synology_filestation_iso" "control_ignition" {
@@ -122,70 +67,15 @@ resource "synology_virtualization_guest" "control_nodes" {
 data "ct_config" "worker_ignition" {
   count  = var.worker_count
   strict = true
-  content = <<-EOT
-    variant: flatcar
-    version: 1.0.0
-    passwd:
-      users:
-        - name: core
-          ssh_authorized_keys:
-            - ${local.ssh_public_key}
-    storage:
-      files:
-        - path: /etc/hostname
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              ${var.cluster_name}-worker-${count.index + 1}
-        - path: /etc/systemd/network/10-eth0.network
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              [Match]
-              MACAddress=${local.worker_mgmt_macs[count.index]}
-              [Link]
-              RequiredForOnline=yes
-              [Network]
-              Address=${var.mgmt_ip_base}.${count.index + 21}/24
-              Gateway=${var.mgmt_ip_base}.1
-              DNS=${var.dns1}
-              DNS=${var.dns2}
-        - path: /etc/flatcar/update.conf
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              REBOOT_STRATEGY=off
-        - path: /etc/ssh/sshd_config.d/00-post-quantum-kex.conf
-          mode: 0644
-          overwrite: true
-          contents:
-            inline: |
-              KexAlgorithms mlkem768x25519-sha256,sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
-    systemd:
-      units:
-        - name: qemu-guest-agent.service
-          enabled: true
-        - name: flatcar-openstack-hostname.service
-          mask: true
-        - name: iscsi-init.service
-          enabled: true
-          contents: |
-            [Unit]
-            Description=Generate iSCSI initiator name on first boot
-            Before=iscsid.service
-            ConditionPathExists=!/etc/iscsi/initiatorname.iscsi
-            [Service]
-            Type=oneshot
-            RemainAfterExit=true
-            ExecStart=/bin/sh -c 'mkdir -p /etc/iscsi && echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi'
-            [Install]
-            WantedBy=multi-user.target
-        - name: iscsid.service
-          enabled: true
-  EOT
+  content = templatestring(local.flatcar_ignition_tmpl, {
+    hostname       = local.worker_names[count.index]
+    mac            = local.worker_mgmt_macs[count.index]
+    ip             = local.worker_mgmt_ips[count.index]
+    gateway        = "${var.mgmt_ip_base}.1"
+    dns1           = var.dns1
+    dns2           = var.dns2
+    ssh_public_key = local.ssh_public_key
+  })
 }
 
 resource "synology_filestation_iso" "worker_ignition" {

@@ -56,4 +56,73 @@ locals {
 
   domain_name    = data.vault_generic_secret.vars.data["domain_name"]
   ssh_public_key = data.vault_generic_secret.vars.data["ssh_public_key"]
+
+  flatcar_ignition_tmpl = <<-EOT
+    variant: flatcar
+    version: 1.0.0
+    passwd:
+      users:
+        - name: core
+          ssh_authorized_keys:
+            - $${ssh_public_key}
+    storage:
+      files:
+        - path: /etc/hostname
+          mode: 0644
+          overwrite: true
+          contents:
+            inline: |
+              $${hostname}
+        - path: /etc/systemd/network/10-eth0.network
+          mode: 0644
+          overwrite: true
+          contents:
+            inline: |
+              [Match]
+              MACAddress=$${mac}
+              [Link]
+              RequiredForOnline=yes
+              [Network]
+              Address=$${ip}/24
+              Gateway=$${gateway}
+              DNS=$${dns1}
+              DNS=$${dns2}
+        - path: /etc/flatcar/update.conf
+          mode: 0644
+          overwrite: true
+          contents:
+            inline: |
+              REBOOT_STRATEGY=off
+        - path: /etc/ssh/sshd_config.d/00-post-quantum-kex.conf
+          mode: 0644
+          overwrite: true
+          contents:
+            inline: |
+              KexAlgorithms mlkem768x25519-sha256,sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
+    systemd:
+      units:
+        - name: qemu-guest-agent.service
+          enabled: true
+        - name: flatcar-openstack-hostname.service
+          mask: true
+        - name: sshkeys.service
+          mask: true
+        - name: coreos-metadata-sshkeys@core.service
+          mask: true
+        - name: iscsi-init.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Generate iSCSI initiator name on first boot
+            Before=iscsid.service
+            ConditionPathExists=!/etc/iscsi/initiatorname.iscsi
+            [Service]
+            Type=oneshot
+            RemainAfterExit=true
+            ExecStart=/bin/sh -c 'mkdir -p /etc/iscsi && echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi'
+            [Install]
+            WantedBy=multi-user.target
+        - name: iscsid.service
+          enabled: true
+  EOT
 }
