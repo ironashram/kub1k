@@ -1,5 +1,5 @@
 locals {
-  kube_config_output = pathexpand("~/.kube/config-files/${var.cluster_name}.yaml")
+  kube_config_output = pathexpand("~/.kube/config-files/lab/${var.cluster_name}.yaml")
 
   // decode base64 kubeconfig from vault
   kubeconfig             = try(yamldecode(base64decode(data.vault_generic_secret.k3s.data["kubeconfig"])), null)

@@ -29,11 +29,11 @@ apply: init
 
 .PHONY: get-kubeconfig
 get-kubeconfig:
-	@mkdir -p ~/.kube/config-files
-	@test -s ~/.kube/config-files/kub1k.yaml || \
+	@mkdir -p ~/.kube/config-files/lab
+	@test -s ~/.kube/config-files/lab/kub1k.yaml || \
 		curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $(VAULT_TOKEN)" $(VAULT_ADDR)/v1/kv/data/kub1k/k3s \
 		| jq -r '.data.data.kubeconfig' \
-		| base64 -d > ~/.kube/config-files/kub1k.yaml
+		| base64 -d > ~/.kube/config-files/lab/kub1k.yaml
 
 .PHONY: init
 init: get-kubeconfig
