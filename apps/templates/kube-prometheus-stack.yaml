@@ -372,7 +372,7 @@ spec:
                     message: Veeam backup {{`{{`}} $labels.job_name {{`}}`}} on {{`{{`}} $labels.instance {{`}}`}} last run failed
                   expr: |-
                     veeam_backup_last_status == 0
-                  for: 1h
+                  for: 48h
                   labels:
                     severity: warning
                 - alert: VeeamNoRecentBackup
@@ -384,7 +384,7 @@ spec:
                     or
                     absent(veeam_backup_last_successful_timestamp_seconds)
                     ) == 1
-                  for: 1h
+                  for: 72h
                   labels:
                     severity: critical
                 - alert: VeeamRepositoryUnreachable
@@ -392,7 +392,7 @@ spec:
                     message: Veeam repository {{`{{`}} $labels.repository {{`}}`}} is unreachable from {{`{{`}} $labels.instance {{`}}`}}
                   expr: |-
                     veeam_repository_accessible == 0
-                  for: 1h
+                  for: 12h
                   labels:
                     severity: critical
                 - alert: VeeamExporterStale
@@ -400,7 +400,7 @@ spec:
                     message: Veeam textfile collector on {{`{{`}} $labels.instance {{`}}`}} has not updated in over 30m
                   expr: |-
                     time() - veeam_exporter_last_run_timestamp_seconds > 1800
-                  for: 1h
+                  for: 12h
                   labels:
                     severity: warning
   ignoreDifferences:
