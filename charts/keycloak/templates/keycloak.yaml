@@ -1,0 +1,43 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  instances: {{ .Values.keycloakInstances }}
+  image: {{ .Values.keycloakImage }}
+  startOptimized: false
+  hostname:
+    hostname: keycloak.{{ .Values.externalDomain }}
+  http:
+    httpEnabled: true
+  proxy:
+    headers: xforwarded
+  db:
+    vendor: postgres
+    host: keycloak-pg-rw.keycloak.svc
+    port: 5432
+    database: keycloak
+    usernameSecret:
+      name: keycloak-pg-app
+      key: username
+    passwordSecret:
+      name: keycloak-pg-app
+      key: password
+  bootstrapAdmin:
+    user:
+      secret: keycloak-bootstrap-admin
+  env:
+    - name: LDAP_BIND_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: keycloak-ldap-bind
+          key: password
+    - name: JAVA_OPTS_APPEND
+      value: "-Xms256m -Xmx384m"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      memory: 1Gi

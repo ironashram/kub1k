@@ -1,0 +1,101 @@
+{{- $baseDn := printf "dc=%s" (replace "." ",dc=" .Values.externalDomain) -}}
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: KeycloakRealmImport
+metadata:
+  name: {{ .Values.realmName }}
+  namespace: keycloak
+spec:
+  keycloakCRName: keycloak
+  realm:
+    realm: {{ .Values.realmName }}
+    enabled: true
+    displayName: home
+    sslRequired: external
+    registrationAllowed: false
+    rememberMe: true
+    loginWithEmailAllowed: true
+    duplicateEmailsAllowed: false
+    resetPasswordAllowed: false
+    editUsernameAllowed: false
+    bruteForceProtected: true
+    roles:
+      realm:
+        - name: admins
+          description: SSO admin role, populated from lldap `admins` group via LDAP federation
+    components:
+      org.keycloak.storage.UserStorageProvider:
+        - name: lldap
+          providerId: ldap
+          subComponents:
+            org.keycloak.storage.ldap.mappers.LDAPStorageMapper:
+              - name: username
+                providerId: user-attribute-ldap-mapper
+                config:
+                  ldap.attribute: ["uid"]
+                  user.model.attribute: ["username"]
+                  is.mandatory.in.ldap: ["true"]
+                  read.only: ["true"]
+                  always.read.value.from.ldap: ["false"]
+              - name: first name
+                providerId: user-attribute-ldap-mapper
+                config:
+                  ldap.attribute: ["givenName"]
+                  user.model.attribute: ["firstName"]
+                  is.mandatory.in.ldap: ["false"]
+                  read.only: ["true"]
+                  always.read.value.from.ldap: ["true"]
+              - name: last name
+                providerId: user-attribute-ldap-mapper
+                config:
+                  ldap.attribute: ["sn"]
+                  user.model.attribute: ["lastName"]
+                  is.mandatory.in.ldap: ["false"]
+                  read.only: ["true"]
+                  always.read.value.from.ldap: ["true"]
+              - name: email
+                providerId: user-attribute-ldap-mapper
+                config:
+                  ldap.attribute: ["mail"]
+                  user.model.attribute: ["email"]
+                  is.mandatory.in.ldap: ["false"]
+                  read.only: ["true"]
+                  always.read.value.from.ldap: ["true"]
+              - name: ldap-roles
+                providerId: role-ldap-mapper
+                config:
+                  roles.dn: ["ou=groups,{{ $baseDn }}"]
+                  role.name.ldap.attribute: ["cn"]
+                  role.object.classes: ["groupOfUniqueNames"]
+                  membership.ldap.attribute: ["member"]
+                  membership.attribute.type: ["DN"]
+                  membership.user.ldap.attribute: ["uid"]
+                  mode: ["READ_ONLY"]
+                  use.realm.roles.mapping: ["true"]
+                  user.roles.retrieve.strategy: ["LOAD_ROLES_BY_MEMBER_ATTRIBUTE"]
+                  roles.ldap.filter: ["(cn=admins)"]
+          config:
+            enabled: ["true"]
+            priority: ["0"]
+            vendor: ["other"]
+            editMode: ["READ_ONLY"]
+            usernameLDAPAttribute: ["uid"]
+            rdnLDAPAttribute: ["uid"]
+            uuidLDAPAttribute: ["entryuuid"]
+            userObjectClasses: ["inetOrgPerson, posixAccount"]
+            connectionUrl: ["ldaps://ldap1.{{ .Values.externalDomain }}:6360 ldaps://ldap2.{{ .Values.externalDomain }}:6360"]
+            usersDn: ["ou=people,{{ $baseDn }}"]
+            authType: ["simple"]
+            bindDn: ["uid=admin,ou=people,{{ $baseDn }}"]
+            bindCredential: ["${env.LDAP_BIND_PASSWORD}"]
+            searchScope: ["1"]
+            validatePasswordPolicy: ["false"]
+            trustEmail: ["true"]
+            useTruststoreSpi: ["always"]
+            connectionPooling: ["true"]
+            pagination: ["true"]
+            batchSizeForSync: ["1000"]
+            fullSyncPeriod: ["3600"]
+            changedSyncPeriod: ["300"]
+            importEnabled: ["true"]
+            syncRegistrations: ["false"]
+            cachePolicy: ["DEFAULT"]
