@@ -48,6 +48,25 @@ resource "helm_release" "argocd" {
 
   values = [
     file("${path.module}/values/argocd.yaml"),
+    yamlencode({
+      configs = {
+        cm = {
+          "oidc.config" = <<-EOT
+            name: Keycloak
+            issuer: https://keycloak.${var.external_domain}/realms/m1k
+            clientID: argocd
+            clientSecret: $keycloak-client-argocd:client_secret
+            requestedScopes:
+              - openid
+              - profile
+              - email
+          EOT
+        }
+        rbac = {
+          "policy.csv" = "g, admins, role:admin\n"
+        }
+      }
+    }),
   ]
 
 }
