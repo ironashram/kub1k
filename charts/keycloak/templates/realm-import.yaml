@@ -14,7 +14,7 @@ spec:
   realm:
     realm: {{ .Values.realmName }}
     enabled: true
-    displayName: home
+    displayName: {{ .Values.realmName }}
     sslRequired: external
     registrationAllowed: false
     rememberMe: true
