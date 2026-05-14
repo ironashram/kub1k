@@ -1,6 +1,6 @@
 output "client_ids" {
   description = "Map of service-name -> Keycloak internal client id (UUID)"
-  value       = { for k, v in keycloak_openid_client.this : k => v.id }
+  value       = { for k, v in keycloak_openid_client.service : k => v.id }
 }
 
 output "vault_paths" {

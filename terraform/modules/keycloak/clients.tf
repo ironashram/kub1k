@@ -7,7 +7,7 @@ locals {
       web_origins   = ["+"]
     }
     argocd = {
-      name = "ArgoCD"
+      name     = "ArgoCD"
       root_url = "https://argocd.${var.internal_domain}"
       redirect_uris = [
         "https://argocd.${var.internal_domain}/auth/callback",
@@ -30,7 +30,7 @@ locals {
   }
 }
 
-resource "keycloak_openid_client" "this" {
+resource "keycloak_openid_client" "service" {
   depends_on = [null_resource.wait_for_keycloak]
   for_each   = local.clients
 
@@ -43,17 +43,17 @@ resource "keycloak_openid_client" "this" {
   standard_flow_enabled        = true
   direct_access_grants_enabled = false
 
-  root_url      = each.value.root_url
-  base_url      = "/"
-  valid_redirect_uris  = each.value.redirect_uris
-  web_origins          = each.value.web_origins
-  admin_url            = each.value.root_url
+  root_url            = each.value.root_url
+  base_url            = "/"
+  valid_redirect_uris = each.value.redirect_uris
+  web_origins         = each.value.web_origins
+  admin_url           = each.value.root_url
 }
 
-resource "keycloak_openid_client_default_scopes" "this" {
-  for_each   = keycloak_openid_client.this
-  realm_id   = var.realm_id
-  client_id  = each.value.id
+resource "keycloak_openid_client_default_scopes" "service" {
+  for_each  = keycloak_openid_client.service
+  realm_id  = var.realm_id
+  client_id = each.value.id
   default_scopes = [
     "profile",
     "email",
@@ -62,4 +62,27 @@ resource "keycloak_openid_client_default_scopes" "this" {
     "acr",
     "basic",
   ]
+}
+
+resource "keycloak_openid_user_realm_role_protocol_mapper" "groups" {
+  for_each  = keycloak_openid_client.service
+  realm_id  = var.realm_id
+  client_id = each.value.id
+  name      = "realm-roles-as-groups"
+
+  claim_name          = "groups"
+  multivalued         = true
+  add_to_id_token     = true
+  add_to_access_token = true
+  add_to_userinfo     = true
+}
+
+moved {
+  from = keycloak_openid_client.this
+  to   = keycloak_openid_client.service
+}
+
+moved {
+  from = keycloak_openid_client_default_scopes.this
+  to   = keycloak_openid_client_default_scopes.service
 }

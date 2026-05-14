@@ -1,5 +1,5 @@
 resource "vault_kv_secret_v2" "client" {
-  for_each = keycloak_openid_client.this
+  for_each = keycloak_openid_client.service
 
   mount = "kv"
   name  = "keycloak/clients/${each.key}"
