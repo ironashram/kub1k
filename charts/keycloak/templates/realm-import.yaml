@@ -91,7 +91,7 @@ spec:
             usersDn: ["ou=people,{{ $baseDn }}"]
             authType: ["simple"]
             bindDn: ["uid=admin,ou=people,{{ $baseDn }}"]
-            bindCredential: ["${env.LDAP_BIND_PASSWORD}"]
+            bindCredential: ["${LDAP_BIND_PASSWORD}"]
             searchScope: ["1"]
             validatePasswordPolicy: ["false"]
             trustEmail: ["true"]
