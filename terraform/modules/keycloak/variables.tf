@@ -1,16 +1,19 @@
 variable "keycloak_url" {
   description = "Base URL of the Keycloak server"
   type        = string
+  sensitive   = true
 }
 
 variable "realm_id" {
   description = "Realm to provision clients in"
   type        = string
+  sensitive   = true
 }
 
 variable "internal_domain" {
   description = "Internal domain used for service ingress hostnames (grafana.<internal>, k8s.<internal>, argocd.<internal>, etc.)"
   type        = string
+  sensitive   = true
 }
 
 variable "wait_timeout_seconds" {

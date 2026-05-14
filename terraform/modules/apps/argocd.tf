@@ -48,7 +48,7 @@ resource "helm_release" "argocd" {
 
   values = [
     file("${path.module}/values/argocd.yaml"),
-    yamlencode({
+    sensitive(yamlencode({
       configs = {
         cm = {
           "oidc.config" = <<-EOT
@@ -66,7 +66,7 @@ resource "helm_release" "argocd" {
           "policy.csv" = "g, admins, role:admin\n"
         }
       }
-    }),
+    })),
   ]
 
 }
