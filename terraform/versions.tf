@@ -24,5 +24,9 @@ terraform {
       source  = "poseidon/ct"
       version = "0.14.0"
     }
+    keycloak = {
+      source  = "keycloak/keycloak"
+      version = "5.6.0"
+    }
   }
 }

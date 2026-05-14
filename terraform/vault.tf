@@ -29,3 +29,7 @@ data "vault_generic_secret" "domain" {
 data "vault_generic_secret" "github" {
   path = "kv/${var.cluster_name}/github"
 }
+
+data "vault_generic_secret" "keycloak" {
+  path = "kv/keycloak"
+}
