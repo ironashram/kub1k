@@ -6,6 +6,11 @@ metadata:
   namespace: keycloak
 spec:
   keycloakCRName: keycloak
+  placeholders:
+    LDAP_BIND_PASSWORD:
+      secret:
+        name: keycloak-ldap-bind
+        key: password
   realm:
     realm: {{ .Values.realmName }}
     enabled: true

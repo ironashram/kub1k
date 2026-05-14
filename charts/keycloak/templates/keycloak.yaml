@@ -28,10 +28,6 @@ spec:
     user:
       secret: keycloak-bootstrap-admin
   env:
-    - name: LDAP_BIND_PASSWORD
-      secret:
-        name: keycloak-ldap-bind
-        key: password
     - name: JAVA_OPTS_APPEND
       value: "-Xms256m -Xmx384m"
   resources:
