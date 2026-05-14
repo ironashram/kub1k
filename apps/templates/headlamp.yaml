@@ -21,6 +21,13 @@ spec:
         valueFiles:
           - $values/apps/values-fix-headlamp.yaml
         valuesObject:
+          config:
+            oidc:
+              secret:
+                create: false
+              externalSecret:
+                enabled: true
+                name: keycloak-client-headlamp
           ingress:
             enabled: true
             ingressClassName: haproxy
