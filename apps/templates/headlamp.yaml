@@ -23,6 +23,7 @@ spec:
         valuesObject:
           config:
             oidc:
+              callbackURL: https://k8s.{{ .Values.internalDomain }}/oidc-callback
               secret:
                 create: false
               externalSecret:
