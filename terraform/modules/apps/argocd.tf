@@ -53,7 +53,7 @@ resource "helm_release" "argocd" {
         cm = {
           "oidc.config" = <<-EOT
             name: Keycloak
-            issuer: https://keycloak.${var.external_domain}/realms/m1k
+            issuer: https://keycloak.${var.external_domain}/realms/${var.keycloak_realm_id}
             clientID: argocd
             clientSecret: $keycloak-client-argocd:client_secret
             requestedScopes:

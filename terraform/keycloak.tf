@@ -4,7 +4,7 @@ module "provision_keycloak" {
   depends_on = [module.provision_apps]
 
   keycloak_url    = "https://keycloak.${data.vault_generic_secret.domain.data["external"]}"
-  realm_id        = "m1k"
+  realm_id        = var.keycloak_realm_id
   internal_domain = data.vault_generic_secret.domain.data["internal"]
 
   providers = {

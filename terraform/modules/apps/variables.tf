@@ -58,3 +58,8 @@ variable "control_mgmt_ips" {
   type      = list(string)
   sensitive = false
 }
+
+variable "keycloak_realm_id" {
+  description = "Keycloak realm used for cluster SSO."
+  type        = string
+}

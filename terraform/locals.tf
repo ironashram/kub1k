@@ -8,6 +8,11 @@ locals {
   client_certificate     = try(base64decode(local.kubeconfig.users[0].user.client-certificate-data), null)
   client_key             = try(base64decode(local.kubeconfig.users[0].user.client-key-data), null)
 
+  k3s_apiserver_auth_config_yaml = templatefile("${path.module}/modules/k3s/templates/auth-config.yaml.tmpl", {
+    external_domain = data.vault_generic_secret.domain.data["external"]
+    realm_id        = var.keycloak_realm_id
+  })
+
   k3s_extra_args = join(" ", [
     "--cluster-cidr=${var.k3s_cluster_cidr}",
     "--service-cidr=${var.k3s_service_cidr}",
@@ -17,6 +22,7 @@ locals {
     "--kube-controller-manager-arg=bind-address=${var.k3s_kube_bind_address}",
     "--kube-proxy-arg=metrics-bind-address=${var.k3s_kube_bind_address}",
     "--kube-scheduler-arg=bind-address=${var.k3s_kube_bind_address}",
+    "--kube-apiserver-arg=authentication-config=/etc/rancher/k3s/auth-config.yaml",
     "--flannel-backend=none",
     "--disable-kube-proxy",
     "--disable-network-policy",
@@ -34,6 +40,7 @@ locals {
     "--kube-controller-manager-arg=bind-address=${var.k3s_kube_bind_address}",
     "--kube-proxy-arg=metrics-bind-address=${var.k3s_kube_bind_address}",
     "--kube-scheduler-arg=bind-address=${var.k3s_kube_bind_address}",
+    "--kube-apiserver-arg=authentication-config=/etc/rancher/k3s/auth-config.yaml",
     "--flannel-backend=none",
     "--disable-kube-proxy",
     "--disable-network-policy",

@@ -35,6 +35,11 @@ variable "cluster_name" {
   default = "kub1k"
 }
 
+variable "keycloak_realm_id" {
+  description = "Keycloak realm used for cluster SSO (argocd, headlamp, grafana, etc.)."
+  default     = "m1k"
+}
+
 variable "remote_state_s3_endpoint" {
   description = "url for s3 backend"
 }

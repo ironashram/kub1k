@@ -16,6 +16,7 @@ module "provision_apps" {
   worker_names          = local.worker_label_names
   lb_pool_cidr          = var.lb_pool_cidr
   cluster_name          = var.cluster_name
+  keycloak_realm_id     = var.keycloak_realm_id
 
   providers = {
     helm       = helm

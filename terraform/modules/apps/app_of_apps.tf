@@ -10,35 +10,40 @@ resource "helm_release" "argocd_app_of_apps" {
   set_sensitive = concat(
     [for i, ip in var.control_mgmt_ips : { name = "k8sControlNodes[${i}]", value = ip }],
     [
-    {
-      name  = "environment"
-      value = var.cluster_name
-    },
+      {
+        name  = "environment"
+        value = var.cluster_name
+      },
 
-    {
-      name  = "internalDomain"
-      value = var.internal_domain
-    },
+      {
+        name  = "internalDomain"
+        value = var.internal_domain
+      },
 
-    {
-      name  = "externalDomain"
-      value = var.external_domain
-    },
+      {
+        name  = "externalDomain"
+        value = var.external_domain
+      },
 
-    {
-      name  = "k8sEndpoint"
-      value = var.control_plane_vip
-    },
+      {
+        name  = "k8sEndpoint"
+        value = var.control_plane_vip
+      },
 
-    {
-      name  = "k8sClusterDNS"
-      value = var.k3s_cluster_dns
-    },
+      {
+        name  = "k8sClusterDNS"
+        value = var.k3s_cluster_dns
+      },
 
-    {
-      name  = "lbIpPool"
-      value = var.lb_pool_cidr
-    },
+      {
+        name  = "lbIpPool"
+        value = var.lb_pool_cidr
+      },
+
+      {
+        name  = "keycloakRealmId"
+        value = var.keycloak_realm_id
+      },
   ])
 
   lifecycle {

@@ -105,9 +105,9 @@ spec:
               client_id: $__env{client_id}
               client_secret: $__env{client_secret}
               scopes: openid profile email
-              auth_url: https://keycloak.{{ .Values.externalDomain }}/realms/m1k/protocol/openid-connect/auth
-              token_url: https://keycloak.{{ .Values.externalDomain }}/realms/m1k/protocol/openid-connect/token
-              api_url: https://keycloak.{{ .Values.externalDomain }}/realms/m1k/protocol/openid-connect/userinfo
+              auth_url: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}/protocol/openid-connect/auth
+              token_url: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}/protocol/openid-connect/token
+              api_url: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}/protocol/openid-connect/userinfo
               role_attribute_path: contains(realm_access.roles[*], 'admins') && 'Admin' || 'Viewer'
           ingress:
             annotations:

@@ -23,6 +23,8 @@ spec:
       parameters:
         - name: externalDomain
           value: "{{ .Values.externalDomain }}"
+        - name: realmName
+          value: "{{ .Values.keycloakRealmId }}"
   destination:
     name: in-cluster
     namespace: keycloak

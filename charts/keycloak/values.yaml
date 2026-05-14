@@ -1,5 +1,5 @@
 externalDomain: example.com
-realmName: m1k
+realmName: example
 keycloakImage: quay.io/keycloak/keycloak:26.6.1
 keycloakInstances: 2
 postgresInstances: 3
