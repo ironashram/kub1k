@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: local
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
+    path: charts/keycloak
+    targetRevision: main
+    helm:
+      parameters:
+        - name: externalDomain
+          value: "{{ .Values.externalDomain }}"
+  destination:
+    name: in-cluster
+    namespace: keycloak

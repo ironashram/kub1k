@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudnative-pg
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: cloudnative-pg
+    repoURL: https://cloudnative-pg.io/charts
+    targetRevision: 0.28.2
+    helm:
+      valuesObject:
+        crds:
+          create: true
+        monitoring:
+          podMonitorEnabled: true
+  destination:
+    name: in-cluster
+    namespace: cnpg-system

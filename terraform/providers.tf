@@ -29,3 +29,12 @@ provider "synology" {
   user     = data.vault_generic_secret.vms.data["synology_user"]
   password = data.vault_generic_secret.vms.data["synology_password"]
 }
+
+provider "keycloak" {
+  client_id     = "admin-cli"
+  username      = data.vault_generic_secret.keycloak.data["bootstrap_admin_user"]
+  password      = data.vault_generic_secret.keycloak.data["bootstrap_admin_password"]
+  url           = "https://keycloak.${data.vault_generic_secret.domain.data["external"]}"
+  realm         = "master"
+  initial_login = false
+}

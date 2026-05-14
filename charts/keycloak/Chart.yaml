@@ -1,0 +1,4 @@
+apiVersion: v2
+description: Keycloak workload (CNPG-backed Postgres + Keycloak CR + KeycloakRealmImport + Ingress)
+name: keycloak
+version: 0.0.1

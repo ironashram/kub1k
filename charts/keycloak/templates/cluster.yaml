@@ -1,0 +1,33 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: keycloak-pg
+  namespace: keycloak
+spec:
+  instances: {{ .Values.postgresInstances }}
+  primaryUpdateStrategy: unsupervised
+  postgresql:
+    parameters:
+      max_connections: "50"
+      shared_buffers: 64MB
+  bootstrap:
+    initdb:
+      database: keycloak
+      owner: keycloak
+      secret:
+        name: keycloak-pg-app
+  storage:
+    storageClass: synology-csi-iscsi-custom
+    size: {{ .Values.postgresStorageSize }}
+  monitoring:
+    enablePodMonitor: true
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
+  resources:
+    requests:
+      cpu: 100m
+      memory: 192Mi
+    limits:
+      memory: 384Mi
