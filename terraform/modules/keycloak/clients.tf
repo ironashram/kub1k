@@ -122,13 +122,3 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "additional_groups" {
   add_to_access_token = true
   add_to_userinfo     = true
 }
-
-moved {
-  from = keycloak_openid_client.this
-  to   = keycloak_openid_client.service
-}
-
-moved {
-  from = keycloak_openid_client_default_scopes.this
-  to   = keycloak_openid_client_default_scopes.service
-}
