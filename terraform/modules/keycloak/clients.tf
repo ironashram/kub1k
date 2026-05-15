@@ -77,6 +77,52 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "groups" {
   add_to_userinfo     = true
 }
 
+resource "keycloak_openid_client" "additional" {
+  depends_on = [null_resource.wait_for_keycloak]
+  count      = length(var.additional_clients)
+
+  realm_id  = var.realm_id
+  client_id = var.additional_clients[count.index].client_id
+
+  enabled                      = true
+  access_type                  = "CONFIDENTIAL"
+  standard_flow_enabled        = true
+  direct_access_grants_enabled = false
+
+  root_url            = var.additional_clients[count.index].root_url
+  base_url            = "/"
+  valid_redirect_uris = var.additional_clients[count.index].redirect_uris
+  web_origins         = var.additional_clients[count.index].web_origins
+  admin_url           = var.additional_clients[count.index].root_url
+}
+
+resource "keycloak_openid_client_default_scopes" "additional" {
+  count     = length(var.additional_clients)
+  realm_id  = var.realm_id
+  client_id = keycloak_openid_client.additional[count.index].id
+  default_scopes = [
+    "profile",
+    "email",
+    "roles",
+    "web-origins",
+    "acr",
+    "basic",
+  ]
+}
+
+resource "keycloak_openid_user_realm_role_protocol_mapper" "additional_groups" {
+  count     = length(var.additional_clients)
+  realm_id  = var.realm_id
+  client_id = keycloak_openid_client.additional[count.index].id
+  name      = "realm-roles-as-groups"
+
+  claim_name          = "groups"
+  multivalued         = true
+  add_to_id_token     = true
+  add_to_access_token = true
+  add_to_userinfo     = true
+}
+
 moved {
   from = keycloak_openid_client.this
   to   = keycloak_openid_client.service

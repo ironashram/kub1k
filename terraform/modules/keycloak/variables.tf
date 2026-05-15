@@ -16,6 +16,17 @@ variable "internal_domain" {
   sensitive   = true
 }
 
+variable "additional_clients" {
+  description = "Extra OIDC clients to provision."
+  type = list(object({
+    client_id     = string
+    root_url      = string
+    redirect_uris = list(string)
+    web_origins   = list(string)
+  }))
+  default = []
+}
+
 variable "wait_timeout_seconds" {
   description = "How long to wait for the realm OIDC discovery URL to return 200 before failing"
   type        = number
