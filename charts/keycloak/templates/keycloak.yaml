@@ -13,6 +13,15 @@ spec:
     httpEnabled: true
   proxy:
     headers: xforwarded
+  scheduling:
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: keycloak
+                app.kubernetes.io/managed-by: keycloak-operator
+            topologyKey: kubernetes.io/hostname
   db:
     vendor: postgres
     host: keycloak-pg-rw.keycloak.svc

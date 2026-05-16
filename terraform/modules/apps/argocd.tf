@@ -44,29 +44,24 @@ resource "helm_release" "argocd" {
     {
       name  = "global.domain"
       value = "argocd.${var.internal_domain}"
+    },
+
+    {
+      name  = "configs.cm.oidc.config"
+      value = <<-EOT
+        name: Keycloak
+        issuer: https://keycloak.${var.external_domain}/realms/${var.keycloak_realm_id}
+        clientID: argocd
+        clientSecret: $keycloak-client-argocd:client_secret
+        requestedScopes:
+          - openid
+          - profile
+          - email
+      EOT
   }]
 
   values = [
     file("${path.module}/values/argocd.yaml"),
-    sensitive(yamlencode({
-      configs = {
-        cm = {
-          "oidc.config" = <<-EOT
-            name: Keycloak
-            issuer: https://keycloak.${var.external_domain}/realms/${var.keycloak_realm_id}
-            clientID: argocd
-            clientSecret: $keycloak-client-argocd:client_secret
-            requestedScopes:
-              - openid
-              - profile
-              - email
-          EOT
-        }
-        rbac = {
-          "policy.csv" = "g, admins, role:admin\n"
-        }
-      }
-    })),
   ]
 
 }

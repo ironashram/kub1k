@@ -13,6 +13,9 @@ notifications:
 configs:
   params:
     server.insecure: true
+  rbac:
+    policy.csv: |
+      g, admins, role:admin
 controller:
   metrics:
     enabled: true
