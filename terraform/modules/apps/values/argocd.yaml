@@ -11,8 +11,12 @@ dex:
 notifications:
   enabled: false
 configs:
+  cm:
+    timeout.reconciliation: 600s
   params:
     server.insecure: true
+    controller.status.processors: "10"
+    controller.operation.processors: "5"
   rbac:
     policy.csv: |
       g, admins, role:admin

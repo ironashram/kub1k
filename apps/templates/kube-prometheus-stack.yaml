@@ -153,6 +153,7 @@ spec:
           prometheusSpec:
             replicas: 2
             podAntiAffinity: hard
+            scrapeInterval: 60s
             replicaExternalLabelName: prometheus_replica
             externalLabels:
               cluster: "{{ .Values.environment }}"
@@ -330,6 +331,7 @@ spec:
         kubelet:
           serviceMonitor:
             honorTimestamps: false
+            cAdvisorInterval: 60s
             metricRelabelings:
               - sourceLabels: ["__name__"]
                 regex: "(kubelet|storage|rest_client|process|go)_(.+)"
