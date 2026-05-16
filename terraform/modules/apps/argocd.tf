@@ -47,7 +47,7 @@ resource "helm_release" "argocd" {
     },
 
     {
-      name  = "configs.cm.oidc.config"
+      name  = "configs.cm.oidc\\.config"
       value = <<-EOT
         name: Keycloak
         issuer: https://keycloak.${var.external_domain}/realms/${var.keycloak_realm_id}
