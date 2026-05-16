@@ -56,7 +56,7 @@ spec:
             storage:
               volumeClaimTemplate:
                 spec:
-                  storageClassName: synology-csi-iscsi-custom
+                  storageClassName: local-path
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
@@ -93,7 +93,7 @@ spec:
           persistence:
             enabled: true
             type: sts
-            storageClassName: synology-csi-iscsi-custom
+            storageClassName: local-path
             accessModes:
               - ReadWriteOnce
             size: 2Gi

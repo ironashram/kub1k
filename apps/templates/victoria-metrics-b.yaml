@@ -33,7 +33,7 @@ spec:
             dedup.minScrapeInterval: 30s
           persistentVolume:
             enabled: true
-            storageClassName: synology-csi-iscsi-custom
+            storageClassName: local-path
             accessModes:
               - ReadWriteOnce
             size: 20Gi

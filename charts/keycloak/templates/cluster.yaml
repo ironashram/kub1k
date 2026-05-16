@@ -17,7 +17,7 @@ spec:
       secret:
         name: keycloak-pg-app
   storage:
-    storageClass: synology-csi-iscsi-custom
+    storageClass: local-path
     size: {{ .Values.postgresStorageSize }}
   monitoring:
     enablePodMonitor: true
