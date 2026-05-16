@@ -185,11 +185,6 @@ spec:
                   operator: Exists
             nodeSelector:
               node-role.kubernetes.io/worker: "true"
-            containers:
-              - name: prometheus
-                env:
-                  - name: GOMEMLIMIT
-                    value: "400MiB"
             additionalScrapeConfigs:
               - job_name: 'kube-etcd'
                 scheme: http
