@@ -29,6 +29,15 @@ spec:
           disabled:
             Watchdog: true
             InfoInhibitor: true
+            PrometheusNotConnectedToAlertmanagers: true
+            PrometheusErrorSendingAlertsToSomeAlertmanagers: true
+            PrometheusErrorSendingAlertsToAnyAlertmanager: true
+            PrometheusNotificationQueueRunningFull: true
+            PrometheusTSDBReloadsFailing: true
+            PrometheusTSDBCompactionsFailing: true
+            PrometheusRuleFailures: true
+            PrometheusMissingRuleEvaluations: true
+            PrometheusHighQueryLoad: true
         customRules:
           etcdMemberCommunicationSlow:
             for: 1h
@@ -144,7 +153,7 @@ spec:
           prometheusSpec:
             replicas: 2
             podAntiAffinity: hard
-            replicaExternalLabelNameClear: true
+            replicaExternalLabelName: prometheus_replica
             externalLabels:
               cluster: "{{ .Values.environment }}"
             podMetadata:
@@ -161,6 +170,12 @@ spec:
                     kub1k.io/workload-heavy: "true"
             remoteWrite:
               - url: https://vm-a.{{ .Values.internalDomain }}/api/v1/write
+                writeRelabelConfigs:
+                  - sourceLabels: [prometheus_replica]
+                    regex: '.*-0$'
+                    action: keep
+                  - regex: prometheus_replica
+                    action: labeldrop
                 queueConfig:
                   capacity: 10000
                   maxShards: 30
@@ -170,6 +185,12 @@ spec:
                   minBackoff: 30ms
                   maxBackoff: 5s
               - url: https://vm-b.{{ .Values.internalDomain }}/api/v1/write
+                writeRelabelConfigs:
+                  - sourceLabels: [prometheus_replica]
+                    regex: '.*-1$'
+                    action: keep
+                  - regex: prometheus_replica
+                    action: labeldrop
                 queueConfig:
                   capacity: 10000
                   maxShards: 30
@@ -308,6 +329,7 @@ spec:
                 action: keep
         kubelet:
           serviceMonitor:
+            honorTimestamps: false
             metricRelabelings:
               - sourceLabels: ["__name__"]
                 regex: "(kubelet|storage|rest_client|process|go)_(.+)"
