@@ -331,6 +331,7 @@ spec:
         kubelet:
           serviceMonitor:
             honorTimestamps: false
+            trackTimestampsStaleness: false
             cAdvisorInterval: 60s
             metricRelabelings:
               - sourceLabels: ["__name__"]
