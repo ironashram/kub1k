@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: ruler
+spec:
+  replicas: 0
+  serviceAccountName: {{ .Values.serviceAccountName }}
+  ruleSelector:
+    matchLabels:
+      release: {{ .Values.ruleSelectorRelease }}
+  ruleNamespaceSelector: {}
+  serviceMonitorSelector: null
+  podMonitorSelector: null
+  probeSelector: null
+  scrapeConfigSelector: null

@@ -129,6 +129,7 @@ spec:
               extraJsonData:
                 prometheusType: VictoriaMetrics
         prometheus:
+          agentMode: true
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -142,16 +143,10 @@ spec:
                   - prometheus.{{ .Values.internalDomain }}
           prometheusSpec:
             replicas: 2
+            podAntiAffinity: hard
             replicaExternalLabelNameClear: true
             externalLabels:
               cluster: "{{ .Values.environment }}"
-            affinity:
-              podAntiAffinity:
-                requiredDuringSchedulingIgnoredDuringExecution:
-                  - labelSelector:
-                      matchLabels:
-                        app.kubernetes.io/name: prometheus
-                    topologyKey: kubernetes.io/hostname
             podMetadata:
               labels:
                 kub1k.io/workload-heavy: "true"
@@ -188,27 +183,13 @@ spec:
               matchExpressions:
                 - key: kubernetes.io/metadata.name
                   operator: Exists
-            retention: 2h
-            storageSpec:
-              volumeClaimTemplate:
-                spec:
-                  storageClassName: synology-csi-iscsi-custom
-                  accessModes: ["ReadWriteOnce"]
-                  resources:
-                    requests:
-                      storage: 5Gi
             nodeSelector:
               node-role.kubernetes.io/worker: "true"
-            securityContext:
-              runAsUser: 0
-              runAsNonRoot: false
-              runAsGroup: 0
-              fsGroup: 0
             containers:
               - name: prometheus
                 env:
                   - name: GOMEMLIMIT
-                    value: "1300MiB"
+                    value: "400MiB"
             additionalScrapeConfigs:
               - job_name: 'kube-etcd'
                 scheme: http

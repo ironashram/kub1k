@@ -1,0 +1,5 @@
+apiVersion: v2
+description: Headless Prometheus CR (replicas 0) that exists only so prometheus-operator keeps generating a rulefiles ConfigMap from PrometheusRule CRs. vmalert mounts that CM.
+name: prometheus-ruler
+version: 1.0.0
+appVersion: 1.0.0

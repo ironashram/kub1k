@@ -1,0 +1,59 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vmalert
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: victoria-metrics-alert
+    repoURL: https://victoriametrics.github.io/helm-charts/
+    targetRevision: 0.40.0
+    helm:
+      valuesObject:
+        server:
+          replicaCount: 2
+          configMap: prometheus-ruler-rulefiles-0
+          extraArgs:
+            envflag.enable: true
+            envflag.prefix: VM_
+            loggerFormat: json
+            httpListenAddr: :8880
+            external.label: "cluster={{ .Values.environment }}"
+            rule:
+              - /config/*.yaml
+          datasource:
+            url: https://vm.{{ .Values.internalDomain }}
+          notifier:
+            url: https://alertmanager.{{ .Values.internalDomain }}
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: vmalert
+                  topologyKey: kubernetes.io/hostname
+        serviceMonitor:
+          enabled: true
+          extraLabels:
+            release: kube-prometheus-stack
+        alertmanager:
+          enabled: false
+  destination:
+    name: in-cluster
+    namespace: monitoring
