@@ -21,7 +21,7 @@ spec:
     helm:
       valuesObject:
         server:
-          replicaCount: 1
+          replicaCount: 2
           configMap: prometheus-ruler-rulefiles-0
           extraArgs:
             envflag.enable: true
@@ -44,6 +44,13 @@ spec:
               memory: 64Mi
             limits:
               memory: 256Mi
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: victoria-metrics-alert
+                  topologyKey: kubernetes.io/hostname
         serviceMonitor:
           enabled: true
           extraLabels:
