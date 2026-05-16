@@ -298,6 +298,7 @@ spec:
                     labels:
                       instance: commstack
               - job_name: 'commstack-cadvisor'
+                honor_timestamps: false
                 static_configs:
                   - targets:
                     - 'matrix.{{ .Values.externalDomain }}:8080'
