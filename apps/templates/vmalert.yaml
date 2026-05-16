@@ -31,6 +31,9 @@ spec:
             external.label: "cluster={{ .Values.environment }}"
             rule:
               - /config/*.yaml
+            remoteWrite.url:
+              - https://vm-a.{{ .Values.internalDomain }}/api/v1/write
+              - https://vm-b.{{ .Values.internalDomain }}/api/v1/write
           datasource:
             url: https://vm.{{ .Values.internalDomain }}
           notifier:
