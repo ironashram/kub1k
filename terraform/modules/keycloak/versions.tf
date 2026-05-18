@@ -1,12 +1,10 @@
 terraform {
   required_providers {
     keycloak = {
-      source  = "keycloak/keycloak"
-      version = "5.6.0"
+      source = "keycloak/keycloak"
     }
     vault = {
-      source  = "hashicorp/vault"
-      version = "5.9.0"
+      source = "hashicorp/vault"
     }
   }
 }
