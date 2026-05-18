@@ -420,6 +420,20 @@ spec:
                   for: 12h
                   labels:
                     severity: warning
+          commstack-backup:
+            groups:
+            - name: commstack-backup
+              rules:
+                - alert: CommstackBackupStale
+                  annotations:
+                    message: Commstack backup tarball on {{`{{`}} $labels.instance {{`}}`}} is older than 28h ({{`{{`}} $value | humanizeDuration {{`}}`}} since last write)
+                  expr: |-
+                    (time() - commstack_backup_newest_mtime_seconds) > (28 * 3600)
+                    or
+                    absent(commstack_backup_newest_mtime_seconds)
+                  for: 30m
+                  labels:
+                    severity: critical
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
