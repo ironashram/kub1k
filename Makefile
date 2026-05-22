@@ -81,7 +81,7 @@ upgrade:
 
 .PHONY: upgrade-kubernetes-version
 upgrade-kubernetes-version:
-	@python ./tools/upgrade_k3s_version.py
+	@go run -C tools/upgrade-k3s . $(abspath terraform/variables.tf)
 
 .PHONY: FORCE
 %: FORCE
