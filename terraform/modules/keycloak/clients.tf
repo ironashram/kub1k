@@ -123,6 +123,52 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "additional_groups" {
   add_to_userinfo     = true
 }
 
+resource "keycloak_openid_client" "vaultwarden" {
+  depends_on = [null_resource.wait_for_keycloak]
+  realm_id   = var.realm_id
+
+  client_id = "vaultwarden"
+  name      = "Vaultwarden"
+
+  enabled                      = true
+  access_type                  = "CONFIDENTIAL"
+  standard_flow_enabled        = true
+  direct_access_grants_enabled = false
+
+  root_url            = "https://vaultwarden.${var.external_domain}"
+  base_url            = "/"
+  valid_redirect_uris = ["https://vaultwarden.${var.external_domain}/identity/connect/oidc-signin"]
+  web_origins         = ["+"]
+  admin_url           = "https://vaultwarden.${var.external_domain}"
+
+  access_token_lifespan = "1800"
+}
+
+resource "keycloak_openid_client_default_scopes" "vaultwarden" {
+  realm_id  = var.realm_id
+  client_id = keycloak_openid_client.vaultwarden.id
+  default_scopes = [
+    "profile",
+    "email",
+    "roles",
+    "web-origins",
+    "acr",
+    "basic",
+  ]
+}
+
+resource "keycloak_openid_user_realm_role_protocol_mapper" "vaultwarden_groups" {
+  realm_id  = var.realm_id
+  client_id = keycloak_openid_client.vaultwarden.id
+  name      = "realm-roles-as-groups"
+
+  claim_name          = "groups"
+  multivalued         = true
+  add_to_id_token     = true
+  add_to_access_token = true
+  add_to_userinfo     = true
+}
+
 resource "keycloak_saml_client" "veeam" {
   depends_on = [null_resource.wait_for_keycloak]
   realm_id   = var.realm_id
