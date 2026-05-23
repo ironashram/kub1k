@@ -44,24 +44,29 @@ resource "helm_release" "argocd" {
     {
       name  = "global.domain"
       value = "argocd.${var.internal_domain}"
-    },
-
-    {
-      name  = "configs.cm.oidc\\.config"
-      value = <<-EOT
-        name: Keycloak
-        issuer: https://keycloak.${var.external_domain}/realms/${var.keycloak_realm_id}
-        clientID: argocd
-        clientSecret: $keycloak-client-argocd:client_secret
-        requestedScopes:
-          - openid
-          - profile
-          - email
-      EOT
   }]
 
   values = [
     file("${path.module}/values/argocd.yaml"),
   ]
 
+}
+
+resource "kubernetes_config_map_v1_data" "argocd_oidc" {
+  depends_on = [helm_release.argocd]
+
+  metadata {
+    name      = "argocd-cm"
+    namespace = "argocd"
+  }
+
+  data = {
+    "oidc.config" = sensitive(templatefile("${path.module}/templates/argocd_oidc.tmpl", {
+      external_domain   = var.external_domain,
+      keycloak_realm_id = var.keycloak_realm_id,
+    }))
+  }
+
+  field_manager = "terraform-argocd-oidc"
+  force         = true
 }

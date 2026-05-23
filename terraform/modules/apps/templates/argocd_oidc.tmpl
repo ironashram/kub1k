@@ -1,0 +1,8 @@
+name: Keycloak
+issuer: https://keycloak.${external_domain}/realms/${keycloak_realm_id}
+clientID: argocd
+clientSecret: $keycloak-client-argocd:client_secret
+requestedScopes:
+  - openid
+  - profile
+  - email
