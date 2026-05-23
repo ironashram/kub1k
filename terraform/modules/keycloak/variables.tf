@@ -16,6 +16,12 @@ variable "internal_domain" {
   sensitive   = true
 }
 
+variable "external_domain" {
+  description = "External domain used for externally-reachable service hostnames (vbr.<external>, etc.)"
+  type        = string
+  sensitive   = true
+}
+
 variable "additional_clients" {
   description = "Extra OIDC clients to provision."
   type = list(object({

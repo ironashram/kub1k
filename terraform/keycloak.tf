@@ -19,6 +19,7 @@ module "provision_keycloak" {
   keycloak_url       = "https://keycloak.${data.vault_generic_secret.domain.data["external"]}"
   realm_id           = var.keycloak_realm_id
   internal_domain    = data.vault_generic_secret.domain.data["internal"]
+  external_domain    = data.vault_generic_secret.domain.data["external"]
   additional_clients = local.additional_clients
 
   providers = {

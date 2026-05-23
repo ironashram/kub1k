@@ -23,6 +23,13 @@ spec:
     resetPasswordAllowed: false
     editUsernameAllowed: false
     bruteForceProtected: true
+    defaultDefaultClientScopes:
+      - profile
+      - email
+      - roles
+      - web-origins
+      - acr
+      - basic
     roles:
       realm:
         - name: admins

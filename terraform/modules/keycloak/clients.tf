@@ -122,3 +122,48 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "additional_groups" {
   add_to_access_token = true
   add_to_userinfo     = true
 }
+
+resource "keycloak_saml_client" "veeam" {
+  depends_on = [null_resource.wait_for_keycloak]
+  realm_id   = var.realm_id
+
+  client_id = "https://vbr.${var.external_domain}/oauth/Saml2"
+  name      = "Veeam"
+  enabled   = true
+
+  sign_documents            = true
+  sign_assertions           = true
+  signature_algorithm       = "RSA_SHA256"
+  client_signature_required = false
+  name_id_format            = "email"
+  force_name_id_format      = true
+  force_post_binding        = true
+  include_authn_statement   = true
+
+  valid_redirect_uris         = ["https://vbr.${var.external_domain}/oauth/Saml2/Acs"]
+  assertion_consumer_post_url = "https://vbr.${var.external_domain}/oauth/Saml2/Acs"
+  master_saml_processing_url  = "https://vbr.${var.external_domain}/oauth/Saml2/Acs"
+}
+
+resource "keycloak_saml_user_property_protocol_mapper" "veeam_email" {
+  realm_id                   = var.realm_id
+  client_id                  = keycloak_saml_client.veeam.id
+  name                       = "email"
+  user_property              = "Email"
+  saml_attribute_name        = "email"
+  saml_attribute_name_format = "Basic"
+}
+
+resource "keycloak_generic_protocol_mapper" "veeam_roles" {
+  realm_id        = var.realm_id
+  client_id       = keycloak_saml_client.veeam.id
+  name            = "role-list"
+  protocol        = "saml"
+  protocol_mapper = "saml-role-list-mapper"
+
+  config = {
+    "attribute.name"       = "http://schemas.xmlsoap.org/claims/Group"
+    "attribute.nameformat" = "URI Reference"
+    "single"               = "false"
+  }
+}
