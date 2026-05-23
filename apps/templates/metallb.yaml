@@ -26,6 +26,10 @@ spec:
           rbacPrometheus: false
           serviceMonitor:
             enabled: true
+        frr-k8s:
+          prometheus:
+            serviceMonitor:
+              enabled: true
   ignoreDifferences:
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
