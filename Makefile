@@ -9,6 +9,7 @@ RESET := \033[0m
 help:
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "apply" "Applies a new state."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "comment-pr" "Posts the terraform plan as a PR comment."
+	@printf "$(CYAN)%-30s$(RESET) %s\n" "fmt" "Recursively formats terraform files."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "get-kubeconfig" "Gets the kubeconfig if it doesn't exist."
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "help" "Display help for available targets"
 	@printf "$(CYAN)%-30s$(RESET) %s\n" "init" "Initializes the terraform state backend."
@@ -54,6 +55,10 @@ plan-custom: init
 .PHONY: comment-pr
 comment-pr:
 	@./tools/tf-comment-pr.sh $(TERRAFORM_GLOBAL_OPTIONS)
+
+.PHONY: fmt
+fmt:
+	@tofu $(TERRAFORM_GLOBAL_OPTIONS) fmt -recursive
 
 .PHONY: plan-destroy
 plan-destroy: init
