@@ -29,6 +29,7 @@ spec:
             loggerFormat: json
             httpListenAddr: :8880
             external.label: "cluster={{ .Values.environment }}"
+            configCheckInterval: 30m
             rule:
               - /config/*.yaml
             remoteWrite.url:
