@@ -426,7 +426,7 @@ spec:
               rules:
                 - alert: CommstackBackupStale
                   annotations:
-                    message: Commstack backup tarball on {{`{{`}} $labels.instance {{`}}`}} is older than 28h ({{`{{`}} $value | humanizeDuration {{`}}`}} since last write)
+                    message: Commstack backup tarball for {{`{{`}} $labels.target {{`}}`}} on {{`{{`}} $labels.instance {{`}}`}} is older than 28h ({{`{{`}} $value | humanizeDuration {{`}}`}} since last write)
                   expr: |-
                     (time() - commstack_backup_newest_mtime_seconds) > (28 * 3600)
                     or
