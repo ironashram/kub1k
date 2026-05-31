@@ -1,3 +1,4 @@
+manageCRDs: false
 installation:
   registry: "quay.io"
   typhaMetricsPort: 9093
