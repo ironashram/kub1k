@@ -434,6 +434,18 @@ spec:
                   for: 30m
                   labels:
                     severity: critical
+          haproxy-ingress:
+            groups:
+            - name: haproxy-ingress
+              rules:
+                - alert: HAProxyIngressReloadFailing
+                  annotations:
+                    message: haproxy-ingress controller {{`{{`}} $labels.pod {{`}}`}} last config update failed - serving stale config until the next successful reload
+                  expr: |-
+                    haproxyingress_update_success == 0
+                  for: 15m
+                  labels:
+                    severity: warning
   ignoreDifferences:
     - group: "apps"
       kind: "Deployment"
