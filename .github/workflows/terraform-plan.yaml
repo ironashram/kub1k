@@ -63,7 +63,8 @@ jobs:
           if [ "$(cat terraform/.plan-result)" = "changes" ]; then
             aws s3 cp terraform/terraform.tfplan "s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan"
           else
-            echo "Plan has no changes; skipping upload. Apply on merge will be skipped."
+            echo "Plan has no changes; removing any previously uploaded plan so apply is skipped on merge."
+            aws s3 rm "s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan"
           fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
