@@ -31,17 +31,33 @@ if ! REPO_NAME=$(jq --raw-output .repository.name "$GITHUB_EVENT_PATH"); then
     exit 1
 fi
 
+# Hidden marker so successive plans on the same PR update this comment instead of stacking new ones
+MARKER="<!-- terraform-plan -->"
+
 # Create JSON payload with proper escaping
 PAYLOAD=$(jq -n \
-    --arg body "$(printf '```\n%s\n```' "$PLAN")" \
+    --arg body "$(printf '%s\n```\n%s\n```' "$MARKER" "$PLAN")" \
     '{"body": $body}')
+
+COMMENT_ID=$(curl -s \
+    -H "Authorization: token $GITHUB_TOKEN" \
+    "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" \
+    | jq -r --arg m "$MARKER" 'map(select(.body | startswith($m))) | .[0].id // empty')
+
+if [ -n "$COMMENT_ID" ]; then
+    URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/comments/$COMMENT_ID"
+    METHOD=PATCH
+else
+    URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/$PR_NUMBER/comments"
+    METHOD=POST
+fi
 
 if ! curl -s \
     -H "Authorization: token $GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
-    -X POST \
+    -X "$METHOD" \
     -d "$PAYLOAD" \
-    "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/$PR_NUMBER/comments" > /dev/null; then
+    "$URL" > /dev/null; then
     echo "Error: Failed to post comment" >&2
     exit 1
 fi
