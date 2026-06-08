@@ -1,6 +1,7 @@
 name: Cleanup PR Plan
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [closed]
     paths:
