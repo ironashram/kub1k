@@ -37,7 +37,13 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: terraform plan
-        run: make plan
+        run: |
+          set +e
+          make plan-custom OPTIONS=-detailed-exitcode
+          rc=$?
+          set -e
+          if [ "$rc" -eq 1 ]; then exit 1; fi
+          if [ "$rc" -eq 2 ]; then echo changes > terraform/.plan-result; else echo none > terraform/.plan-result; fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -53,7 +59,12 @@ jobs:
 
       - name: Upload plan artifact
         if: github.event_name == 'pull_request'
-        run: aws s3 cp terraform/terraform.tfplan s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan
+        run: |
+          if [ "$(cat terraform/.plan-result)" = "changes" ]; then
+            aws s3 cp terraform/terraform.tfplan "s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan"
+          else
+            echo "Plan has no changes; skipping upload. Apply on merge will be skipped."
+          fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
