@@ -3,18 +3,34 @@ name: Cleanup PR Plan
 on:
   pull_request:
     types: [closed]
+    paths:
+      - "terraform/**"
+      - "terraform/**/*.yaml"
 
 jobs:
   cleanup:
-    if: github.event.pull_request.merged == false
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
+      S3_BUCKET: github-artifacts
     steps:
-      - name: Delete plan from S3
+      - name: Delete this PR's plan (closed without merge)
+        if: github.event.pull_request.merged == false
         run: |
           aws s3 rm --recursive \
             "s3://${S3_BUCKET}/${{ github.event.repository.name }}/pulls/${{ github.event.number }}/"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
-          S3_BUCKET: github-artifacts
+
+      - name: Sweep plans older than 7 days
+        run: |
+          set -euo pipefail
+          repo="${GITHUB_REPOSITORY##*/}"
+          cutoff=$(date -d '7 days ago' +%s)
+          listing=$(aws s3 ls "s3://${S3_BUCKET}/${repo}/pulls/" --recursive || true)
+          while read -r d t _ key; do
+            [ -n "$key" ] || continue
+            [ "$(date -d "$d $t" +%s)" -lt "$cutoff" ] || continue
+            echo "Removing stale $key"
+            aws s3 rm "s3://${S3_BUCKET}/${key}"
+          done <<<"$listing"

@@ -38,7 +38,14 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Download plan artifact
-        run: aws s3 cp s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan terraform/terraform.tfplan
+        run: |
+          if aws s3api head-object --bucket "$S3_BUCKET" --key "$S3_PREFIX/terraform.tfplan" >/dev/null 2>&1; then
+            aws s3 cp "s3://${S3_BUCKET}/${S3_PREFIX}/terraform.tfplan" terraform/terraform.tfplan
+            echo present > .plan-state
+          else
+            echo "No saved plan for this PR (plan had no changes); skipping apply."
+            echo absent > .plan-state
+          fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -47,7 +54,9 @@ jobs:
           S3_PREFIX: ${{ github.event.repository.name }}/pulls/${{ github.event.number }}/terraform-plan
 
       - name: terraform apply
-        run: make apply
+        run: |
+          [ "$(cat .plan-state)" = "present" ] || exit 0
+          make apply
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -57,7 +66,9 @@ jobs:
 
       - name: Delete plan from S3
         if: success()
-        run: aws s3 rm --recursive "s3://${S3_BUCKET}/${{ github.event.repository.name }}/pulls/${{ github.event.number }}/"
+        run: |
+          [ "$(cat .plan-state)" = "present" ] || exit 0
+          aws s3 rm --recursive "s3://${S3_BUCKET}/${{ github.event.repository.name }}/pulls/${{ github.event.number }}/"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
