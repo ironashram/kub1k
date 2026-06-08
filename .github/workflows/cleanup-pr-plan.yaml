@@ -32,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           repo="${GITHUB_REPOSITORY##*/}"
-          cutoff=$(date -d '7 days ago' +%s)
+          cutoff=$(python3 -c 'import datetime; print((datetime.datetime.now() - datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S"))')
           set +e
           listing=$(aws s3 ls "s3://${S3_BUCKET}/${repo}/pulls/" --recursive)
           rc=$?
@@ -40,7 +40,7 @@ jobs:
           [ "$rc" -le 1 ] || exit "$rc"
           while read -r d t _ key; do
             [ -n "$key" ] || continue
-            [ "$(date -d "$d $t" +%s)" -lt "$cutoff" ] || continue
+            [[ "$d $t" < "$cutoff" ]] || continue
             echo "Removing stale $key"
             aws s3 rm "s3://${S3_BUCKET}/${key}"
           done <<<"$listing"
