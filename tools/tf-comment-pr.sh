@@ -39,20 +39,22 @@ PAYLOAD=$(jq -n \
     --arg body "$(printf '%s\n```\n%s\n```' "$MARKER" "$PLAN")" \
     '{"body": $body}')
 
-COMMENT_ID=$(curl -s \
+COMMENT_ID=$(curl -fsS \
     -H "Authorization: token $GITHUB_TOKEN" \
     "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" \
     | jq -r --arg m "$MARKER" 'map(select(.body | startswith($m))) | .[0].id // empty')
 
 if [ -n "$COMMENT_ID" ]; then
+    echo "Updating existing plan comment $COMMENT_ID"
     URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/comments/$COMMENT_ID"
     METHOD=PATCH
 else
+    echo "Creating new plan comment"
     URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/issues/$PR_NUMBER/comments"
     METHOD=POST
 fi
 
-if ! curl -s \
+if ! curl -fsS \
     -H "Authorization: token $GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -X "$METHOD" \
