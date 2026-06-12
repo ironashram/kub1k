@@ -54,6 +54,8 @@ resource "keycloak_realm" "realm" {
 
   login_theme = "m1k"
 
+  default_signature_algorithm = "RS256"
+
   default_default_client_scopes = [
     "profile",
     "email",
@@ -126,6 +128,7 @@ resource "keycloak_ldap_user_attribute_mapper" "user" {
   is_mandatory_in_ldap        = each.value.is_mandatory_in_ldap
   always_read_value_from_ldap = each.value.always_read_value_from_ldap
   read_only                   = true
+  attribute_force_default     = false
 }
 
 resource "keycloak_ldap_role_mapper" "ldap_roles" {

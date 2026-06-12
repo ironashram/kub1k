@@ -13,3 +13,6 @@ data:
       height: 150px;
       font-size: 0;
     }
+    #kc-header-wrapper div.kc-logo-text {
+      display: none;
+    }
