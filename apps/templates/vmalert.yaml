@@ -1,10 +1,12 @@
+{{- range $shard := list "a" "b" }}
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vmalert
+  name: vmalert-{{ $shard }}
   namespace: argocd
   labels:
-    app/cluster: "{{ .Values.environment }}"
+    app/cluster: "{{ $.Values.environment }}"
     app/source: upstream
 spec:
   project: default
@@ -21,24 +23,22 @@ spec:
     helm:
       valuesObject:
         server:
-          replicaCount: 2
+          replicaCount: 1
           configMap: prometheus-ruler-rulefiles-0
           extraArgs:
             envflag.enable: true
             envflag.prefix: VM_
             loggerFormat: json
             httpListenAddr: :8880
-            external.label: "cluster={{ .Values.environment }}"
+            external.label: "cluster={{ $.Values.environment }}"
             configCheckInterval: 30m
             rule:
               - /config/*.yaml
-            remoteWrite.url:
-              - https://vm-a.{{ .Values.internalDomain }}
-              - https://vm-b.{{ .Values.internalDomain }}
+            remoteWrite.url: https://vm-{{ $shard }}.{{ $.Values.internalDomain }}
           datasource:
-            url: https://vm.{{ .Values.internalDomain }}
+            url: https://vm-{{ $shard }}.{{ $.Values.internalDomain }}
           notifier:
-            url: https://alertmanager.{{ .Values.internalDomain }}
+            url: https://alertmanager.{{ $.Values.internalDomain }}
           resources:
             requests:
               cpu: 50m
@@ -61,3 +61,4 @@ spec:
   destination:
     name: in-cluster
     namespace: monitoring
+{{- end }}
