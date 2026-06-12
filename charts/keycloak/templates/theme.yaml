@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-theme
+  namespace: keycloak
+data:
+  theme.properties: |
+    parent=keycloak.v2
+    styles=css/styles.css css/custom.css
+  custom.css: |
+    #kc-header-wrapper {
+      background: url("https://avatars.githubusercontent.com/u/8753502?v=4") no-repeat center / contain;
+      height: 150px;
+      font-size: 0;
+    }

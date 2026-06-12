@@ -39,6 +39,21 @@ spec:
   env:
     - name: JAVA_OPTS_APPEND
       value: "-Xms256m -Xmx384m"
+  unsupported:
+    podTemplate:
+      spec:
+        containers:
+          - volumeMounts:
+              - name: theme
+                mountPath: /opt/keycloak/themes/m1k/login/theme.properties
+                subPath: theme.properties
+              - name: theme
+                mountPath: /opt/keycloak/themes/m1k/login/resources/css/custom.css
+                subPath: custom.css
+        volumes:
+          - name: theme
+            configMap:
+              name: keycloak-theme
   resources:
     requests:
       cpu: 200m

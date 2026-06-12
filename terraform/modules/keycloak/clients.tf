@@ -31,10 +31,9 @@ locals {
 }
 
 resource "keycloak_openid_client" "service" {
-  depends_on = [null_resource.wait_for_keycloak]
-  for_each   = local.clients
+  for_each = local.clients
 
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = each.key
   name      = each.value.name
 
@@ -52,7 +51,7 @@ resource "keycloak_openid_client" "service" {
 
 resource "keycloak_openid_client_default_scopes" "service" {
   for_each  = keycloak_openid_client.service
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = each.value.id
   default_scopes = [
     "profile",
@@ -66,7 +65,7 @@ resource "keycloak_openid_client_default_scopes" "service" {
 
 resource "keycloak_openid_user_realm_role_protocol_mapper" "groups" {
   for_each  = keycloak_openid_client.service
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = each.value.id
   name      = "realm-roles-as-groups"
 
@@ -78,10 +77,9 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "groups" {
 }
 
 resource "keycloak_openid_client" "additional" {
-  depends_on = [null_resource.wait_for_keycloak]
-  count      = length(var.additional_clients)
+  count = length(var.additional_clients)
 
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = var.additional_clients[count.index].client_id
 
   enabled                      = true
@@ -98,7 +96,7 @@ resource "keycloak_openid_client" "additional" {
 
 resource "keycloak_openid_client_default_scopes" "additional" {
   count     = length(var.additional_clients)
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = keycloak_openid_client.additional[count.index].id
   default_scopes = [
     "profile",
@@ -112,7 +110,7 @@ resource "keycloak_openid_client_default_scopes" "additional" {
 
 resource "keycloak_openid_user_realm_role_protocol_mapper" "additional_groups" {
   count     = length(var.additional_clients)
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = keycloak_openid_client.additional[count.index].id
   name      = "realm-roles-as-groups"
 
@@ -124,8 +122,7 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "additional_groups" {
 }
 
 resource "keycloak_openid_client" "vaultwarden" {
-  depends_on = [null_resource.wait_for_keycloak]
-  realm_id   = var.realm_id
+  realm_id = keycloak_realm.realm.id
 
   client_id = "vaultwarden"
   name      = "Vaultwarden"
@@ -145,7 +142,7 @@ resource "keycloak_openid_client" "vaultwarden" {
 }
 
 resource "keycloak_openid_client_default_scopes" "vaultwarden" {
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = keycloak_openid_client.vaultwarden.id
   default_scopes = [
     "profile",
@@ -158,7 +155,7 @@ resource "keycloak_openid_client_default_scopes" "vaultwarden" {
 }
 
 resource "keycloak_openid_user_realm_role_protocol_mapper" "vaultwarden_groups" {
-  realm_id  = var.realm_id
+  realm_id  = keycloak_realm.realm.id
   client_id = keycloak_openid_client.vaultwarden.id
   name      = "realm-roles-as-groups"
 
@@ -170,8 +167,7 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "vaultwarden_groups" 
 }
 
 resource "keycloak_saml_client" "veeam" {
-  depends_on = [null_resource.wait_for_keycloak]
-  realm_id   = var.realm_id
+  realm_id = keycloak_realm.realm.id
 
   client_id = "https://vbr.${var.external_domain}/oauth/Saml2"
   name      = "Veeam"
@@ -192,7 +188,7 @@ resource "keycloak_saml_client" "veeam" {
 }
 
 resource "keycloak_saml_user_property_protocol_mapper" "veeam_email" {
-  realm_id                   = var.realm_id
+  realm_id                   = keycloak_realm.realm.id
   client_id                  = keycloak_saml_client.veeam.id
   name                       = "email"
   user_property              = "Email"
@@ -201,7 +197,7 @@ resource "keycloak_saml_user_property_protocol_mapper" "veeam_email" {
 }
 
 resource "keycloak_generic_protocol_mapper" "veeam_roles" {
-  realm_id        = var.realm_id
+  realm_id        = keycloak_realm.realm.id
   client_id       = keycloak_saml_client.veeam.id
   name            = "role-list"
   protocol        = "saml"
