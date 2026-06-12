@@ -4,6 +4,7 @@ metadata:
   name: vm-query
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    haproxy-ingress.github.io/balance-algorithm: source
     haproxy-ingress.github.io/health-check-interval: "2s"
     haproxy-ingress.github.io/health-check-rise-count: "1"
     haproxy-ingress.github.io/health-check-fall-count: "2"
