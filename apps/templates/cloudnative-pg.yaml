@@ -18,7 +18,7 @@ spec:
   source:
     chart: cloudnative-pg
     repoURL: https://cloudnative-pg.io/charts
-    targetRevision: 0.28.2
+    targetRevision: 0.28.3
     helm:
       valuesObject:
         crds:
