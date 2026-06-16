@@ -56,15 +56,6 @@ resource "keycloak_realm" "realm" {
 
   default_signature_algorithm = "RS256"
 
-  default_default_client_scopes = [
-    "profile",
-    "email",
-    "roles",
-    "web-origins",
-    "acr",
-    "basic",
-  ]
-
   security_defenses {
     brute_force_detection {}
   }
@@ -81,6 +72,18 @@ resource "keycloak_realm" "realm" {
       password = data.vault_generic_secret.mail.data["alerts_password"]
     }
   }
+}
+
+resource "keycloak_realm_default_client_scopes" "realm" {
+  realm_id = keycloak_realm.realm.id
+  default_scopes = [
+    "profile",
+    "email",
+    "roles",
+    "web-origins",
+    "acr",
+    "basic",
+  ]
 }
 
 resource "keycloak_role" "admins" {
