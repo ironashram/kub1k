@@ -1,7 +1,4 @@
 #!/bin/bash
-# Configures one GitHub Actions runner per repo on first boot.
-# Idempotent: skips repos already registered (.runner present), writes a
-# sentinel so the oneshot unit does not re-run on subsequent boots.
 set -euo pipefail
 
 : "${RUNNER_VERSION:?}"
@@ -34,9 +31,7 @@ for repo in $RUNNER_REPOS; do
   [ -f "$dir/.runner" ] && continue
   mkdir -p "$dir"
   tar -xzf "$BASE/$TARBALL" -C "$dir"
-  # Flatcar ships no libicu. config.sh has a hard libicu precheck that ignores
-  # DOTNET_SYSTEM_GLOBALIZATION_INVARIANT; neutralize it. The runner binary
-  # itself runs fine in invariant globalization mode (set in the unit + here).
+  # Neutralize config.sh's libicu precheck (Flatcar has no libicu; runner uses invariant mode).
   sed -i 's#.*grep libicu.*#    true#' "$dir/config.sh"
   token="$(mint_token "$repo")"
   "$dir/config.sh" --unattended --replace \
