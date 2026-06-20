@@ -24,7 +24,7 @@ data "ct_config" "runner_ignition" {
     repos          = var.runner_repos
     setup_b64      = base64encode(file("${path.module}/files/runner-setup.sh"))
     env_b64        = base64encode(local.runner_env)
-    pat_b64        = base64encode(data.vault_generic_secret.arc_runners.data["github_token"])
+    pat_b64        = base64encode(data.vault_generic_secret.runner.data["github_token"])
   })
 }
 
