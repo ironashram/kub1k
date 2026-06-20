@@ -9,6 +9,7 @@ data "ct_config" "control_ignition" {
     dns1           = var.dns1
     dns2           = var.dns2
     ssh_public_key = local.ssh_public_key
+    password_hash  = local.console_password_hash
   })
 }
 
@@ -75,6 +76,7 @@ data "ct_config" "worker_ignition" {
     dns1           = var.dns1
     dns2           = var.dns2
     ssh_public_key = local.ssh_public_key
+    password_hash  = local.console_password_hash
   })
 }
 

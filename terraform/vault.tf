@@ -30,6 +30,10 @@ data "vault_generic_secret" "github" {
   path = "kv/${var.cluster_name}/github"
 }
 
+data "vault_generic_secret" "arc_runners" {
+  path = "kv/arc_runners"
+}
+
 data "vault_generic_secret" "keycloak" {
   path = "kv/keycloak"
 }

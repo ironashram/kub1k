@@ -61,8 +61,9 @@ locals {
   # so workloads with nodeSelector node-role.kubernetes.io/worker continue to schedule
   worker_label_names = var.label_controls_as_worker ? concat(local.control_names, local.worker_names) : local.worker_names
 
-  domain_name    = data.vault_generic_secret.vars.data["domain_name"]
-  ssh_public_key = data.vault_generic_secret.vars.data["ssh_public_key"]
+  domain_name           = data.vault_generic_secret.vars.data["domain_name"]
+  ssh_public_key        = data.vault_generic_secret.vars.data["ssh_public_key"]
+  console_password_hash = data.vault_generic_secret.ssh.data["console_password_hash"]
 
   flatcar_ignition_tmpl = <<-EOT
     variant: flatcar
@@ -70,6 +71,7 @@ locals {
     passwd:
       users:
         - name: core
+          password_hash: $${password_hash}
           ssh_authorized_keys:
             - $${ssh_public_key}
     storage:
@@ -110,6 +112,8 @@ locals {
       units:
         - name: qemu-guest-agent.service
           enabled: true
+        - name: coreos-metadata.service
+          mask: true
         - name: flatcar-openstack-hostname.service
           mask: true
         - name: sshkeys.service
@@ -131,5 +135,19 @@ locals {
             WantedBy=multi-user.target
         - name: iscsid.service
           enabled: true
+        - name: getty@.service
+          dropins:
+            - name: 99-no-autologin.conf
+              contents: |
+                [Service]
+                ExecStart=
+                ExecStart=-/sbin/agetty -o '-- \u' --noreset --noclear %I $TERM
+        - name: serial-getty@.service
+          dropins:
+            - name: 99-no-autologin.conf
+              contents: |
+                [Service]
+                ExecStart=
+                ExecStart=-/sbin/agetty -o '-- \u' --noreset --noclear --keep-baud 115200,57600,38400,9600 %I $TERM
   EOT
 }

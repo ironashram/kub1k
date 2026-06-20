@@ -14,7 +14,7 @@ concurrency:
 jobs:
   apply:
     if: github.event.pull_request.merged == true
-    runs-on: gha-runner-scale-set-kub1k
+    runs-on: [self-hosted, kub1k]
     container:
       image: ghcr.io/ironashram/toolbox:latest
     defaults:

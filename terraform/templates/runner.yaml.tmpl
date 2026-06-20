@@ -1,0 +1,120 @@
+variant: flatcar
+version: 1.0.0
+passwd:
+  users:
+    - name: core
+      password_hash: ${password_hash}
+      ssh_authorized_keys:
+        - ${ssh_public_key}
+storage:
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          ${hostname}
+    - path: /etc/systemd/network/10-eth0.network
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          [Match]
+          MACAddress=${mac}
+          [Link]
+          RequiredForOnline=yes
+          [Network]
+          Address=${ip}/24
+          Gateway=${gateway}
+          DNS=${dns1}
+          DNS=${dns2}
+    - path: /etc/flatcar/update.conf
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          REBOOT_STRATEGY=off
+    - path: /etc/ssh/sshd_config.d/00-post-quantum-kex.conf
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          KexAlgorithms mlkem768x25519-sha256,sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
+    - path: /opt/github-runner/setup.sh
+      mode: 0755
+      overwrite: true
+      contents:
+        source: "data:;base64,${setup_b64}"
+    - path: /etc/github-runner/env
+      mode: 0644
+      overwrite: true
+      contents:
+        source: "data:;base64,${env_b64}"
+    - path: /etc/github-runner/pat
+      mode: 0600
+      overwrite: true
+      contents:
+        source: "data:;base64,${pat_b64}"
+systemd:
+  units:
+    - name: qemu-guest-agent.service
+      enabled: true
+    - name: docker.service
+      enabled: true
+    - name: coreos-metadata.service
+      mask: true
+    - name: flatcar-openstack-hostname.service
+      mask: true
+    - name: sshkeys.service
+      mask: true
+    - name: coreos-metadata-sshkeys@core.service
+      mask: true
+    - name: getty@.service
+      dropins:
+        - name: 99-no-autologin.conf
+          contents: |
+            [Service]
+            ExecStart=
+            ExecStart=-/sbin/agetty -o '-- \u' --noreset --noclear %I $TERM
+    - name: serial-getty@.service
+      dropins:
+        - name: 99-no-autologin.conf
+          contents: |
+            [Service]
+            ExecStart=
+            ExecStart=-/sbin/agetty -o '-- \u' --noreset --noclear --keep-baud 115200,57600,38400,9600 %I $TERM
+    - name: runner-setup.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Configure GitHub Actions runners
+        After=network-online.target docker.service
+        Wants=network-online.target
+        ConditionPathExists=!/var/lib/github-runner/.configured
+        [Service]
+        Type=oneshot
+        RemainAfterExit=true
+        EnvironmentFile=/etc/github-runner/env
+        ExecStart=/opt/github-runner/setup.sh
+        [Install]
+        WantedBy=multi-user.target
+    - name: github-runner@.service
+      contents: |
+        [Unit]
+        Description=GitHub Actions runner for %i
+        After=runner-setup.service docker.service network-online.target
+        Requires=runner-setup.service docker.service
+        [Service]
+        Type=simple
+        Environment=RUNNER_ALLOW_RUNASROOT=1
+        Environment=DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+        WorkingDirectory=/var/lib/github-runner/%i
+        ExecStart=/var/lib/github-runner/%i/run.sh
+        Restart=always
+        RestartSec=5
+        [Install]
+        WantedBy=multi-user.target
+%{ for repo in repos ~}
+    - name: github-runner@${repo}.service
+      enabled: true
+%{ endfor ~}
