@@ -25,7 +25,6 @@ The following components are part of this setup:
 | Calico                           | https://github.com/projectcalico/calico                                                                  |
 | Metallb                          | https://github.com/metallb/metallb                                                                       |
 | HAProxy Ingress                  | https://github.com/jcmoraisjr/haproxy-ingress                                                            |
-| GitHub Actions Runner Controller | https://github.com/actions/actions-runner-controller                                                     |
 | Kube-Prometheus-Stack            | https://github.com/prometheus-community/helm-charts                                                      |
 | VictoriaMetrics                  | https://github.com/VictoriaMetrics/VictoriaMetrics                                                       |
 | Cert-Manager                     | https://github.com/cert-manager/cert-manager                                                             |
