@@ -57,8 +57,6 @@ locals {
   worker_mgmt_ips   = [for i in range(var.worker_count) : "${var.mgmt_ip_base}.${i + 21}"]
   worker_names      = [for i in range(var.worker_count) : "${var.cluster_name}-worker-${i + 1}"]
 
-  # When label_controls_as_worker=true, control nodes also receive the worker role label
-  # so workloads with nodeSelector node-role.kubernetes.io/worker continue to schedule
   worker_label_names = var.label_controls_as_worker ? concat(local.control_names, local.worker_names) : local.worker_names
 
   domain_name           = data.vault_generic_secret.vars.data["domain_name"]
