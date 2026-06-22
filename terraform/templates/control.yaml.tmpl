@@ -1,0 +1,78 @@
+variant: flatcar
+version: 1.0.0
+passwd:
+  users:
+    - name: core
+      password_hash: ${password_hash}
+      ssh_authorized_keys:
+        - ${ssh_public_key}
+storage:
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          ${hostname}
+    - path: /etc/systemd/network/10-eth0.network
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          [Match]
+          MACAddress=${mac}
+          [Link]
+          RequiredForOnline=yes
+          [Network]
+          Address=${ip}/24
+          Gateway=${gateway}
+          DNS=${dns1}
+          DNS=${dns2}
+    - path: /etc/flatcar/update.conf
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          REBOOT_STRATEGY=off
+          SERVER=disabled
+systemd:
+  units:
+    - name: qemu-guest-agent.service
+      enabled: true
+    - name: coreos-metadata.service
+      mask: true
+    - name: flatcar-openstack-hostname.service
+      mask: true
+    - name: sshkeys.service
+      mask: true
+    - name: coreos-metadata-sshkeys@core.service
+      mask: true
+    - name: iscsi-init.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Generate iSCSI initiator name on first boot
+        Before=iscsid.service
+        ConditionPathExists=!/etc/iscsi/initiatorname.iscsi
+        [Service]
+        Type=oneshot
+        RemainAfterExit=true
+        ExecStart=/bin/sh -c 'mkdir -p /etc/iscsi && echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi'
+        [Install]
+        WantedBy=multi-user.target
+    - name: iscsid.service
+      enabled: true
+    - name: getty@.service
+      dropins:
+        - name: 99-no-autologin.conf
+          contents: |
+            [Service]
+            ExecStart=
+            ExecStart=-/sbin/agetty -o '-- \u' --noreset --noclear %I $TERM
+    - name: serial-getty@.service
+      dropins:
+        - name: 99-no-autologin.conf
+          contents: |
+            [Service]
+            ExecStart=
+            ExecStart=-/sbin/agetty -o '-- \u' --noreset --noclear --keep-baud 115200,57600,38400,9600 %I $TERM
