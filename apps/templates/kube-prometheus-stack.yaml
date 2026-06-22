@@ -81,6 +81,7 @@ spec:
           ingress:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
+              haproxy-ingress.github.io/balance-algorithm: source
             enabled: true
             ingressClassName: haproxy
             hosts:

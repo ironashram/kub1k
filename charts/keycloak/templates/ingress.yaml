@@ -5,6 +5,9 @@ metadata:
   namespace: keycloak
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    haproxy-ingress.github.io/affinity: cookie
+    haproxy-ingress.github.io/session-cookie-name: KC_ROUTE
+    haproxy-ingress.github.io/session-cookie-strategy: insert
 spec:
   ingressClassName: haproxy
   tls:
