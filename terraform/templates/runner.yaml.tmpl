@@ -64,6 +64,10 @@ systemd:
       mask: true
     - name: coreos-metadata-sshkeys@core.service
       mask: true
+    - name: systemd-sysupdate-reboot.timer
+      mask: true
+    - name: systemd-sysupdate.timer
+      mask: true
     - name: getty@.service
       dropins:
         - name: 99-no-autologin.conf
