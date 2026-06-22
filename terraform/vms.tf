@@ -1,7 +1,7 @@
 data "ct_config" "control_ignition" {
   count  = var.control_count
   strict = true
-  content = templatefile("${path.module}/templates/control.yaml.tmpl", {
+  content = templatefile("${path.module}/templates/node.yaml.tmpl", {
     hostname       = local.control_names[count.index]
     mac            = local.control_mgmt_macs[count.index]
     ip             = local.control_mgmt_ips[count.index]
@@ -68,7 +68,7 @@ resource "synology_virtualization_guest" "control_nodes" {
 data "ct_config" "worker_ignition" {
   count  = var.worker_count
   strict = true
-  content = templatefile("${path.module}/templates/control.yaml.tmpl", {
+  content = templatefile("${path.module}/templates/node.yaml.tmpl", {
     hostname       = local.worker_names[count.index]
     mac            = local.worker_mgmt_macs[count.index]
     ip             = local.worker_mgmt_ips[count.index]
