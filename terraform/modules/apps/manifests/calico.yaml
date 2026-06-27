@@ -7,7 +7,7 @@ spec:
   source:
     chart: tigera-operator
     repoURL: https://docs.projectcalico.org/charts
-    targetRevision: 3.32.0
+    targetRevision: 3.32.1
   destination:
     name: in-cluster
     namespace: tigera-operator
