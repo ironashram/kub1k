@@ -1,3 +1,0 @@
-config:
-  inCluster: true
-  sessionTTL: null

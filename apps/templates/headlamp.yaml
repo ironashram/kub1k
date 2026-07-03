@@ -16,10 +16,8 @@ spec:
   sources:
     - chart: headlamp
       repoURL: https://kubernetes-sigs.github.io/headlamp/
-      targetRevision: 0.40.1
+      targetRevision: 0.43.0
       helm:
-        valueFiles:
-          - $values/apps/values-fix-headlamp.yaml
         valuesObject:
           config:
             oidc:
@@ -43,9 +41,6 @@ spec:
                   - k8s.{{ .Values.internalDomain }}
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
-    - repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
-      targetRevision: HEAD
-      ref: values
   destination:
     name: in-cluster
     namespace: headlamp
