@@ -12,6 +12,8 @@ spec:
     syncOptions:
       - ServerSideApply=true
       - CreateNamespace=true
+    automated:
+      selfHeal: true
   source:
     chart: coredns
     repoURL: https://coredns.github.io/helm
