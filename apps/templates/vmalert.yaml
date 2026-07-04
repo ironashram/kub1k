@@ -38,7 +38,9 @@ spec:
           datasource:
             url: https://vm-{{ $shard }}.{{ $.Values.internalDomain }}
           notifier:
-            url: https://alertmanager.{{ $.Values.internalDomain }}
+            url:
+              - http://alertmanager-kube-prometheus-stack-alertmanager-0.alertmanager-operated.monitoring.svc:9093
+              - http://alertmanager-kube-prometheus-stack-alertmanager-1.alertmanager-operated.monitoring.svc:9093
           resources:
             requests:
               cpu: 50m
