@@ -12,6 +12,14 @@ spec:
     syncOptions:
       - ServerSideApply=true
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+    automated:
+      selfHeal: true
+  ignoreDifferences:
+    - group: operator.tigera.io
+      kind: Installation
+      managedFieldsManagers:
+        - operator
   source:
     chart: tigera-operator
     repoURL: https://docs.projectcalico.org/charts
