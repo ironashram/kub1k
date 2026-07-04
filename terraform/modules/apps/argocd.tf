@@ -1,5 +1,16 @@
 locals {
   argocd_app = yamldecode(file("${path.root}/../apps/templates/argocd.yaml"))
+
+  argocd_values = replace(
+    replace(
+      replace(
+        yamlencode(local.argocd_app.spec.source.helm.valuesObject),
+        "{{ .Values.internalDomain }}", var.internal_domain
+      ),
+      "{{ .Values.externalDomain }}", var.external_domain
+    ),
+    "{{ .Values.keycloakRealmId }}", var.keycloak_realm_id
+  )
 }
 
 resource "kubernetes_namespace_v1" "argocd" {
@@ -78,7 +89,7 @@ resource "helm_release" "argocd" {
   max_history = 0
 
   values = [
-    yamlencode(local.argocd_app.spec.source.helm.valuesObject),
+    local.argocd_values,
   ]
 
   lifecycle {
