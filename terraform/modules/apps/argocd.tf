@@ -12,11 +12,6 @@ resource "kubernetes_namespace_v1" "argocd" {
   }
 }
 
-# argocd-secret and the repository secret are created here so they exist before
-# argocd starts (the app sets configs.secret.createSecret=false) and before
-# external-secrets exists on a cold bootstrap. The argocd-secret / argocd-repo
-# ExternalSecrets refresh them from Vault day-2; ignore_changes keeps terraform
-# from reverting ESO or clobbering the argocd-generated server.secretkey.
 resource "kubernetes_secret_v1" "argocd_secret" {
   depends_on = [kubernetes_namespace_v1.argocd]
 
