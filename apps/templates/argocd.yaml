@@ -45,6 +45,7 @@ spec:
               issuer: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}
               clientID: argocd
               clientSecret: $keycloak-client-argocd:client_secret
+              refreshTokenThreshold: 2m
               requestedScopes:
                 - openid
                 - profile
