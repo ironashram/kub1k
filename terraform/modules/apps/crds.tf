@@ -8,7 +8,7 @@ resource "helm_release" "crds" {
 }
 
 locals {
-  calico_version = yamldecode(file("${path.module}/manifests/calico.yaml")).spec.source.targetRevision
+  calico_version = local.calico_app.spec.source.targetRevision
 }
 
 data "http" "calico_crd_url" {

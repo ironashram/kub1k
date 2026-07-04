@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tigera-operator
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
+  source:
+    chart: tigera-operator
+    repoURL: https://docs.projectcalico.org/charts
+    targetRevision: 3.32.1
+    helm:
+      releaseName: tigera-operator
+      valuesObject:
+        manageCRDs: false
+        installation:
+          registry: "quay.io"
+          typhaMetricsPort: 9093
+          calicoNetwork:
+            bgp: Disabled
+            linuxDataplane: BPF
+            ipPools:
+              - blockSize: 24
+                cidr: 172.27.0.0/21
+                encapsulation: VXLANCrossSubnet
+                natOutgoing: Enabled
+                nodeSelector: all()
+        defaultFelixConfiguration:
+          enabled: true
+          prometheusMetricsEnabled: true
+        kubernetesServiceEndpoint:
+          host: "{{ .Values.k8sEndpoint }}"
+          port: "6443"
+  destination:
+    name: in-cluster
+    namespace: tigera-operator

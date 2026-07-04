@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-coredns
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
+  source:
+    chart: coredns
+    repoURL: https://coredns.github.io/helm
+    targetRevision: 1.46.0
+    helm:
+      releaseName: kube-coredns
+      valuesObject:
+        deployment:
+          enabled: true
+        replicaCount: 3
+        podDisruptionBudget:
+          minAvailable: 1
+        prometheus:
+          service:
+            enabled: true
+            annotations:
+              prometheus.io/scrape: "true"
+              prometheus.io/port: "9153"
+          monitor:
+            enabled: true
+        k8sAppLabelOverride: "kube-dns"
+        service:
+          clusterIP: "{{ .Values.k8sClusterDNS }}"
+  destination:
+    name: in-cluster
+    namespace: kube-system

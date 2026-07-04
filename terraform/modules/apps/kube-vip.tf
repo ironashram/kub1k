@@ -1,36 +1,27 @@
+locals {
+  kube_vip_app = yamldecode(file("${path.root}/../apps/templates/kube-vip.yaml"))
+}
+
 resource "helm_release" "kube_vip" {
   depends_on = [helm_release.calico]
 
-  name             = yamldecode(file("${path.module}/manifests/kube-vip.yaml")).metadata.name
-  repository       = yamldecode(file("${path.module}/manifests/kube-vip.yaml")).spec.source.repoURL
-  chart            = yamldecode(file("${path.module}/manifests/kube-vip.yaml")).spec.source.chart
-  version          = yamldecode(file("${path.module}/manifests/kube-vip.yaml")).spec.source.targetRevision
-  namespace        = yamldecode(file("${path.module}/manifests/kube-vip.yaml")).spec.destination.namespace
+  name             = local.kube_vip_app.metadata.name
+  repository       = local.kube_vip_app.spec.source.repoURL
+  chart            = local.kube_vip_app.spec.source.chart
+  version          = local.kube_vip_app.spec.source.targetRevision
+  namespace        = local.kube_vip_app.spec.destination.namespace
   create_namespace = true
 
   values = [
+    yamlencode(local.kube_vip_app.spec.source.helm.valuesObject),
     yamlencode({
       config = {
         address = var.control_plane_vip
       }
-      env = {
-        vip_interface           = "eth0"
-        vip_arp                 = "true"
-        cp_enable               = "true"
-        vip_leaderelection      = "true"
-        vip_leasename           = "plndr-cp-lock"
-        vip_leaseduration       = "60"
-        vip_renewdeadline       = "40"
-        vip_retryperiod         = "5"
-        lb_enable               = "false"
-        svc_enable              = "false"
-        lb_port                 = "6443"
-        KUBERNETES_SERVICE_HOST = "127.0.0.1"
-        KUBERNETES_SERVICE_PORT = "6443"
-      }
-      nodeSelector = {
-        "node-role.kubernetes.io/control-plane" = "true"
-      }
-    })
+    }),
   ]
+
+  lifecycle {
+    ignore_changes = all
+  }
 }

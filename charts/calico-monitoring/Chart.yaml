@@ -1,0 +1,4 @@
+apiVersion: v2
+description: Calico metrics Services and ServiceMonitor
+name: calico-monitoring
+version: 0.1.0

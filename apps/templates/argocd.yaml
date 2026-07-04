@@ -1,0 +1,98 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
+  source:
+    chart: argo-cd
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 10.0.0
+    helm:
+      releaseName: argocd
+      valuesObject:
+        redis:
+          enabled: true
+          metrics:
+            enabled: false
+        redis-ha:
+          enabled: false
+        redisSecretInit:
+          enabled: true
+        dex:
+          enabled: false
+        notifications:
+          enabled: false
+        global:
+          domain: "argocd.{{ .Values.internalDomain }}"
+        configs:
+          secret:
+            createSecret: false
+          cm:
+            timeout.reconciliation: 600s
+            oidc.config: |
+              name: Keycloak
+              issuer: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}
+              clientID: argocd
+              clientSecret: $keycloak-client-argocd:client_secret
+              requestedScopes:
+                - openid
+                - profile
+                - email
+                - offline_access
+          params:
+            server.insecure: true
+            controller.status.processors: "10"
+            controller.operation.processors: "5"
+          rbac:
+            policy.csv: |
+              g, admins, role:admin
+        controller:
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+          podLabels:
+            kub1k.io/workload-heavy: "true"
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              nodeTaintsPolicy: Honor
+              nodeAffinityPolicy: Honor
+              labelSelector:
+                matchLabels:
+                  kub1k.io/workload-heavy: "true"
+        repoServer:
+          replicas: 1
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+        server:
+          replicas: 1
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+          ingress:
+            enabled: true
+            ingressClassName: haproxy
+            tls: true
+          certificate:
+            enabled: true
+            issuer:
+              group: cert-manager.io
+              kind: ClusterIssuer
+              name: letsencrypt-prod
+  destination:
+    name: in-cluster
+    namespace: argocd

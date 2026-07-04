@@ -1,11 +1,15 @@
+locals {
+  coredns_app = yamldecode(file("${path.root}/../apps/templates/coredns.yaml"))
+}
+
 resource "helm_release" "coredns" {
   depends_on = [helm_release.calico]
-  name       = yamldecode(file("${path.module}/manifests/coredns.yaml")).metadata.name
+  name       = local.coredns_app.metadata.name
 
-  repository = yamldecode(file("${path.module}/manifests/coredns.yaml")).spec.source.repoURL
-  chart      = yamldecode(file("${path.module}/manifests/coredns.yaml")).spec.source.chart
-  version    = yamldecode(file("${path.module}/manifests/coredns.yaml")).spec.source.targetRevision
-  namespace  = yamldecode(file("${path.module}/manifests/coredns.yaml")).spec.destination.namespace
+  repository = local.coredns_app.spec.source.repoURL
+  chart      = local.coredns_app.spec.source.chart
+  version    = local.coredns_app.spec.source.targetRevision
+  namespace  = local.coredns_app.spec.destination.namespace
 
   create_namespace = true
 
@@ -17,6 +21,10 @@ resource "helm_release" "coredns" {
   }]
 
   values = [
-    file("${path.module}/values/coredns.yaml"),
+    yamlencode(local.coredns_app.spec.source.helm.valuesObject),
   ]
+
+  lifecycle {
+    ignore_changes = all
+  }
 }

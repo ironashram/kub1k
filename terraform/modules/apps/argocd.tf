@@ -1,72 +1,92 @@
-resource "helm_release" "argocd" {
-  depends_on       = [helm_release.coredns]
-  name             = yamldecode(file("${path.module}/manifests/argocd.yaml")).metadata.name
-  repository       = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.repoURL
-  chart            = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.chart
-  namespace        = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.destination.namespace
-  version          = yamldecode(file("${path.module}/manifests/argocd.yaml")).spec.source.targetRevision
-  disable_webhooks = false
-
-  create_namespace = true
-
-  max_history = 0
-
-  set_sensitive = [{
-    name  = "configs.secret.argocdServerAdminPassword"
-    value = var.argocd_admin_password
-    },
-
-    {
-      name  = "configs.repositories.${var.cluster_name}.name"
-      value = var.git_repo_name
-    },
-
-    {
-      name  = "configs.repositories.${var.cluster_name}.url"
-      value = var.git_repo
-    },
-
-    {
-      name  = "configs.repositories.${var.cluster_name}.username"
-      value = var.git_user
-    },
-
-    {
-      name  = "configs.repositories.${var.cluster_name}.password"
-      value = var.git_token
-    },
-
-    {
-      name  = "configs.repositories.${var.cluster_name}.type"
-      value = "git"
-    },
-
-    {
-      name  = "global.domain"
-      value = "argocd.${var.internal_domain}"
-  }]
-
-  values = [
-    file("${path.module}/values/argocd.yaml"),
-  ]
-
+locals {
+  argocd_app = yamldecode(file("${path.root}/../apps/templates/argocd.yaml"))
 }
 
-resource "kubernetes_config_map_v1_data" "argocd_oidc" {
-  depends_on = [helm_release.argocd]
+resource "kubernetes_namespace_v1" "argocd" {
+  metadata {
+    name = local.argocd_app.spec.destination.namespace
+  }
+
+  lifecycle {
+    ignore_changes = [metadata[0].annotations, metadata[0].labels]
+  }
+}
+
+# argocd-secret and the repository secret are created here so they exist before
+# argocd starts (the app sets configs.secret.createSecret=false) and before
+# external-secrets exists on a cold bootstrap. The argocd-secret / argocd-repo
+# ExternalSecrets refresh them from Vault day-2; ignore_changes keeps terraform
+# from reverting ESO or clobbering the argocd-generated server.secretkey.
+resource "kubernetes_secret_v1" "argocd_secret" {
+  depends_on = [kubernetes_namespace_v1.argocd]
 
   metadata {
-    name      = "argocd-cm"
-    namespace = "argocd"
+    name      = "argocd-secret"
+    namespace = local.argocd_app.spec.destination.namespace
+    labels = {
+      "app.kubernetes.io/name"    = "argocd-secret"
+      "app.kubernetes.io/part-of" = "argocd"
+    }
   }
 
   data = {
-    "oidc.config" = sensitive(templatefile("${path.module}/templates/argocd_oidc.tmpl", {
-      external_domain   = var.external_domain,
-      keycloak_realm_id = var.keycloak_realm_id,
-    }))
+    "admin.password" = var.argocd_admin_password
   }
 
-  field_manager = "terraform-argocd-oidc"
-  force         = true
+  type = "Opaque"
+
+  lifecycle {
+    ignore_changes = all
+  }
+}
+
+resource "kubernetes_secret_v1" "argocd_repo" {
+  depends_on = [kubernetes_namespace_v1.argocd]
+
+  metadata {
+    name      = "argocd-repo-${var.cluster_name}"
+    namespace = local.argocd_app.spec.destination.namespace
+    labels = {
+      "argocd.argoproj.io/secret-type" = "repository"
+    }
+  }
+
+  data = {
+    type     = "git"
+    url      = var.git_repo
+    name     = var.git_repo_name
+    username = var.git_user
+    password = var.git_token
+  }
+
+  type = "Opaque"
+
+  lifecycle {
+    ignore_changes = all
+  }
+}
+
+resource "helm_release" "argocd" {
+  depends_on = [
+    helm_release.coredns,
+    kubernetes_secret_v1.argocd_secret,
+    kubernetes_secret_v1.argocd_repo,
+  ]
+
+  name             = local.argocd_app.metadata.name
+  repository       = local.argocd_app.spec.source.repoURL
+  chart            = local.argocd_app.spec.source.chart
+  namespace        = local.argocd_app.spec.destination.namespace
+  version          = local.argocd_app.spec.source.targetRevision
+  disable_webhooks = false
+
+  max_history = 0
+
+  values = [
+    yamlencode(local.argocd_app.spec.source.helm.valuesObject),
+  ]
+
+  lifecycle {
+    ignore_changes = all
+  }
 }
