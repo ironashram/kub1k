@@ -13,6 +13,8 @@ spec:
       - ServerSideApply=true
       - CreateNamespace=true
       - RespectIgnoreDifferences=true
+    automated:
+      selfHeal: true
   ignoreDifferences:
     - group: operator.tigera.io
       kind: Installation

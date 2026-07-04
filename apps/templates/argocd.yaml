@@ -12,6 +12,8 @@ spec:
     syncOptions:
       - ServerSideApply=true
       - CreateNamespace=true
+    automated:
+      selfHeal: true
   source:
     chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
