@@ -31,6 +31,8 @@ spec:
             loggerFormat: json
             httpListenAddr: :8880
             external.label: "cluster={{ $.Values.environment }}"
+            external.url: https://vm-{{ $shard }}.{{ $.Values.internalDomain }}
+            external.alert.source: 'vmui/#/?g0.expr={{ "{{.Expr|queryEscape}}" }}&g0.range_input=30m'
             configCheckInterval: 30m
             rule:
               - /config/*.yaml
