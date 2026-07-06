@@ -19,7 +19,8 @@ rsync:
 syncthing:
   image:
     repository: syncthing/syncthing
-    tag: "2.1.0"
+    tag: latest
+    pullPolicy: Always
   folderID: ""
   remoteDeviceIDs: []
   globalAnnounce: true

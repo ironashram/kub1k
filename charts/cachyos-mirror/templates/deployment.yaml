@@ -97,7 +97,7 @@ spec:
         {{- if eq .Values.sync.method "syncthing" }}
         - name: syncthing
           image: "{{ .Values.syncthing.image.repository }}:{{ .Values.syncthing.image.tag }}"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: "{{ .Values.syncthing.image.pullPolicy }}"
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
