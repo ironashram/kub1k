@@ -1,6 +1,6 @@
 externalDomain: example.com
 realmName: example
-keycloakImage: quay.io/keycloak/keycloak:26.6.1
+keycloakImage: quay.io/keycloak/keycloak:26.6.4
 keycloakInstances: 2
 postgresInstances: 3
 postgresStorageSize: 5Gi
