@@ -47,6 +47,8 @@ resource "keycloak_realm" "realm" {
   ssl_required             = "external"
   registration_allowed     = false
   remember_me              = true
+  sso_session_idle_timeout = "168h"
+  sso_session_max_lifespan = "720h"
   login_with_email_allowed = true
   duplicate_emails_allowed = false
   reset_password_allowed   = false
