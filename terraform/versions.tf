@@ -18,7 +18,7 @@ terraform {
     }
     synology = {
       source  = "ironashram/synology"
-      version = "0.7.0-ironashram"
+      version = "0.8.0-ironashram"
     }
     ct = {
       source  = "poseidon/ct"
