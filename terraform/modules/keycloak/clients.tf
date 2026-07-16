@@ -27,6 +27,16 @@ locals {
       redirect_uris = ["https://oauth2-proxy.${var.internal_domain}/oauth2/callback"]
       web_origins   = ["+"]
     }
+    vault = {
+      name     = "Vault"
+      root_url = "https://vault.${var.external_domain}"
+      redirect_uris = [
+        "https://vault.${var.external_domain}/ui/vault/auth/oidc/oidc/callback",
+        "https://vault.${var.external_domain}/v1/auth/oidc/callback",
+        "http://localhost:8250/oidc/callback",
+      ]
+      web_origins = ["+"]
+    }
   }
 }
 
