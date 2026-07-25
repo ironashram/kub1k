@@ -27,5 +27,4 @@ jobs:
           create_pr: true
           apps_folder: apps/templates
           allow_regex_fallback: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          token: ${{ secrets.ACTION_TOKEN }}
