@@ -33,6 +33,11 @@ variable "additional_clients" {
   default = []
 }
 
+variable "app_of_apps_release_id" {
+  description = "Argo CD app-of-apps release id. Referenced by the readiness wait so Keycloak is provisioned after the apps land, without a depends_on."
+  type        = string
+}
+
 variable "wait_timeout_seconds" {
   description = "How long to wait for the realm OIDC discovery URL to return 200 before failing"
   type        = number

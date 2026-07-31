@@ -12,15 +12,15 @@ locals {
 }
 
 module "provision_keycloak" {
-  count      = local.cluster_host != null ? 1 : 0
-  source     = "./modules/keycloak"
-  depends_on = [module.provision_apps]
+  count  = local.cluster_host != null ? 1 : 0
+  source = "./modules/keycloak"
 
-  keycloak_url       = "https://keycloak.${data.vault_generic_secret.domain.data["external"]}"
-  realm_id           = var.keycloak_realm_id
-  internal_domain    = data.vault_generic_secret.domain.data["internal"]
-  external_domain    = data.vault_generic_secret.domain.data["external"]
-  additional_clients = local.additional_clients
+  keycloak_url           = "https://keycloak.${data.vault_generic_secret.domain.data["external"]}"
+  realm_id               = var.keycloak_realm_id
+  internal_domain        = data.vault_generic_secret.domain.data["internal"]
+  external_domain        = data.vault_generic_secret.domain.data["external"]
+  additional_clients     = local.additional_clients
+  app_of_apps_release_id = one(module.provision_apps[*].app_of_apps_release_id)
 
   providers = {
     keycloak = keycloak

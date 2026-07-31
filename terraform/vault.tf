@@ -1,7 +1,3 @@
-data "vault_generic_secret" "vault" {
-  path = "kv/${var.cluster_name}/vault"
-}
-
 data "vault_generic_secret" "ssh" {
   path = "kv/${var.cluster_name}/ssh"
 }

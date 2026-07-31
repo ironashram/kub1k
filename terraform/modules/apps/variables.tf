@@ -1,7 +1,3 @@
-variable "vault_token" {
-  sensitive = true
-}
-
 variable "git_token" {
   sensitive = true
 }
@@ -40,10 +36,6 @@ variable "worker_names" {
 
 variable "lb_pool_cidr" {
   sensitive = false
-}
-
-variable "vault_secret_revision" {
-  default = "2"
 }
 
 variable "cluster_name" {

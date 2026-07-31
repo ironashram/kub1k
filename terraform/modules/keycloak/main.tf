@@ -3,6 +3,7 @@ resource "null_resource" "wait_for_keycloak" {
     url      = "${var.keycloak_url}/realms/master/.well-known/openid-configuration"
     timeout  = var.wait_timeout_seconds
     interval = var.wait_interval_seconds
+    apps     = var.app_of_apps_release_id
   }
 
   provisioner "local-exec" {
