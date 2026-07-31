@@ -17,7 +17,7 @@ spec:
   source:
     chart: coredns
     repoURL: https://coredns.github.io/helm
-    targetRevision: 1.46.2
+    targetRevision: 1.47.0
     helm:
       releaseName: kube-coredns
       valuesObject:
