@@ -2,22 +2,20 @@ name: "ArgoCD App Updates"
 
 on:
   schedule:
-    - cron: '0 6 * * 6'
+    - cron: "0 6 * * 6"
   workflow_dispatch:
 
 jobs:
-
   update:
     runs-on: ubuntu-latest
     permissions:
-        contents: write
-        pull-requests: write
+      contents: write
+      pull-requests: write
     steps:
-
       - name: Check out
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
 
       - name: Check updates for ArgoCD Apps
         uses: ironashram/argocd-apps-action@ccbd09d81867ce1969667519fd351a4c628f6ae2 # v3.1.0
@@ -25,6 +23,7 @@ jobs:
           skip_prerelease: true
           target_branch: main
           create_pr: true
+          labels: "helm,argocd"
           apps_folder: apps/templates
           allow_regex_fallback: true
           token: ${{ secrets.ACTION_TOKEN }}
