@@ -78,8 +78,6 @@ spec:
                   - vm-a.{{ .Values.internalDomain }}
           serviceMonitor:
             enabled: true
-            extraLabels:
-              release: kube-prometheus-stack
   destination:
     name: in-cluster
     namespace: monitoring

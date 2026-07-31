@@ -130,9 +130,6 @@ spec:
               - secretName: grafana-cert
                 hosts:
                   - grafana.{{ .Values.internalDomain }}
-          serviceMonitor:
-            labels:
-              release: kube-prometheus-stack
           sidecar:
             datasources:
               url: https://vm.{{ .Values.internalDomain }}

@@ -57,8 +57,6 @@ spec:
                   topologyKey: kubernetes.io/hostname
         serviceMonitor:
           enabled: true
-          extraLabels:
-            release: kube-prometheus-stack
         alertmanager:
           enabled: false
   destination:
