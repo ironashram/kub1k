@@ -61,8 +61,10 @@ spec:
         controller:
           metrics:
             enabled: true
-            serviceMonitor:
-              enabled: true
+            service:
+              annotations:
+                kub1k.io/scrape: "true"
+                kub1k.io/port: "8082"
           podLabels:
             kub1k.io/workload-heavy: "true"
           topologySpreadConstraints:
@@ -78,24 +80,24 @@ spec:
           replicas: 1
           metrics:
             enabled: true
-            serviceMonitor:
-              enabled: true
+            service:
+              annotations:
+                kub1k.io/scrape: "true"
+                kub1k.io/port: "8084"
         server:
           replicas: 1
           metrics:
             enabled: true
-            serviceMonitor:
-              enabled: true
+            service:
+              annotations:
+                kub1k.io/scrape: "true"
+                kub1k.io/port: "8083"
           ingress:
             enabled: true
             ingressClassName: haproxy
             tls: true
-          certificate:
-            enabled: true
-            issuer:
-              group: cert-manager.io
-              kind: ClusterIssuer
-              name: letsencrypt-prod
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
   destination:
     name: in-cluster
     namespace: argocd

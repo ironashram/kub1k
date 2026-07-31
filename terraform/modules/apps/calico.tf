@@ -1,5 +1,14 @@
 locals {
-  calico_app = yamldecode(file("${path.root}/../apps/templates/calico.yaml"))
+  calico_app     = yamldecode(file("${path.root}/../apps/templates/calico.yaml"))
+  calico_version = local.calico_app.spec.source.targetRevision
+}
+
+data "http" "calico_crd_url" {
+  url = "https://raw.githubusercontent.com/projectcalico/calico/v${local.calico_version}/manifests/operator-crds.yaml"
+}
+
+resource "kubectl_manifest" "calico_crds" {
+  yaml_body = data.http.calico_crd_url.response_body
 }
 
 resource "helm_release" "calico" {

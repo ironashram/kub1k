@@ -30,10 +30,10 @@ spec:
           service:
             enabled: true
             annotations:
-              prometheus.io/scrape: "true"
-              prometheus.io/port: "9153"
+              kub1k.io/scrape: "true"
+              kub1k.io/port: "9153"
           monitor:
-            enabled: true
+            enabled: false
         k8sAppLabelOverride: "kube-dns"
         service:
           clusterIP: "{{ .Values.k8sClusterDNS }}"
