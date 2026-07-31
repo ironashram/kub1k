@@ -213,6 +213,9 @@ spec:
                   - source_labels: [__meta_kubernetes_service_annotation_kub1k_io_scrape]
                     regex: "true"
                     action: keep
+                  - source_labels: [__meta_kubernetes_endpoint_port_name]
+                    regex: (.+)
+                    action: keep
                   - source_labels: [__address__, __meta_kubernetes_service_annotation_kub1k_io_port]
                     regex: '(.+?)(?::\d+)?;(\d+)'
                     target_label: __address__
