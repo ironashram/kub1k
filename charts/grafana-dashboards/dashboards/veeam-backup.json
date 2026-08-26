@@ -160,7 +160,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "min by (repository) (veeam_repository_accessible{job_name=~\"$job\"})",
+          "expr": "min by (repository) (veeam_repository_accessible)",
           "legendFormat": "{{repository}}",
           "refId": "A"
         }

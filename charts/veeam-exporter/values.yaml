@@ -6,6 +6,7 @@ image:
 veeam:
   url: https://vbr.m1k.cloud:9419
   tlsInsecure: true
+  sessionTypes: AgentBackup,BackupJob,BackupCopyJob,ConfigurationBackup,EndpointBackup
 
 credentialsSecret: veeam-exporter
 

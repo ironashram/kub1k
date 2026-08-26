@@ -31,6 +31,8 @@ spec:
               value: {{ .Values.veeam.url | quote }}
             - name: VEEAM_TLS_INSECURE
               value: {{ .Values.veeam.tlsInsecure | quote }}
+            - name: VEEAM_SESSION_TYPES
+              value: {{ .Values.veeam.sessionTypes | quote }}
             - name: VEEAM_USERNAME
               valueFrom:
                 secretKeyRef:
