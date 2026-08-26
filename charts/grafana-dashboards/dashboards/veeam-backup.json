@@ -167,36 +167,45 @@
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 2000 },
-              { "color": "green", "value": 5000 }
-            ]
-          },
+          "color": { "mode": "palette-classic" },
           "unit": "decgbytes"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Used" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "orange" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Free" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "green" } }]
+          }
+        ]
       },
       "gridPos": { "h": 4, "w": 8, "x": 16, "y": 1 },
       "id": 6,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
+        "displayLabels": ["name", "value"],
+        "legend": { "displayMode": "list", "placement": "right", "showLegend": true, "values": [] },
+        "pieType": "donut",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "value_and_name"
+        "tooltip": { "mode": "single" }
       },
-      "title": "NFS Repository Free Space",
-      "type": "stat",
+      "title": "NFS Repository Usage",
+      "type": "piechart",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_repository_free_gigabytes{type=\"Nfs\"}",
-          "legendFormat": "{{repository}}",
+          "expr": "max(veeam_repository_used_gigabytes{type=\"Nfs\"})",
+          "legendFormat": "Used",
+          "instant": true,
           "refId": "A"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "max(veeam_repository_free_gigabytes{type=\"Nfs\"})",
+          "legendFormat": "Free",
+          "instant": true,
+          "refId": "B"
         }
       ]
     },
@@ -417,11 +426,11 @@
           "color": { "mode": "palette-classic" },
           "custom": {
             "axisBorderShow": false,
-            "drawStyle": "bars",
-            "fillOpacity": 60,
-            "lineWidth": 1,
-            "pointSize": 5,
-            "showPoints": "never",
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "lineWidth": 0,
+            "pointSize": 7,
+            "showPoints": "always",
             "spanNulls": false
           },
           "unit": "bytes"
@@ -435,7 +444,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_transferred_bytes{job_name=~\"$job\"}",
+          "expr": "veeam_backup_last_transferred_bytes{job_name=~\"$job\"} and changes(veeam_backup_last_end_timestamp_seconds{job_name=~\"$job\"}[5m]) > 0",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
@@ -448,12 +457,12 @@
           "color": { "mode": "palette-classic" },
           "custom": {
             "axisBorderShow": false,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineWidth": 1,
-            "pointSize": 5,
-            "showPoints": "auto",
-            "spanNulls": true
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "lineWidth": 0,
+            "pointSize": 7,
+            "showPoints": "always",
+            "spanNulls": false
           },
           "unit": "s"
         },
@@ -466,7 +475,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_duration_seconds{job_name=~\"$job\"}",
+          "expr": "veeam_backup_last_duration_seconds{job_name=~\"$job\"} and changes(veeam_backup_last_end_timestamp_seconds{job_name=~\"$job\"}[5m]) > 0",
           "legendFormat": "{{job_name}}",
           "refId": "A"
         }
