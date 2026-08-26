@@ -46,13 +46,13 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Backup Status (latest job per instance)",
+      "title": "Last Backup Status (per job)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_status{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "veeam_backup_last_status{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
@@ -83,13 +83,13 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Time Since Last Success (latest job per instance)",
+      "title": "Time Since Last Success (per job)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "time() - (veeam_backup_last_successful_timestamp_seconds{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"}))",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "time() - veeam_backup_last_successful_timestamp_seconds{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
@@ -124,7 +124,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "sum(veeam_backup_running{instance=~\"$instance\"})",
+          "expr": "sum(veeam_backup_running{job_name=~\"$job\"})",
           "instant": true,
           "refId": "A"
         }
@@ -160,7 +160,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "min by (repository) (veeam_repository_accessible{instance=~\"$instance\"})",
+          "expr": "min by (repository) (veeam_repository_accessible{job_name=~\"$job\"})",
           "legendFormat": "{{repository}}",
           "refId": "A"
         }
@@ -188,13 +188,13 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Transferred (latest job per instance)",
+      "title": "Last Transferred (per job)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_transferred_bytes{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "veeam_backup_last_transferred_bytes{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
@@ -221,13 +221,13 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Duration (latest job per instance)",
+      "title": "Last Duration (per job)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_duration_seconds{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "veeam_backup_last_duration_seconds{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
@@ -254,13 +254,13 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "value_and_name"
       },
-      "title": "Last Processed (latest job per instance)",
+      "title": "Last Processed (per job)",
       "type": "stat",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_processed_bytes{instance=~\"$instance\"} and on (instance, job_name) topk by (instance) (1, veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"})",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "veeam_backup_last_processed_bytes{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
@@ -297,8 +297,8 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_transferred_bytes{instance=~\"$instance\"}",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "veeam_backup_last_transferred_bytes{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
@@ -328,8 +328,8 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_duration_seconds{instance=~\"$instance\"}",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "veeam_backup_last_duration_seconds{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A"
         }
       ]
@@ -366,18 +366,14 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "time() - veeam_backup_last_successful_timestamp_seconds{instance=~\"$instance\"}",
-          "legendFormat": "{{instance}} / {{job_name}}",
+          "expr": "time() - veeam_backup_last_successful_timestamp_seconds{job_name=~\"$job\"}",
+          "legendFormat": "{{job_name}}",
           "refId": "A",
           "instant": true,
           "format": "time_series"
         }
       ],
       "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": { "regex": ".*\\{instance=\"([^\"]+)\", job_name=\"([^\"]+)\".*", "renamePattern": "$1 / $2" }
-        },
         {
           "id": "sortBy",
           "options": { "fields": {}, "sort": [{ "field": "Value", "desc": true }] }
@@ -453,22 +449,21 @@
       "id": 14,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Instance", "desc": false }]
+        "sortBy": [{ "displayName": "Job", "desc": false }]
       },
       "title": "Backup Jobs",
       "type": "table",
       "transformations": [
         {
           "id": "joinByField",
-          "options": { "byField": "id", "mode": "outer" }
+          "options": { "byField": "job_name", "mode": "outer" }
         },
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "instance 1",
-                "job_name 1",
+                "job_name",
                 "Value #Status",
                 "Value #End",
                 "Value #Success",
@@ -484,8 +479,7 @@
           "options": {
             "excludeByName": {},
             "renameByName": {
-              "instance 1":         "Instance",
-              "job_name 1":         "Job",
+              "job_name":           "Job",
               "Value #Status":      "Status",
               "Value #End":         "Last End",
               "Value #Success":     "Last Success",
@@ -494,14 +488,13 @@
               "Value #Transferred": "Transferred"
             },
             "indexByName": {
-              "instance 1":         0,
-              "job_name 1":         1,
-              "Value #Status":      2,
-              "Value #End":         3,
-              "Value #Success":     4,
-              "Value #Duration":    5,
-              "Value #Processed":   6,
-              "Value #Transferred": 7
+              "job_name":           0,
+              "Value #Status":      1,
+              "Value #End":         2,
+              "Value #Success":     3,
+              "Value #Duration":    4,
+              "Value #Processed":   5,
+              "Value #Transferred": 6
             }
           }
         }
@@ -509,42 +502,42 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(veeam_backup_last_status{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"job_name\")",
+          "expr": "veeam_backup_last_status{job_name=~\"$job\"}",
           "refId": "Status",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(veeam_backup_last_end_timestamp_seconds{instance=~\"$instance\"} * 1000, \"id\", \":\", \"instance\", \"job_name\")",
+          "expr": "veeam_backup_last_end_timestamp_seconds{job_name=~\"$job\"} * 1000",
           "refId": "End",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(veeam_backup_last_successful_timestamp_seconds{instance=~\"$instance\"} * 1000, \"id\", \":\", \"instance\", \"job_name\")",
+          "expr": "veeam_backup_last_successful_timestamp_seconds{job_name=~\"$job\"} * 1000",
           "refId": "Success",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(veeam_backup_last_duration_seconds{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"job_name\")",
+          "expr": "veeam_backup_last_duration_seconds{job_name=~\"$job\"}",
           "refId": "Duration",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(veeam_backup_last_processed_bytes{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"job_name\")",
+          "expr": "veeam_backup_last_processed_bytes{job_name=~\"$job\"}",
           "refId": "Processed",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "label_join(veeam_backup_last_transferred_bytes{instance=~\"$instance\"}, \"id\", \":\", \"instance\", \"job_name\")",
+          "expr": "veeam_backup_last_transferred_bytes{job_name=~\"$job\"}",
           "refId": "Transferred",
           "instant": true,
           "format": "table"
@@ -558,15 +551,15 @@
       {
         "current": {},
         "datasource": { "type": "prometheus", "uid": "prometheus" },
-        "definition": "label_values(veeam_backup_last_status, instance)",
+        "definition": "label_values(veeam_backup_last_status, job_name)",
         "hide": 0,
         "includeAll": true,
-        "label": "Instance",
+        "label": "Job",
         "multi": true,
-        "name": "instance",
+        "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(veeam_backup_last_status, instance)",
+          "query": "label_values(veeam_backup_last_status, job_name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
