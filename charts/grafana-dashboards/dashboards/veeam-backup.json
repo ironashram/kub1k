@@ -100,7 +100,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 5 },
       "id": 4,
       "options": {
         "colorMode": "background",
@@ -143,7 +143,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 5 },
       "id": 5,
       "options": {
         "colorMode": "background",
@@ -172,8 +172,12 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Used" },
+            "matcher": { "id": "byName", "options": "Veeam Backups" },
             "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "orange" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Other Data" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "dark-gray" } }]
           },
           {
             "matcher": { "id": "byName", "options": "Free" },
@@ -181,7 +185,7 @@
           }
         ]
       },
-      "gridPos": { "h": 4, "w": 8, "x": 16, "y": 1 },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 1 },
       "id": 6,
       "options": {
         "displayLabels": ["name", "value"],
@@ -190,22 +194,65 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "tooltip": { "mode": "single" }
       },
-      "title": "NFS Repository Usage",
+      "title": "NFS Volume Capacity",
       "type": "piechart",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "max(veeam_repository_used_gigabytes{type=\"Nfs\"})",
-          "legendFormat": "Used",
+          "legendFormat": "Veeam Backups",
           "instant": true,
           "refId": "A"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "max(veeam_repository_capacity_gigabytes{type=\"Nfs\"}) - max(veeam_repository_used_gigabytes{type=\"Nfs\"}) - max(veeam_repository_free_gigabytes{type=\"Nfs\"})",
+          "legendFormat": "Other Data",
+          "instant": true,
+          "refId": "B"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "max(veeam_repository_free_gigabytes{type=\"Nfs\"})",
           "legendFormat": "Free",
           "instant": true,
-          "refId": "B"
+          "refId": "C"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 2000 },
+              { "color": "green", "value": 5000 }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 1 },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "title": "NFS Free Space",
+      "type": "stat",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "max(veeam_repository_free_gigabytes{type=\"Nfs\"})",
+          "refId": "A"
         }
       ]
     },
@@ -227,7 +274,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 5 },
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 9 },
       "id": 7,
       "options": {
         "displayMode": "gradient",
@@ -313,7 +360,7 @@
           }
         ]
       },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 14 },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 18 },
       "id": 8,
       "options": {
         "showHeader": true,
@@ -414,7 +461,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 24 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 28 },
       "id": 9,
       "title": "Trends",
       "type": "row"
@@ -430,6 +477,7 @@
             "fillOpacity": 0,
             "lineWidth": 0,
             "pointSize": 7,
+            "scaleDistribution": { "type": "log", "log": 2 },
             "showPoints": "always",
             "spanNulls": false
           },
@@ -437,7 +485,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 25 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 29 },
       "id": 10,
       "title": "Transferred Per Backup",
       "type": "timeseries",
@@ -468,7 +516,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 25 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 29 },
       "id": 11,
       "title": "Duration Per Backup",
       "type": "timeseries",
