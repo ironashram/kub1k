@@ -15,7 +15,7 @@ variable "k3s_kube_bind_address" {
 }
 
 variable "k3s_version" {
-  default = "v1.36.1+k3s1"
+  default = "v1.36.4+k3s1"
 }
 
 variable "k3s_install_script_url" {
@@ -36,7 +36,7 @@ variable "cluster_name" {
 }
 
 variable "keycloak_realm_id" {
-  description = "Keycloak realm used for cluster SSO (argocd, headlamp, grafana, etc.)."
+  description = "Keycloak realm used for cluster SSO"
   default     = "m1k"
 }
 
