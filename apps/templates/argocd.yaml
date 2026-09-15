@@ -23,6 +23,8 @@ spec:
       valuesObject:
         redis:
           enabled: true
+          image:
+            tag: "8.6.4-alpine"
           metrics:
             enabled: false
         redis-ha:
@@ -31,6 +33,8 @@ spec:
           enabled: true
         dex:
           enabled: false
+          image:
+            tag: "v2.40.0"
         notifications:
           enabled: false
         global:
