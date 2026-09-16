@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: haproxy-ingress
+  name: n42-gateway
   namespace: argocd
   labels:
     app/cluster: "{{ .Values.environment }}"
@@ -15,12 +15,14 @@ spec:
       prune: true
       selfHeal: true
   source:
-    chart: haproxy-ingress
-    repoURL: https://haproxy-ingress.github.io/charts
-    targetRevision: 0.16.1
+    chart: n42-gateway
+    repoURL: https://n42-gateway.github.io/charts
+    targetRevision: 0.17.0-alpha.3
     helm:
       valuesObject:
         controller:
+          # class name stays "haproxy": the 10 ingressClassName references live in
+          # separately-synced Applications and cannot cut over atomically
           ingressClass: haproxy
           ingressClassResource:
             enabled: true
@@ -34,7 +36,7 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 - labelSelector:
                     matchLabels:
-                      app.kubernetes.io/name: haproxy-ingress
+                      app.kubernetes.io/name: n42-gateway
                   topologyKey: kubernetes.io/hostname
           topologySpreadConstraints:
             - maxSkew: 1
@@ -57,4 +59,4 @@ spec:
             enabled: true
   destination:
     name: in-cluster
-    namespace: haproxy-ingress
+    namespace: n42-gateway

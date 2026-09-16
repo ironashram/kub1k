@@ -127,7 +127,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": false,
-                    "expr": "max(rate(haproxyingress_haproxy_processing_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m]))",
+                    "expr": "max(rate(n42gateway_haproxy_processing_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m]))",
                     "format": "table",
                     "instant": true,
                     "interval": "",
@@ -216,7 +216,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": true,
-                    "expr": "count(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})-count(haproxy_process_start_time_seconds{job=\"haproxy-ingress\",cluster=~\"$cluster\",hostname=~\"$hostname\"})",
+                    "expr": "count(n42gateway_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})-count(haproxy_process_start_time_seconds{job=\"n42-gateway\",cluster=~\"$cluster\",hostname=~\"$hostname\"})",
                     "format": "time_series",
                     "instant": false,
                     "interval": "",
@@ -509,7 +509,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": false,
-                    "expr": "time()-max(haproxy_process_start_time_seconds{job=\"haproxy-ingress\",cluster=~\"$cluster\",hostname=~\"$hostname\"})",
+                    "expr": "time()-max(haproxy_process_start_time_seconds{job=\"n42-gateway\",cluster=~\"$cluster\",hostname=~\"$hostname\"})",
                     "format": "table",
                     "instant": true,
                     "interval": "",
@@ -596,7 +596,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": true,
-                    "expr": "1-min(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
+                    "expr": "1-min(n42gateway_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
                     "format": "time_series",
                     "instant": false,
                     "interval": "",
@@ -675,7 +675,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": false,
-                    "expr": "(min(haproxyingress_cert_expire_date_epoch)-time())/3600/24",
+                    "expr": "(min(n42gateway_cert_expire_date_epoch)-time())/3600/24",
                     "format": "table",
                     "instant": true,
                     "interval": "",
@@ -820,7 +820,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": false,
-                    "expr": "count(haproxyingress_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
+                    "expr": "count(n42gateway_update_success{cluster=~\"$cluster\",hostname=~\"$hostname\"})",
                     "format": "table",
                     "instant": true,
                     "interval": "",
@@ -1011,7 +1011,7 @@
                                 "uid": "prometheus"
                             },
                             "exemplar": true,
-                            "expr": "rate(haproxyingress_haproxy_processing_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m])",
+                            "expr": "rate(n42gateway_haproxy_processing_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m])",
                             "format": "time_series",
                             "interval": "",
                             "intervalFactor": 1,
@@ -1113,7 +1113,7 @@
                                 "type": "prometheus",
                                 "uid": "prometheus"
                             },
-                            "expr": "rate(haproxyingress_haproxy_response_time_seconds_sum{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\"}[1m])/rate(haproxyingress_haproxy_response_time_seconds_count{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\"}[1m])",
+                            "expr": "rate(n42gateway_haproxy_response_time_seconds_sum{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\"}[1m])/rate(n42gateway_haproxy_response_time_seconds_count{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\"}[1m])",
                             "format": "time_series",
                             "intervalFactor": 1,
                             "legendFormat": "{{hostname}}",
@@ -1214,7 +1214,7 @@
                                 "type": "prometheus",
                                 "uid": "prometheus"
                             },
-                            "expr": "increase(haproxyingress_updates_total{cluster=~\"$cluster\",hostname=~\"$hostname\",status=\"full\"}[1m])",
+                            "expr": "increase(n42gateway_updates_total{cluster=~\"$cluster\",hostname=~\"$hostname\",status=\"full\"}[1m])",
                             "format": "time_series",
                             "intervalFactor": 1,
                             "legendFormat": "{{hostname}}",
@@ -1320,7 +1320,7 @@
                                 "uid": "prometheus"
                             },
                             "exemplar": true,
-                            "expr": "1-(increase(haproxyingress_haproxy_response_time_seconds_bucket{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\",le=\"0.01\"}[1m]) / ignoring (le) increase(haproxyingress_haproxy_response_time_seconds_count{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\"}[1m]))",
+                            "expr": "1-(increase(n42gateway_haproxy_response_time_seconds_bucket{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\",le=\"0.01\"}[1m]) / ignoring (le) increase(n42gateway_haproxy_response_time_seconds_count{cluster=~\"$cluster\",hostname=~\"$hostname\",command=\"show_info\"}[1m]))",
                             "format": "time_series",
                             "interval": "",
                             "intervalFactor": 1,
@@ -1444,7 +1444,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": true,
-                    "expr": "rate(process_cpu_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\",job=\"haproxy-ingress\"}[1m])",
+                    "expr": "rate(process_cpu_seconds_total{cluster=~\"$cluster\",hostname=~\"$hostname\",job=\"n42-gateway\"}[1m])",
                     "format": "time_series",
                     "interval": "",
                     "intervalFactor": 1,
@@ -1546,7 +1546,7 @@
                         "type": "prometheus",
                         "uid": "prometheus"
                     },
-                    "expr": "sum(increase(haproxyingress_updates_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m])) by (hostname)",
+                    "expr": "sum(increase(n42gateway_updates_total{cluster=~\"$cluster\",hostname=~\"$hostname\"}[1m])) by (hostname)",
                     "format": "time_series",
                     "intervalFactor": 1,
                     "legendFormat": "{{hostname}}",
@@ -2894,7 +2894,7 @@
                         "uid": "prometheus"
                     },
                     "exemplar": false,
-                    "expr": "min(1000*haproxyingress_cert_expire_date_epoch{cluster=~\"$cluster\",hostname=~\"$hostname\"}) by (cn)",
+                    "expr": "min(1000*n42gateway_cert_expire_date_epoch{cluster=~\"$cluster\",hostname=~\"$hostname\"}) by (cn)",
                     "format": "table",
                     "instant": true,
                     "interval": "",
@@ -3002,7 +3002,7 @@
                         "type": "prometheus",
                         "uid": "prometheus"
                     },
-                    "expr": "sum(increase(haproxyingress_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",reason=\"missing\",success=\"true\"}[1m])) by (hostname)",
+                    "expr": "sum(increase(n42gateway_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",reason=\"missing\",success=\"true\"}[1m])) by (hostname)",
                     "hide": false,
                     "instant": false,
                     "legendFormat": "{{hostname}} | missing",
@@ -3013,7 +3013,7 @@
                         "type": "prometheus",
                         "uid": "prometheus"
                     },
-                    "expr": "sum(increase(haproxyingress_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",reason=\"expiring\",success=\"true\"}[1m])) by (hostname)",
+                    "expr": "sum(increase(n42gateway_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",reason=\"expiring\",success=\"true\"}[1m])) by (hostname)",
                     "legendFormat": "{{hostname}} | expiring",
                     "refId": "B"
                 },
@@ -3022,7 +3022,7 @@
                         "type": "prometheus",
                         "uid": "prometheus"
                     },
-                    "expr": "sum(increase(haproxyingress_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",reason=\"outdated\",success=\"true\"}[1m])) by (hostname)",
+                    "expr": "sum(increase(n42gateway_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",reason=\"outdated\",success=\"true\"}[1m])) by (hostname)",
                     "instant": false,
                     "legendFormat": "{{hostname}} | outdated",
                     "refId": "C"
@@ -3120,7 +3120,7 @@
                         "type": "prometheus",
                         "uid": "prometheus"
                     },
-                    "expr": "sum(increase(haproxyingress_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",success=\"false\"}[1m])) by (hostname,domains)",
+                    "expr": "sum(increase(n42gateway_cert_signing_count{cluster=~\"$cluster\",hostname=~\"$hostname\",success=\"false\"}[1m])) by (hostname,domains)",
                     "legendFormat": "{{hostname}} | {{domains}}",
                     "refId": "A"
                 }
@@ -3251,7 +3251,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "HAProxy Ingress",
+    "title": "N42 Gateway",
     "uid": "qr3JtwDWz",
     "version": 1,
     "weekStart": ""

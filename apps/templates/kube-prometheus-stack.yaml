@@ -445,15 +445,15 @@ spec:
                   for: 30m
                   labels:
                     severity: warning
-          haproxy-ingress:
+          n42-gateway:
             groups:
-            - name: haproxy-ingress
+            - name: n42-gateway
               rules:
-                - alert: HAProxyIngressReloadFailing
+                - alert: N42GatewayReloadFailing
                   annotations:
-                    message: haproxy-ingress controller {{`{{`}} $labels.pod {{`}}`}} last config update failed - serving stale config until the next successful reload
+                    message: n42-gateway controller {{`{{`}} $labels.pod {{`}}`}} last config update failed - serving stale config until the next successful reload
                   expr: |-
-                    haproxyingress_update_success == 0
+                    n42gateway_update_success == 0
                   for: 15m
                   labels:
                     severity: warning
