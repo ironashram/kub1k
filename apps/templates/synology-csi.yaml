@@ -20,6 +20,9 @@ spec:
     targetRevision: 0.11.4
     helm:
       valuesObject:
+        images:
+          plugin:
+            tag: v1.3.1
         clientInfoSecret:
           name: client-info-secret
           create: false

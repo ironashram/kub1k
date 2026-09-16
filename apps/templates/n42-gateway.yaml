@@ -21,8 +21,6 @@ spec:
     helm:
       valuesObject:
         controller:
-          # class name stays "haproxy": the 10 ingressClassName references live in
-          # separately-synced Applications and cannot cut over atomically
           ingressClass: haproxy
           ingressClassResource:
             enabled: true
