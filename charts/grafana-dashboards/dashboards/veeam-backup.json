@@ -42,7 +42,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "count(veeam_backup_last_status{job_name=~\"$job\"} == 0) or on() vector(0)",
+          "expr": "count(last_over_time(veeam_backup_last_status{job_name=~\"$job\"}[7d]) == 0) or (count(last_over_time(veeam_backup_last_status{job_name=~\"$job\"}[7d])) * 0)",
           "instant": true,
           "refId": "A"
         }
@@ -78,7 +78,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "count(veeam_backup_last_status{job_name=~\"$job\"} == 2) or on() vector(0)",
+          "expr": "count(last_over_time(veeam_backup_last_status{job_name=~\"$job\"}[7d]) == 2) or (count(last_over_time(veeam_backup_last_status{job_name=~\"$job\"}[7d])) * 0)",
           "instant": true,
           "refId": "A"
         }
@@ -114,7 +114,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "sum(veeam_backup_running{job_name=~\"$job\"}) or on() vector(0)",
+          "expr": "sum(last_over_time(veeam_backup_running{job_name=~\"$job\"}[15m]))",
           "instant": true,
           "refId": "A"
         }
@@ -157,7 +157,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "min(veeam_repository_accessible{type=\"Nfs\"})",
+          "expr": "min(last_over_time(veeam_repository_accessible{type=\"Nfs\"}[7d]))",
           "instant": true,
           "refId": "A"
         }
@@ -199,21 +199,21 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "max(veeam_repository_used_gigabytes{type=\"Nfs\"})",
+          "expr": "max(last_over_time(veeam_repository_used_gigabytes{type=\"Nfs\"}[7d]))",
           "legendFormat": "Veeam Backups",
           "instant": true,
           "refId": "A"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "max(veeam_repository_capacity_gigabytes{type=\"Nfs\"}) - max(veeam_repository_used_gigabytes{type=\"Nfs\"}) - max(veeam_repository_free_gigabytes{type=\"Nfs\"})",
+          "expr": "max(last_over_time(veeam_repository_capacity_gigabytes{type=\"Nfs\"}[7d])) - max(last_over_time(veeam_repository_used_gigabytes{type=\"Nfs\"}[7d])) - max(last_over_time(veeam_repository_free_gigabytes{type=\"Nfs\"}[7d]))",
           "legendFormat": "Other Data",
           "instant": true,
           "refId": "B"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "max(veeam_repository_free_gigabytes{type=\"Nfs\"})",
+          "expr": "max(last_over_time(veeam_repository_free_gigabytes{type=\"Nfs\"}[7d]))",
           "legendFormat": "Free",
           "instant": true,
           "refId": "C"
@@ -288,7 +288,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "time() - veeam_backup_last_successful_timestamp_seconds{job_name=~\"$job\"}",
+          "expr": "time() - last_over_time(veeam_backup_last_successful_timestamp_seconds{job_name=~\"$job\"}[7d])",
           "legendFormat": "{{job_name}}",
           "refId": "A",
           "instant": true,
@@ -417,42 +417,42 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_status{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}",
+          "expr": "last_over_time(veeam_backup_last_status{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}[7d])",
           "refId": "Status",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_end_timestamp_seconds{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"} * 1000",
+          "expr": "last_over_time(veeam_backup_last_end_timestamp_seconds{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}[7d]) * 1000",
           "refId": "End",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_successful_timestamp_seconds{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"} * 1000",
+          "expr": "last_over_time(veeam_backup_last_successful_timestamp_seconds{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}[7d]) * 1000",
           "refId": "Success",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_duration_seconds{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}",
+          "expr": "last_over_time(veeam_backup_last_duration_seconds{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}[7d])",
           "refId": "Duration",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_processed_bytes{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}",
+          "expr": "last_over_time(veeam_backup_last_processed_bytes{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}[7d])",
           "refId": "Processed",
           "instant": true,
           "format": "table"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "veeam_backup_last_transferred_bytes{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}",
+          "expr": "last_over_time(veeam_backup_last_transferred_bytes{job_name=~\"$job\",session_type=~\"EndpointBackup|AgentBackup|BackupJob|BackupCopyJob\"}[7d])",
           "refId": "Transferred",
           "instant": true,
           "format": "table"

@@ -7,6 +7,9 @@ spec:
   endpoints:
     - port: metrics
       interval: 60s
+      metricRelabelings:
+        - action: labeldrop
+          regex: "instance|pod"
   selector:
     matchLabels:
       app: {{ .Release.Name }}
