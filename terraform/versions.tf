@@ -10,7 +10,7 @@ terraform {
     }
     vault = {
       source  = "hashicorp/vault"
-      version = "5.11.0"
+      version = "5.12.0"
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
