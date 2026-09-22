@@ -1,6 +1,6 @@
 variable "runner_repos" {
   type        = list(string)
-  default     = ["kub1k", "commstack", "metapac", "m1k.cloud"]
+  default     = ["kub1k", "commstack", "metapac", "m1k.cloud", "plezy"]
   description = "Repos (under the github owner) to register a self-hosted runner for on the runner VM"
 }
 
