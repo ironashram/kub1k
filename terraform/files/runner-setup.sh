@@ -42,4 +42,5 @@ for repo in $RUNNER_REPOS; do
     --work _work
 done
 
+rm -f /etc/github-runner/pat
 touch "$BASE/.configured"
