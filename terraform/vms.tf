@@ -22,7 +22,7 @@ resource "synology_filestation_iso" "control_ignition" {
   files = [
     {
       path    = "openstack/latest/user_data"
-      content = data.ct_config.control_ignition[count.index].rendered
+      content = sensitive(data.ct_config.control_ignition[count.index].rendered)
     }
   ]
 }
@@ -89,7 +89,7 @@ resource "synology_filestation_iso" "worker_ignition" {
   files = [
     {
       path    = "openstack/latest/user_data"
-      content = data.ct_config.worker_ignition[count.index].rendered
+      content = sensitive(data.ct_config.worker_ignition[count.index].rendered)
     }
   ]
 }

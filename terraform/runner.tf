@@ -1,11 +1,12 @@
 locals {
   runner_name  = "${var.cluster_name}-runner"
   runner_owner = data.vault_generic_secret.github.data["owner"]
+  runner_repos = split(",", data.vault_generic_secret.runner.data["repos"])
 
   runner_env = <<-EOT
     RUNNER_VERSION=${var.runner_version}
     RUNNER_OWNER=${local.runner_owner}
-    RUNNER_REPOS=${join(" ", var.runner_repos)}
+    RUNNER_REPOS=${join(" ", local.runner_repos)}
     RUNNER_LABELS=${var.runner_labels}
   EOT
 }
@@ -21,7 +22,7 @@ data "ct_config" "runner_ignition" {
     dns2           = var.dns2
     ssh_public_key = local.ssh_public_key
     password_hash  = local.console_password_hash
-    repos          = var.runner_repos
+    repos          = local.runner_repos
     setup_b64      = base64encode(file("${path.module}/files/runner-setup.sh"))
     env_b64        = base64encode(local.runner_env)
     pat_b64        = base64encode(data.vault_generic_secret.runner.data["github_token"])
@@ -36,7 +37,7 @@ resource "synology_filestation_iso" "runner_ignition" {
   files = [
     {
       path    = "openstack/latest/user_data"
-      content = data.ct_config.runner_ignition.rendered
+      content = sensitive(data.ct_config.runner_ignition.rendered)
     }
   ]
 }
