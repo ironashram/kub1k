@@ -9,50 +9,65 @@
 
 
 The name comes from a silly portmanteau between kube and m1k (my nickname) <br>
-This repository contains the Terraform code for deploying and managing a homelab k8s infrastructure.
+This repository contains the OpenTofu code and Argo CD applications for deploying and managing a homelab k8s infrastructure.
 
 ## Overview
 
-The kub1k project aims to provide a scalable and easily maintainable Kubernetes cluster using K3s on top of Flatcar Container Linux, running as VMs on Synology Virtual Machine Manager. The base infrastructure is provisioned using Terraform; once the cluster and CNI are operational, ArgoCD handles the application deployment and management.
+kub1k is a three node K3s cluster on Flatcar Container Linux, running as VMs on Synology Virtual Machine Manager. Every node is control plane, embedded etcd and worker at once. OpenTofu provisions the VMs, installs K3s and bootstraps Calico, CoreDNS, kube-vip and Argo CD. From there an Argo CD app of apps deploys everything else.
 
 The following components are part of this setup:
 
-| Component                        | Source                                                                                                   |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Synology Provider (ironashram fork) | https://github.com/ironashram/terraform-provider-synology                                             |
-| ArgoCD                           | https://github.com/argoproj/argo-cd                                                                      |
-| External Secrets Operator        | https://github.com/external-secrets/external-secrets                                                     |
-| Calico                           | https://github.com/projectcalico/calico                                                                  |
-| Metallb                          | https://github.com/metallb/metallb                                                                       |
-| HAProxy Ingress                  | https://github.com/jcmoraisjr/haproxy-ingress                                                            |
-| Kube-Prometheus-Stack            | https://github.com/prometheus-community/helm-charts                                                      |
-| VictoriaMetrics                  | https://github.com/VictoriaMetrics/VictoriaMetrics                                                       |
-| Cert-Manager                     | https://github.com/cert-manager/cert-manager                                                             |
-| Synology CSI Driver              | https://github.com/SynologyOpenSource/synology-csi                                                       |
-| kube-vip                         | https://github.com/kube-vip/kube-vip                                                                     |
-| Custom Helm charts               | https://github.com/ironashram/kub1k/tree/main/charts                                                     |
+| Component                           | Source                                                                    |
+| ----------------------------------- | ------------------------------------------------------------------------- |
+| Synology Provider                   | https://github.com/ironashram/terraform-provider-synology                 |
+| Argo CD                             | https://github.com/argoproj/argo-cd                                       |
+| Calico                              | https://github.com/projectcalico/calico                                   |
+| CoreDNS                             | https://github.com/coredns/coredns                                        |
+| kube-vip                            | https://github.com/kube-vip/kube-vip                                      |
+| MetalLB                             | https://github.com/metallb/metallb                                        |
+| n42-gateway                         | https://github.com/n42-gateway/n42-gateway                                |
+| cert-manager                        | https://github.com/cert-manager/cert-manager                              |
+| cert-manager Hetzner webhook        | https://charts.hetzner.cloud                                              |
+| External Secrets Operator           | https://github.com/external-secrets/external-secrets                      |
+| Synology CSI Driver                 | https://github.com/SynologyOpenSource/synology-csi                        |
+| CloudNativePG                       | https://github.com/cloudnative-pg/cloudnative-pg                          |
+| Keycloak                            | https://github.com/keycloak/keycloak                                      |
+| Headlamp                            | https://github.com/kubernetes-sigs/headlamp                               |
+| Kube-Prometheus-Stack               | https://github.com/prometheus-community/helm-charts                       |
+| VictoriaMetrics                     | https://github.com/VictoriaMetrics/VictoriaMetrics                        |
+| Prometheus Pushgateway              | https://github.com/prometheus/pushgateway                                 |
+| Custom Helm charts                  | https://github.com/ironashram/kub1k/tree/main/charts                      |
+
+## Repository layout
+
+- `terraform/`: node VMs, the GitHub Actions runner VM, the K3s install, the bootstrap components and Keycloak SSO
+- `apps/`: the Argo CD app of apps, one `Application` per component
+- `charts/`: local Helm charts used by those applications
+- `tools/`: helper scripts and the K3s version upgrader
 
 ## Prerequisites
 
-Before deploying the infrastructure, make sure you have the following prerequisites:
-
-- OpenTofu: Version >= 1.11.0
-- Helm: Version >= 3.17.0
-- Kubernetes: Version >= 1.32.0
-- OpenBao: Version >= 2.3.0
+- OpenTofu
+- make, curl and jq
+- Go, for `make upgrade-kubernetes-version`
+- An OpenBao token in `VAULT_ADDR` and `VAULT_TOKEN`
+- Credentials for the S3 state backend in `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 
 ## Getting Started
 
-To deploy the infrastructure, follow these steps:
+1. Clone this repository and change into it.
+2. Review the variables in `terraform/variables.tf`, `terraform/vm_variables.tf` and `terraform/runner_variables.tf`.
+3. Run `make init`. It fetches the kubeconfig from OpenBao and initializes the backend.
+4. Run `make plan` to see the execution plan.
+5. Run `make apply` to apply it.
 
-1. Clone this repository to your local machine.
-2. Navigate to the project directory.
-3. Initialize the Terraform backend by running `make init`.
-4. Review and modify the variables in the `variables.tf` file according to your environment.
-5. Run `make plan` to see the execution plan.
-6. Run `make apply` to deploy the infrastructure.
+Run `make help` for the other targets.
 
-For more detailed instructions, please refer to the [Terraform documentation](https://www.terraform.io/docs/index.html).
+## Automation
+
+- Pull requests touching `terraform/` get a plan comment, and merging applies that plan. Both run on the self-hosted runner VM.
+- [argocd-apps-action](https://github.com/ironashram/argocd-apps-action) opens pull requests for new chart versions of the Argo CD applications.
+- Dependabot opens pull requests for major workflow action bumps and for OpenTofu provider bumps.
 
 ## License
 
