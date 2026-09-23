@@ -1,0 +1,4 @@
+apiVersion: v2
+description: A Helm chart rendering network policies for workloads whose charts cannot ship their own.
+name: network-policies
+version: 0.0.1

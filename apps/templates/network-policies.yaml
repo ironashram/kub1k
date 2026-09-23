@@ -1,0 +1,72 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: network-policies
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: local
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://github.com/ironashram/{{ .Values.environment }}.git
+    path: charts/network-policies
+    targetRevision: main
+    helm:
+      valuesObject:
+        policies:
+          n42-gateway:
+            namespace: n42-gateway
+            spec:
+              podSelector:
+                matchLabels:
+                  app.kubernetes.io/name: n42-gateway
+              policyTypes:
+                - Ingress
+                - Egress
+              ingress:
+                - from:
+                    - ipBlock:
+                        cidr: 0.0.0.0/0
+                    - namespaceSelector: {}
+                  ports:
+                    - port: 80
+                      protocol: TCP
+                    - port: 443
+                      protocol: TCP
+                    - port: 10253
+                      protocol: TCP
+                - from:
+                    - namespaceSelector:
+                        matchLabels:
+                          kubernetes.io/metadata.name: monitoring
+                  ports:
+                    - port: 9101
+                      protocol: TCP
+                    - port: 10254
+                      protocol: TCP
+              egress:
+                - to:
+                    {{- range .Values.k8sControlNodes }}
+                    - ipBlock:
+                        cidr: {{ . }}/32
+                    {{- end }}
+                  ports:
+                    - port: 6443
+                      protocol: TCP
+                - to:
+                    - namespaceSelector: {}
+                - to:
+                    - ipBlock:
+                        cidr: 0.0.0.0/0
+                        except:
+                          - 10.0.0.0/8
+                          - 172.16.0.0/12
+                          - 192.168.0.0/16
+  destination:
+    name: in-cluster
+    namespace: n42-gateway
