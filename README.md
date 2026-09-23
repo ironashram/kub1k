@@ -13,7 +13,7 @@ This repository contains the OpenTofu code and Argo CD applications for deployin
 
 ## Overview
 
-kub1k is a three node K3s cluster on Flatcar Container Linux, running as VMs on Synology Virtual Machine Manager. Every node is control plane, embedded etcd and worker at once. OpenTofu provisions the VMs, installs K3s and bootstraps Calico, CoreDNS, kube-vip and Argo CD. From there an Argo CD app of apps deploys everything else.
+kub1k is a K3s cluster on Flatcar Container Linux, running as VMs on Synology Virtual Machine Manager. The number of control plane nodes (embedded etcd) and dedicated workers is set by `control_count` and `worker_count`, and `label_controls_as_worker` lets the control plane nodes run workloads too. OpenTofu provisions the VMs, installs K3s and bootstraps Calico, CoreDNS, kube-vip and Argo CD. From there an Argo CD app of apps deploys everything else.
 
 The following components are part of this setup:
 
