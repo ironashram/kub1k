@@ -67,3 +67,9 @@ resources:
 lagExporter:
   mirrorDomain: ""
   pushgatewayUrl: "http://prometheus-pushgateway.monitoring:9091"
+
+networkPolicy:
+  enabled: true
+  ingressNamespace: n42-gateway
+  pushgatewayNamespace: monitoring
+  pushgatewayPort: 9091

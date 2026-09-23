@@ -31,7 +31,7 @@ data:
         <urAccepted>-1</urAccepted>
         <crashReportingEnabled>false</crashReportingEnabled>
         <autoUpgradeIntervalH>0</autoUpgradeIntervalH>
-        <natEnabled>true</natEnabled>
+        <natEnabled>false</natEnabled>
       </options>
     </configuration>
 {{- end }}
