@@ -15,7 +15,7 @@ variable "k3s_kube_bind_address" {
 }
 
 variable "k3s_version" {
-  default = "v1.36.4+k3s1"
+  default = "v1.37.1+k3s1"
 }
 
 variable "k3s_install_script_url" {
