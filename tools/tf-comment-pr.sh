@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TERRAFORM_OPTIONS="$1"
-
-if ! PLAN=$(tofu $TERRAFORM_OPTIONS show -no-color terraform.tfplan); then
+if ! PLAN=$(tofu "$@" show -no-color terraform.tfplan); then
     echo "Error: Failed to get terraform plan output"
     exit 1
 fi
