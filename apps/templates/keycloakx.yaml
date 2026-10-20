@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloakx
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: keycloakx
+    repoURL: https://codecentric.github.io/helm-charts
+    targetRevision: 7.4.0
+    helm:
+      valuesObject:
+        replicas: 2
+        args:
+          - start
+        http:
+          relativePath: /
+        proxy:
+          mode: xforwarded
+        database:
+          vendor: postgres
+          hostname: keycloak-pg-rw.keycloak.svc
+          port: 5432
+          database: keycloak
+          existingSecret: keycloak-pg-app
+          existingSecretKey: password
+        extraEnv: |
+          - name: KC_HOSTNAME
+            value: keycloak.{{ .Values.externalDomain }}
+          - name: KC_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-pg-app
+                key: username
+          - name: KC_BOOTSTRAP_ADMIN_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-bootstrap-admin
+                key: username
+          - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-bootstrap-admin
+                key: password
+          - name: JAVA_OPTS_APPEND
+            value: "-Xms256m -Xmx384m"
+        extraVolumes: |
+          - name: theme
+            configMap:
+              name: keycloak-theme
+        extraVolumeMounts: |
+          - name: theme
+            mountPath: /opt/keycloak/themes/m1k/login/theme.properties
+            subPath: theme.properties
+          - name: theme
+            mountPath: /opt/keycloak/themes/m1k/login/resources/css/custom.css
+            subPath: custom.css
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+  destination:
+    name: in-cluster
+    namespace: keycloak

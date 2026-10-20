@@ -10,6 +10,7 @@ spec:
   project: default
   syncPolicy:
     automated:
+      prune: true
       selfHeal: true
   source:
     repoURL: https://github.com/ironashram/{{ .Values.environment }}.git

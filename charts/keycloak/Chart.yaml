@@ -1,4 +1,4 @@
 apiVersion: v2
-description: Keycloak workload (CNPG-backed Postgres + Keycloak CR + KeycloakRealmImport + Ingress)
+description: Keycloak support resources (CNPG-backed Postgres, theme, Ingress, OIDC RBAC) for the keycloakx release
 name: keycloak
 version: 0.0.1
