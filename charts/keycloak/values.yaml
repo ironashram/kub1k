@@ -1,4 +1,3 @@
 externalDomain: example.com
-realmName: example
 postgresInstances: 3
 postgresStorageSize: 5Gi
