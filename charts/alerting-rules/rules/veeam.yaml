@@ -1,0 +1,37 @@
+groups:
+- name: veeam
+  rules:
+  - alert: VeeamBackupFailed
+    annotations:
+      message: Veeam backup {{ $labels.job_name }} last run failed
+    expr: veeam_backup_last_status == 0
+    for: 48h
+    labels:
+      severity: warning
+  - alert: VeeamNoRecentBackup
+    annotations:
+      message: Veeam backup {{ $labels.job_name }} has not succeeded in the last
+        48h
+    expr: |-
+      (
+      (time() - veeam_backup_last_successful_timestamp_seconds) > bool (48 * 3600)
+      or
+      absent(veeam_backup_last_successful_timestamp_seconds)
+      ) == 1
+    for: 72h
+    labels:
+      severity: critical
+  - alert: VeeamRepositoryUnreachable
+    annotations:
+      message: Veeam repository {{ $labels.repository }} is not online
+    expr: veeam_repository_accessible == 0
+    for: 12h
+    labels:
+      severity: critical
+  - alert: VeeamExporterDown
+    annotations:
+      message: Veeam exporter cannot scrape the VBR REST API
+    expr: veeam_up == 0 or absent(veeam_up)
+    for: 30m
+    labels:
+      severity: warning

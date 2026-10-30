@@ -1,0 +1,11 @@
+groups:
+- name: n42-gateway
+  rules:
+  - alert: N42GatewayReloadFailing
+    annotations:
+      message: n42-gateway controller {{ $labels.pod }} last config update failed
+        - serving stale config until the next successful reload
+    expr: n42gateway_update_success == 0
+    for: 15m
+    labels:
+      severity: warning

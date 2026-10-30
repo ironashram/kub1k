@@ -1,0 +1,5 @@
+apiVersion: v2
+name: alerting-rules
+description: vmalert alerting and recording rules as a ConfigMap
+version: 1.0.0
+appVersion: 1.0.0
