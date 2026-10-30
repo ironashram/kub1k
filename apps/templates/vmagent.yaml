@@ -56,10 +56,6 @@ spec:
           remoteWrite.label: "cluster={{ $.Values.environment }}"
         remoteWrite:
           - url: https://vm-{{ $shard }}.{{ $.Values.internalDomain }}/api/v1/write
-            urlRelabelConfig:
-              - action: drop
-                source_labels: [__name__]
-                regex: .+
         config:
           global:
             scrape_interval: 60s
@@ -103,6 +99,8 @@ spec:
               relabel_configs:
                 - target_label: job
                   replacement: kubelet
+                - source_labels: [__address__]
+                  target_label: instance
                 - source_labels: [__meta_kubernetes_node_name]
                   target_label: node
                 - source_labels: [__metrics_path__]

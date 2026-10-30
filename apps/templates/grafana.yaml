@@ -1,0 +1,99 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+  labels:
+    app/cluster: "{{ .Values.environment }}"
+    app/source: upstream
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: grafana
+    repoURL: https://grafana-community.github.io/helm-charts
+    targetRevision: 14.1.0
+    helm:
+      valuesObject:
+        persistence:
+          enabled: true
+          type: sts
+          storageClassName: local-path
+          accessModes:
+            - ReadWriteOnce
+          size: 2Gi
+          finalizers:
+            - kubernetes.io/pvc-protection
+        admin:
+          existingSecret: grafana-admin
+          userKey: admin-user
+          passwordKey: admin-password
+        envFromSecret: keycloak-client-grafana
+        service:
+          portName: http-web
+        grafana.ini:
+          server:
+            root_url: https://grafana.{{ .Values.internalDomain }}
+          auth.generic_oauth:
+            enabled: true
+            name: Keycloak
+            allow_sign_up: true
+            client_id: $__env{client_id}
+            client_secret: $__env{client_secret}
+            scopes: openid profile email
+            auth_url: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}/protocol/openid-connect/auth
+            token_url: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}/protocol/openid-connect/token
+            api_url: https://keycloak.{{ .Values.externalDomain }}/realms/{{ .Values.keycloakRealmId }}/protocol/openid-connect/userinfo
+            role_attribute_path: contains(realm_access.roles[*], 'admins') && 'Admin' || 'Viewer'
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          enabled: true
+          ingressClassName: haproxy
+          hosts:
+            - grafana.{{ .Values.internalDomain }}
+          tls:
+            - secretName: grafana-cert
+              hosts:
+                - grafana.{{ .Values.internalDomain }}
+        sidecar:
+          dashboards:
+            enabled: true
+            label: grafana_dashboard
+            labelValue: "1"
+            searchNamespace: ALL
+        datasources:
+          datasources.yaml:
+            apiVersion: 1
+            datasources:
+              - name: Prometheus
+                type: prometheus
+                uid: prometheus
+                url: https://vm.{{ .Values.internalDomain }}
+                access: proxy
+                isDefault: true
+                jsonData:
+                  prometheusType: VictoriaMetrics
+                  httpMethod: POST
+                  timeInterval: 60s
+              - name: Alertmanager
+                type: alertmanager
+                uid: alertmanager
+                url: https://alertmanager.{{ .Values.internalDomain }}
+                access: proxy
+                jsonData:
+                  handleGrafanaManagedAlerts: false
+                  implementation: prometheus
+  ignoreDifferences:
+    - group: "apps"
+      kind: "StatefulSet"
+      jqPathExpressions:
+        - .spec.volumeClaimTemplates[]
+  destination:
+    name: in-cluster
+    namespace: monitoring

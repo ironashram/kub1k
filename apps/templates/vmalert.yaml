@@ -24,7 +24,7 @@ spec:
       valuesObject:
         server:
           replicaCount: 1
-          configMap: prometheus-ruler-rulefiles-0
+          configMap: alerting-rules
           extraArgs:
             envflag.enable: true
             envflag.prefix: VM_
@@ -40,8 +40,8 @@ spec:
           datasource:
             url: https://vm-{{ $shard }}.{{ $.Values.internalDomain }}
           notifiers:
-            - url: http://alertmanager-kube-prometheus-stack-alertmanager-0.alertmanager-operated.monitoring.svc:9093
-            - url: http://alertmanager-kube-prometheus-stack-alertmanager-1.alertmanager-operated.monitoring.svc:9093
+            - url: http://alertmanager-0.alertmanager-headless.monitoring.svc:9093
+            - url: http://alertmanager-1.alertmanager-headless.monitoring.svc:9093
           resources:
             requests:
               cpu: 50m

@@ -22,7 +22,7 @@ spec:
       valuesObject:
         replicaCount: 2
         podAntiAffinity: hard
-        baseURL: https://alertmanager-next.{{ .Values.internalDomain }}
+        baseURL: https://alertmanager.{{ .Values.internalDomain }}
         persistence:
           enabled: true
           storageClass: local-path
@@ -34,14 +34,14 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-prod
             haproxy-ingress.github.io/balance-algorithm: source
           hosts:
-            - host: alertmanager-next.{{ .Values.internalDomain }}
+            - host: alertmanager.{{ .Values.internalDomain }}
               paths:
                 - path: /
                   pathType: Prefix
           tls:
-            - secretName: alertmanager-next-cert
+            - secretName: alertmanager-cert
               hosts:
-                - alertmanager-next.{{ .Values.internalDomain }}
+                - alertmanager.{{ .Values.internalDomain }}
         config:
           global:
             resolve_timeout: 5m
