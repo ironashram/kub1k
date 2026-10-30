@@ -33,8 +33,11 @@ The following components are part of this setup:
 | CloudNativePG                       | https://github.com/cloudnative-pg/cloudnative-pg                          |
 | Keycloak                            | https://github.com/keycloak/keycloak                                      |
 | Headlamp                            | https://github.com/kubernetes-sigs/headlamp                               |
-| Kube-Prometheus-Stack               | https://github.com/prometheus-community/helm-charts                       |
 | VictoriaMetrics                     | https://github.com/VictoriaMetrics/VictoriaMetrics                        |
+| Alertmanager                        | https://github.com/prometheus/alertmanager                                |
+| Grafana                             | https://github.com/grafana/grafana                                        |
+| node-exporter                       | https://github.com/prometheus/node_exporter                               |
+| kube-state-metrics                  | https://github.com/kubernetes/kube-state-metrics                          |
 | Prometheus Pushgateway              | https://github.com/prometheus/pushgateway                                 |
 | Custom Helm charts                  | https://github.com/ironashram/kub1k/tree/main/charts                      |
 

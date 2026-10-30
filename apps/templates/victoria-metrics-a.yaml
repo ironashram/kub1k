@@ -76,8 +76,6 @@ spec:
               - secretName: vm-a-cert
                 hosts:
                   - vm-a.{{ .Values.internalDomain }}
-          serviceMonitor:
-            enabled: true
   destination:
     name: in-cluster
     namespace: monitoring

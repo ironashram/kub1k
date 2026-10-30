@@ -27,17 +27,3 @@ spec:
       port: 9091
   selector:
     k8s-app: calico-node
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: calico
-  namespace: calico-system
-spec:
-  endpoints:
-    - port: metrics-port
-  selector:
-    matchExpressions:
-      - key: k8s-app
-        operator: In
-        values: ["calico-felix", "calico-typha"]

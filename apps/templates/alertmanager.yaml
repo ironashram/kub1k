@@ -22,6 +22,8 @@ spec:
       valuesObject:
         replicaCount: 2
         podAntiAffinity: hard
+        extraArgs:
+          cluster.reconnect-timeout: 5m
         baseURL: https://alertmanager.{{ .Values.internalDomain }}
         persistence:
           enabled: true

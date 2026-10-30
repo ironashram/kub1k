@@ -1,2 +1,0 @@
-ruleSelectorRelease: kube-prometheus-stack
-serviceAccountName: kube-prometheus-stack-prometheus

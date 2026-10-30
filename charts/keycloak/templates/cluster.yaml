@@ -19,8 +19,6 @@ spec:
   storage:
     storageClass: local-path
     size: {{ .Values.postgresStorageSize }}
-  monitoring:
-    enablePodMonitor: true
   affinity:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname

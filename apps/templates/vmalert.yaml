@@ -55,8 +55,6 @@ spec:
                     matchLabels:
                       app.kubernetes.io/name: victoria-metrics-alert
                   topologyKey: kubernetes.io/hostname
-        serviceMonitor:
-          enabled: true
         alertmanager:
           enabled: false
   destination:

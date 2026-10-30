@@ -332,28 +332,51 @@ spec:
                 insecure_skip_verify: true
               bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
               kubernetes_sd_configs:
-                - role: endpointslice
+                - role: pod
                   namespaces:
                     names: [metallb-system]
               relabel_configs:
-                - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpointslice_port_name]
-                  regex: (metallb-speaker-monitor-service|metallb-controller-monitor-service|metallb-frr-k8s-frr-k8s-monitor-service);(metricshttps|frrmetricshttps)
+                - source_labels: [__meta_kubernetes_pod_container_port_name]
+                  regex: metricshttps|frrmetricshttps
                   action: keep
-                - source_labels: [__meta_kubernetes_service_name]
+                - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_component]
                   target_label: job
-                - source_labels: [__meta_kubernetes_service_name]
-                  regex: metallb-speaker-monitor-service
-                  target_label: job
-                  replacement: metallb
+                  replacement: metallb-$1
                 - source_labels: [__meta_kubernetes_namespace]
                   target_label: namespace
-                - source_labels: [__meta_kubernetes_service_name]
-                  target_label: service
                 - source_labels: [__meta_kubernetes_pod_name]
                   target_label: pod
                 - source_labels: [__meta_kubernetes_pod_container_name]
                   target_label: container
-                - source_labels: [__meta_kubernetes_endpointslice_port_name]
+                - source_labels: [__meta_kubernetes_pod_container_port_name]
+                  target_label: endpoint
+            - job_name: pods
+              kubernetes_sd_configs:
+                - role: pod
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_pod_container_port_name, __meta_kubernetes_pod_label_app_kubernetes_io_name]
+                  regex: cert-manager;(http-metrics|metrics);.*|cnpg-system;metrics;.*|external-secrets;metrics;.*|keycloak;(metrics|http-internal);.*|argocd;metrics;argocd-applicationset-controller
+                  action: keep
+                - source_labels: [__meta_kubernetes_pod_label_app]
+                  regex: (.+)
+                  target_label: job
+                - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+                  regex: (.+)
+                  target_label: job
+                - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_pod_label_app_kubernetes_io_name]
+                  regex: cert-manager;(cainjector|webhook)
+                  target_label: job
+                  replacement: cert-manager-$1
+                - source_labels: [__meta_kubernetes_pod_label_cnpg_io_cluster]
+                  regex: (.+)
+                  target_label: job
+                - source_labels: [__meta_kubernetes_namespace]
+                  target_label: namespace
+                - source_labels: [__meta_kubernetes_pod_name]
+                  target_label: pod
+                - source_labels: [__meta_kubernetes_pod_container_name]
+                  target_label: container
+                - source_labels: [__meta_kubernetes_pod_container_port_name]
                   target_label: endpoint
             - job_name: kub1k-annotated-endpoints
               kubernetes_sd_configs:
