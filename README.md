@@ -29,7 +29,6 @@ The following components are part of this setup:
 | cert-manager                        | https://github.com/cert-manager/cert-manager                              |
 | cert-manager Hetzner webhook        | https://charts.hetzner.cloud                                              |
 | External Secrets Operator           | https://github.com/external-secrets/external-secrets                      |
-| Synology CSI Driver                 | https://github.com/SynologyOpenSource/synology-csi                        |
 | CloudNativePG                       | https://github.com/cloudnative-pg/cloudnative-pg                          |
 | Keycloak                            | https://github.com/keycloak/keycloak                                      |
 | Headlamp                            | https://github.com/kubernetes-sigs/headlamp                               |
