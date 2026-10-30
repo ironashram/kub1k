@@ -20,7 +20,6 @@ spec:
     targetRevision: main
     helm:
       valuesObject:
-        replicaCount: 0
         sync:
           method: syncthing
         rsync:
@@ -36,7 +35,10 @@ spec:
           node-role.kubernetes.io/control-plane: "true"
         storage:
           size: 250Gi
-          storageClass: synology-csi-iscsi-custom
+          iscsi:
+            targetPortal: 10.0.0.6:3260
+            dataIqn: iqn.2000-01.com.synology:fenrir.pvc-0adb2420-5059-4715-a546-2497bfb1dea7
+            syncthingConfigIqn: iqn.2000-01.com.synology:fenrir.pvc-8617254d-7fbd-4c92-ac78-f0c242c09b92
         ingress:
           enabled: true
           host: cachyos-mirror.{{ .Values.internalDomain }}

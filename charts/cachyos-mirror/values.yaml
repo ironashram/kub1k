@@ -32,6 +32,12 @@ storage:
   size: 250Gi
   storageClass: ""
   accessMode: ReadWriteOnce
+  iscsi:
+    targetPortal: ""
+    lun: 1
+    fsType: xfs
+    dataIqn: ""
+    syncthingConfigIqn: ""
 
 service:
   port: 80

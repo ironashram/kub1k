@@ -1,31 +1,43 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Release.Name }}-data
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - {{ .Values.storage.accessMode }}
-  resources:
-    requests:
-      storage: {{ .Values.storage.size }}
-  {{- if .Values.storage.storageClass }}
-  storageClassName: {{ .Values.storage.storageClass }}
-  {{- end }}
+{{- $volumes := list (dict "name" "data" "size" .Values.storage.size "iqn" .Values.storage.iscsi.dataIqn) }}
 {{- if eq .Values.sync.method "syncthing" }}
+{{- $volumes = append $volumes (dict "name" "syncthing-config" "size" .Values.syncthing.configStorage.size "iqn" .Values.storage.iscsi.syncthingConfigIqn) }}
+{{- end }}
+{{- range $volumes }}
+{{- if $.Values.storage.iscsi.targetPortal }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $.Release.Name }}-{{ .name }}
+spec:
+  capacity:
+    storage: {{ .size }}
+  accessModes:
+    - {{ $.Values.storage.accessMode }}
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  iscsi:
+    targetPortal: {{ $.Values.storage.iscsi.targetPortal }}
+    iqn: {{ .iqn }}
+    lun: {{ $.Values.storage.iscsi.lun }}
+    fsType: {{ $.Values.storage.iscsi.fsType }}
+{{- end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-syncthing-config
-  namespace: {{ .Release.Namespace }}
+  name: {{ $.Release.Name }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
 spec:
   accessModes:
-    - {{ .Values.storage.accessMode }}
+    - {{ $.Values.storage.accessMode }}
   resources:
     requests:
-      storage: {{ .Values.syncthing.configStorage.size }}
-  {{- if .Values.storage.storageClass }}
-  storageClassName: {{ .Values.storage.storageClass }}
+      storage: {{ .size }}
+  {{- if $.Values.storage.iscsi.targetPortal }}
+  storageClassName: ""
+  volumeName: {{ $.Release.Name }}-{{ .name }}
+  {{- else if $.Values.storage.storageClass }}
+  storageClassName: {{ $.Values.storage.storageClass }}
   {{- end }}
 {{- end }}
