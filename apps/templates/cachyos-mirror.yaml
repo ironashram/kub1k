@@ -20,6 +20,7 @@ spec:
     targetRevision: main
     helm:
       valuesObject:
+        replicaCount: 0
         sync:
           method: syncthing
         rsync:
