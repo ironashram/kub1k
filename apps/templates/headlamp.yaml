@@ -13,34 +13,34 @@ spec:
       - CreateNamespace=true
     automated:
       prune: true
-  sources:
-    - chart: headlamp
-      repoURL: https://kubernetes-sigs.github.io/headlamp/
-      targetRevision: 0.43.0
-      helm:
-        valuesObject:
-          config:
-            oidc:
-              callbackURL: https://k8s.{{ .Values.internalDomain }}/oidc-callback
-              secret:
-                create: false
-              externalSecret:
-                enabled: true
-                name: keycloak-client-headlamp
-          ingress:
-            enabled: true
-            ingressClassName: haproxy
-            hosts:
-              - host: k8s.{{ .Values.internalDomain }}
-                paths:
-                  - path: /
-                    type: ImplementationSpecific
-            tls:
-              - secretName: headlamp-cert
-                hosts:
-                  - k8s.{{ .Values.internalDomain }}
-            annotations:
-              cert-manager.io/cluster-issuer: letsencrypt-prod
+  source:
+    chart: headlamp
+    repoURL: https://kubernetes-sigs.github.io/headlamp/
+    targetRevision: 0.43.0
+    helm:
+      valuesObject:
+        config:
+          oidc:
+            callbackURL: https://k8s.{{ .Values.internalDomain }}/oidc-callback
+            secret:
+              create: false
+            externalSecret:
+              enabled: true
+              name: keycloak-client-headlamp
+        ingress:
+          enabled: true
+          ingressClassName: haproxy
+          hosts:
+            - host: k8s.{{ .Values.internalDomain }}
+              paths:
+                - path: /
+                  type: ImplementationSpecific
+          tls:
+            - secretName: headlamp-cert
+              hosts:
+                - k8s.{{ .Values.internalDomain }}
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
   destination:
     name: in-cluster
     namespace: headlamp
