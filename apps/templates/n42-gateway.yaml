@@ -17,7 +17,7 @@ spec:
   source:
     chart: n42-gateway
     repoURL: https://n42-gateway.github.io/charts
-    targetRevision: 0.17.0-alpha.3
+    targetRevision: 0.17.0-beta.2
     helm:
       valuesObject:
         controller:
