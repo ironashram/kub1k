@@ -103,7 +103,7 @@ groups:
           source_code_url: '{{ with printf "last_over_time(vm_log_messages_total{job=%q,instance=%q,location=%q}[6m])" $labels.job $labels.instance $labels.location | query }}{{ with index . 0 }}https://l2s.victoriametrics.com/?app_version={{ .Labels.app_version }}&location={{ $labels.location | urlquery }}{{ end }}{{ end }}'
 
       - alert: TooManyLogs
-        expr: sum(increase(vm_log_messages_total{level="warn"}[5m])) without (app_version, location, is_printed) > 0
+        expr: sum(increase(vm_log_messages_total{level="warn",location!~".*/lib/promscrape/scrapework.go:.*"}[5m])) without (app_version, location, is_printed) > 0
         for: 15m
         labels:
           severity: warning

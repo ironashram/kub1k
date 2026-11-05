@@ -31,16 +31,6 @@ groups:
           description: "Job \"{{ $labels.job }}\" on instance {{ $labels.instance }} drops the rejected by 
             remote-write server data blocks. Check the logs to find the reason for rejects."
 
-      - alert: TooManyScrapeErrors
-        expr: increase(vm_promscrape_scrapes_failed_total[5m]) > 0
-        for: 15m
-        labels:
-          severity: warning
-        annotations:
-          dashboard: "{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=31&var-instance={{ $labels.instance }}"
-          summary: "Vmagent fails to scrape one or more targets"
-          description: "Job \"{{ $labels.job }}\" on instance {{ $labels.instance }} fails to scrape targets for last 15m"
-
       - alert: ScrapePoolHasNoTargets
         expr: sum(vm_promscrape_scrape_pool_targets) without (status, instance, pod) == 0
         for: 30m
