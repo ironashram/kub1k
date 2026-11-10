@@ -17,7 +17,7 @@ spec:
   source:
     chart: prometheus-pushgateway
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 3.11.1
+    targetRevision: 3.11.2
   destination:
     name: in-cluster
     namespace: monitoring
