@@ -10,6 +10,7 @@ spec:
     parameters:
       max_connections: "50"
       shared_buffers: 64MB
+      max_slot_wal_keep_size: 4GB
   bootstrap:
     initdb:
       database: keycloak
