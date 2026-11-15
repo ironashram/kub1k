@@ -1,0 +1,70 @@
+{{- if .Values.storage.iscsi.targetPortal }}
+{{- $iscsi := .Values.storage.iscsi }}
+{{- $iqns := list $iscsi.dataIqn }}
+{{- if eq .Values.sync.method "syncthing" }}
+{{- $iqns = append $iqns $iscsi.syncthingConfigIqn }}
+{{- end }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-remount
+  namespace: kube-system
+data:
+  remount.sh: |
+    set -eu
+    broken=""
+    for m in{{ range $iqns }} /var/lib/kubelet/plugins/kubernetes.io/iscsi/iface-default/{{ $iscsi.targetPortal }}-{{ . }}-lun-{{ $iscsi.lun }}{{ end }}; do
+      grep -q " $m " /proc/self/mounts || continue
+      stat "$m" >/dev/null 2>&1 || broken="$broken $m"
+    done
+    [ -n "$broken" ] || exit 0
+    echo "shut down:$broken"
+    /opt/bin/k3s kubectl delete pod -l app={{ .Release.Name }} -n {{ .Release.Namespace }} --wait=true --timeout=300s
+    for m in $broken; do
+      grep -q " $m " /proc/self/mounts && umount "$m"
+    done
+    echo "unmounted:$broken"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-remount
+  namespace: kube-system
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          hostPID: true
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app: {{ .Release.Name }}
+                  namespaces:
+                    - {{ .Release.Namespace }}
+                  topologyKey: kubernetes.io/hostname
+          containers:
+            - name: remount
+              image: busybox:1.37
+              command: ["sh", "-c", "nsenter -t 1 -m -n -- sh -s < /scripts/remount.sh"]
+              securityContext:
+                privileged: true
+              volumeMounts:
+                - name: scripts
+                  mountPath: /scripts
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 16Mi
+          volumes:
+            - name: scripts
+              configMap:
+                name: {{ .Release.Name }}-remount
+{{- end }}
