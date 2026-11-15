@@ -70,6 +70,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80
+          livenessProbe:
+            exec:
+              command: ["stat", "/usr/share/nginx/html"]
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
           securityContext:
             {{- if eq .Values.sync.method "syncthing" }}
             runAsUser: 101
