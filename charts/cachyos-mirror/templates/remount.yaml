@@ -19,11 +19,22 @@ data:
     done
     [ -n "$broken" ] || exit 0
     echo "shut down:$broken"
-    /opt/bin/k3s kubectl delete pod -l app={{ .Release.Name }} -n {{ .Release.Namespace }} --wait=true --timeout=300s
+    kubectl() { /opt/bin/k3s kubectl "$@"; }
+    node=$(kubectl get pod -l app={{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.items[0].spec.nodeName}')
     for m in $broken; do
-      grep -q " $m " /proc/self/mounts && umount "$m"
+      umount "$m"
     done
     echo "unmounted:$broken"
+    kubectl cordon "$node"
+    trap 'kubectl uncordon "$node"' EXIT
+    kubectl delete pod -l app={{ .Release.Name }} -n {{ .Release.Namespace }} --wait=true --timeout=300s
+    tries=0
+    until kubectl wait pod -l app={{ .Release.Name }} -n {{ .Release.Namespace }} --for=condition=Ready --timeout=30s >/dev/null 2>&1; do
+      tries=$((tries + 1))
+      [ "$tries" -lt 20 ] || { echo "replacement pod not ready"; exit 1; }
+      sleep 5
+    done
+    echo "recovered"
 ---
 apiVersion: batch/v1
 kind: CronJob
