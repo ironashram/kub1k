@@ -2,8 +2,8 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
+  repository: dhi.io/nginx
+  tag: 1.30-alpine
   pullPolicy: Always
 
 sync:
