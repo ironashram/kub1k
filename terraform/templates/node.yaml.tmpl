@@ -66,6 +66,8 @@ systemd:
         WantedBy=multi-user.target
     - name: iscsid.service
       enabled: true
+    - name: fstrim.timer
+      enabled: true
     - name: getty@.service
       dropins:
         - name: 99-no-autologin.conf
