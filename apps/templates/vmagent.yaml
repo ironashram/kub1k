@@ -408,6 +408,12 @@ spec:
                   labels:
                     instance: {{ $host }}
                 {{- end }}
+            - job_name: mnq-paper
+              static_configs:
+                - targets:
+                    - 'ashram.{{ $.Values.externalDomain }}:9478'
+                  labels:
+                    instance: ashram
             - job_name: commstack-node
               static_configs:
                 - targets:
